@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Grande étincelle à quatre branches, et une petite en haut à droite. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M50,32 Q52.5,53.5 74,56 Q52.5,58.5 50,80 Q47.500,58.5 26,56 Q47.5,53.5 50,32 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M71,29 Q72,37 80,38 Q72,39 71,47 Q70,39 62,38 Q70,37 71,29 Z" />
+</vector>

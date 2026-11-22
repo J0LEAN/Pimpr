@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pimpr</string>
+    <string name="widget_empty">Touche pour choisir un widget</string>
+    <string name="widget_small_label">Pimpr · petit (2 × 2)</string>
+    <string name="widget_wide_label">Pimpr · large (4 × 2)</string>
+    <string name="widget_large_label">Pimpr · grand (4 × 4)</string>
+    <string name="widget_strip_label">Pimpr · bandeau (4 × 1)</string>
+    <string name="widget_tall_label">Pimpr · colonne (2 × 4)</string>
+    <string name="widget_icon_label">Pimpr · icône (1 × 1)</string>
+    <string name="widget_small_desc">Un de tes widgets Pimpr au format carré.</string>
+    <string name="widget_wide_desc">Un de tes widgets Pimpr sur toute la largeur.</string>
+    <string name="widget_large_desc">Un de tes widgets Pimpr en grand format.</string>
+    <string name="widget_strip_desc">Un de tes widgets Pimpr en bandeau fin.</string>
+    <string name="widget_tall_desc">Un de tes widgets Pimpr en colonne.</string>
+    <string name="widget_icon_desc">Une icône d\'appli habillée par un pack Pimpr.</string>
+</resources>
