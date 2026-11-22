@@ -29,6 +29,7 @@ import com.pimpr.app.model.DateStyle
 import com.pimpr.app.model.Framing
 import com.pimpr.app.model.PhotoContent
 import com.pimpr.app.model.PhotoFilter
+import com.pimpr.app.model.QuoteContent
 import com.pimpr.app.model.Place
 import com.pimpr.app.model.Scene
 import com.pimpr.app.model.ShapeKind
@@ -104,6 +105,7 @@ object WidgetRenderer {
             is ClockContent -> clock(context, c, content, contentRect(d, b, border), u, env)
             is WeatherContent -> weather(context, c, content, contentRect(d, b, border), u, env)
             is CalendarContent -> calendar(context, c, content, contentRect(d, b, border), u, env)
+            is QuoteContent -> quote(context, c, content, contentRect(d, b, border), u)
         }
         if (border > 0f) {
             // Trait deux fois plus large, rogné par la forme : le contour reste à l'intérieur.
@@ -626,6 +628,50 @@ object WidgetRenderer {
             cover(c, bmp, r, k.framing, Paint(Paint.ANTI_ALIAS_FLAG))
         }
         caption(ctx, c, k.caption, r, u)
+    }
+
+    // ---------------------------------------------------------------- Texte
+
+    private fun quote(ctx: Context, c: Canvas, k: QuoteContent, r: RectF, u: Float) {
+        val text = k.text.trim()
+        if (text.isEmpty() || r.width() < 8f || r.height() < 8f) return
+        val tp = android.text.TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
+        tp.typeface = Fonts.typeface(ctx, k.font)
+        tp.color = k.color
+        val m = min(r.width(), r.height())
+        val hasOrnament = k.ornament.isNotEmpty() && Glyphs.has(k.ornament)
+        val orn = if (hasOrnament) (m * 0.17f).coerceIn(12f * u, 30f * u) else 0f
+        val gap = if (hasOrnament) orn * 0.45f else 0f
+        val alignment = when (k.align) {
+            Align.START -> android.text.Layout.Alignment.ALIGN_NORMAL
+            Align.CENTER -> android.text.Layout.Alignment.ALIGN_CENTER
+            Align.END -> android.text.Layout.Alignment.ALIGN_OPPOSITE
+        }
+        val width = r.width().toInt().coerceAtLeast(1)
+        var size = (m * 0.19f).coerceIn(11f * u, 40f * u) * k.scale
+        // Aucun mot ne doit être coupé en deux : le plus long fixe le corps maximal.
+        tp.textSize = size
+        val longest = text.split(Regex("\\s+")).maxOf { tp.measureText(it) }
+        if (longest > width) size *= width / longest * 0.98f
+        var layout: android.text.StaticLayout
+        // On réduit le corps jusqu'à ce que le texte tienne en hauteur.
+        while (true) {
+            tp.textSize = size
+            layout = android.text.StaticLayout.Builder.obtain(text, 0, text.length, tp, width)
+                .setAlignment(alignment).setLineSpacing(0f, 1.12f).setIncludePad(false).build()
+            if (layout.height + orn + gap <= r.height() || size <= 7f * u) break
+            size *= 0.92f
+        }
+        val top = r.top + (r.height() - layout.height - orn - gap) / 2f
+        if (hasOrnament) {
+            val x = when (k.align) { Align.START -> r.left; Align.CENTER -> r.centerX() - orn / 2f; Align.END -> r.right - orn }
+            glyph(c, Paint(Paint.ANTI_ALIAS_FLAG), k.ornament, true, x, top, orn, k.accent)
+        }
+        val save = c.save()
+        c.clipRect(r)
+        c.translate(r.left, top + orn + gap)
+        layout.draw(c)
+        c.restoreToCount(save)
     }
 
     // ---------------------------------------------------------------- Calendrier

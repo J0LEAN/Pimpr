@@ -1,22 +1,30 @@
 package com.pimpr.app.model
 
-/** Scènes procédurales : chaque fond d'écran est dessiné par le code, sans image embarquée. */
-enum class Scene { CLOUDS, AURORA, COSMOS, MARBLE, DUNES, RETRO, SHAPES, FLOWERS, CHECKER }
+/** Scènes procédurales, dessinées par le code. PLAIN est un simple aplat (ou dégradé vertical). */
+enum class Scene { CLOUDS, AURORA, COSMOS, MARBLE, DUNES, RETRO, SHAPES, FLOWERS, CHECKER, PLAIN }
 
 data class WallpaperSpec(
     val scene: Scene,
     val colors: List<Int>,
     val seed: Int = 1,
     val variant: Int = 0,
+    /** Image embarquée (nom de ressource raw) : si elle est là, elle remplace la scène. */
+    val image: String? = null,
 )
 
 enum class ThemeCategory(val label: String) {
-    PASTEL("Pastel"),
+    AESTHETIC("Esthétique"),
+    NATURE("Nature et fleurs"),
+    LANDSCAPE("Paysages"),
+    ANIMALS("Animaux"),
+    CUTE("Mignon"),
+    JAPAN("Anime et Japon"),
+    GAMING("Gaming"),
     COSMOS("Cosmos"),
-    NATURE("Nature"),
+    ART("Art"),
+    PASTEL("Pastel"),
     MINIMAL("Minimal"),
     NEON("Néon et rétro"),
-    KAWAII("Kawaii"),
 }
 
 data class Theme(
@@ -32,6 +40,14 @@ data class Theme(
     val lightText: Boolean = true,
     val clockFont: String = "unbounded",
     val featured: Boolean = false,
+    /** Mots-clés pour la recherche. */
+    val tags: List<String> = emptyList(),
+    /** Texte clair ou foncé sur l'écran de verrouillage (par défaut : comme l'accueil). */
+    val lockLightText: Boolean = lightText,
+    /** Couleur du texte foncé posé sur le fond d'écran. */
+    val ink: Int = 0xFF27306F.toInt(),
+    /** D'où viennent les images du thème (auteur, collection). */
+    val credit: String = "",
 )
 
 enum class TileShape { SQUIRCLE, CIRCLE, ROUNDED, FLOWER, NONE }

@@ -69,7 +69,36 @@ object Themes {
         lightText, clockFont, featured,
     )
 
-    val all: List<Theme> = listOf(
+    /** Mots-clés des thèmes dessinés par le code. */
+    private val tags = mapOf(
+        "nuage-minuit" to "nuages nuit étoiles violet bleu ciel rêve",
+        "barbe-a-papa" to "rose bleu dégradé doux sucre",
+        "aube-lilas" to "lilas violet dégradé matin doux",
+        "sorbet" to "collines rose violet glace dégradé",
+        "lait-fraise" to "rose crème formes fraise doux",
+        "planetes-roses" to "planètes espace rose nuit étoiles",
+        "encre-violette" to "violet fluide marbre nuit espace",
+        "anneau-turquoise" to "planète turquoise violet espace étoiles",
+        "eclipse" to "planète orange noir espace sombre",
+        "dunes-dorees" to "désert dunes orange sable coucher soleil",
+        "foret-brumeuse" to "forêt sapins brume vert montagne",
+        "lagune" to "mer turquoise eau bleu plage",
+        "prairie" to "fleurs pré vert rose printemps",
+        "papier" to "clair blanc sobre simple papier",
+        "encre" to "noir sombre sobre simple amoled",
+        "grille" to "quadrillé papier clair sobre cahier",
+        "bauhaus" to "formes géométrique couleurs primaire design",
+        "synthwave" to "rétro néon soleil grille années 80 violet",
+        "pixels-cyan" to "arcade pixel cyan jeu rétro néon",
+        "lave" to "fuchsia orange fluide marbre sombre néon",
+        "cassette" to "memphis années 80 formes rétro couleurs",
+        "petit-nuage" to "nuages bleu ciel kawaii doux bébé",
+        "paquerettes" to "fleurs bleu blanc kawaii doux",
+        "damier-fraise" to "damier rose étoiles kawaii carreaux",
+        "bonbon" to "fleurs rose kawaii acidulé",
+    )
+
+    private val drawn: List<Theme> = listOf(
         // ------------------------------------------------------------ Pastel
         theme(
             "nuage-minuit", "Nuage de minuit", "Ciel étoilé au-dessus d'une mer de nuages", ThemeCategory.PASTEL,
@@ -156,7 +185,7 @@ object Themes {
             ),
         ),
         theme(
-            "voie-lactee", "Voie lactée", "Un fluide violet qui remonte dans la nuit", ThemeCategory.COSMOS,
+            "encre-violette", "Encre violette", "Un fluide violet qui remonte dans la nuit", ThemeCategory.COSMOS,
             home = WallpaperSpec(Scene.MARBLE, c(0x05040C, 0x2B1F8F, 0x5B43D6, 0xA45BE8, 0x2A7BE8, 0x7D4AD9), seed = 2, variant = 1),
             lock = WallpaperSpec(Scene.MARBLE, c(0x05040C, 0x2B1F8F, 0x5B43D6, 0xA45BE8, 0x2A7BE8, 0x7D4AD9), seed = 5, variant = 1),
             pack = "orbite", lightText = true, clockFont = "monoton",
@@ -170,7 +199,7 @@ object Themes {
             ),
         ),
         theme(
-            "nebuleuse", "Nébuleuse", "Turquoise et violet autour d'une planète annelée", ThemeCategory.COSMOS,
+            "anneau-turquoise", "Anneau turquoise", "Turquoise et violet autour d'une planète annelée", ThemeCategory.COSMOS,
             home = WallpaperSpec(Scene.COSMOS, c(0x070B1E, 0x101437, 0x1F6F8F, 0x5B2D9A, 0x5FE0D0, 0x5B67E8, 0xEAF6FF), seed = 4, variant = 2),
             lock = WallpaperSpec(Scene.COSMOS, c(0x070B1E, 0x101437, 0x1F6F8F, 0x5B2D9A, 0x5FE0D0, 0x5B67E8, 0xEAF6FF), seed = 9, variant = 1),
             pack = "celeste", lightText = true, clockFont = "orbitron",
@@ -200,7 +229,7 @@ object Themes {
 
         // ------------------------------------------------------------ Nature
         theme(
-            "dunes-dorees", "Dunes dorées", "Le désert à l'heure où tout devient orange", ThemeCategory.NATURE,
+            "dunes-dorees", "Dunes dorées", "Le désert à l'heure où tout devient orange", ThemeCategory.LANDSCAPE,
             home = WallpaperSpec(Scene.DUNES, c(0xE8795A, 0xFFC58A, 0xFFF3D6, 0xE98A5E, 0xD46A4C, 0xAE5145, 0x74383C), seed = 2),
             lock = WallpaperSpec(Scene.DUNES, c(0xE8795A, 0xFFC58A, 0xFFF3D6, 0xE98A5E, 0xD46A4C, 0xAE5145, 0x74383C), seed = 7, variant = 1),
             pack = "trait", lightText = true, clockFont = "playfair",
@@ -214,7 +243,7 @@ object Themes {
             ),
         ),
         theme(
-            "foret-brumeuse", "Forêt brumeuse", "Des crêtes de sapins dans le brouillard", ThemeCategory.NATURE,
+            "foret-brumeuse", "Forêt brumeuse", "Des crêtes de sapins dans le brouillard", ThemeCategory.LANDSCAPE,
             home = WallpaperSpec(Scene.DUNES, c(0xDCEFE6, 0xB5D8CF, 0xFFFDF2, 0x8FBFA8, 0x5E9C86, 0x3B7566, 0x214F47), seed = 6, variant = 1),
             lock = WallpaperSpec(Scene.DUNES, c(0xDCEFE6, 0xB5D8CF, 0xFFFDF2, 0x8FBFA8, 0x5E9C86, 0x3B7566, 0x214F47), seed = 9),
             pack = "verre", lightText = true, clockFont = "comfortaa",
@@ -227,7 +256,7 @@ object Themes {
             ),
         ),
         theme(
-            "lagune", "Lagune", "Eaux turquoise vues du ciel", ThemeCategory.NATURE,
+            "lagune", "Lagune", "Eaux turquoise vues du ciel", ThemeCategory.LANDSCAPE,
             home = WallpaperSpec(Scene.MARBLE, c(0x0E5E6F, 0x1FA3A3, 0x7FE0C8, 0xE8FFF4, 0x2C8FB8), seed = 5),
             lock = WallpaperSpec(Scene.MARBLE, c(0x0E5E6F, 0x1FA3A3, 0x7FE0C8, 0xE8FFF4, 0x2C8FB8), seed = 8),
             pack = "verre", lightText = true, clockFont = "comfortaa",
@@ -329,7 +358,7 @@ object Themes {
             ),
         ),
         theme(
-            "arcade", "Arcade", "Écran de borne, pixels cyan", ThemeCategory.NEON,
+            "pixels-cyan", "Pixels cyan", "Écran de borne, pixels cyan", ThemeCategory.NEON,
             home = WallpaperSpec(Scene.CHECKER, c(0x0B0B1A, 0x23235C, 0x45F3FF), seed = 3, variant = 1),
             lock = WallpaperSpec(Scene.CHECKER, c(0x0B0B1A, 0x23235C, 0xFF4FD8), seed = 5, variant = 1),
             pack = "neon", lightText = true, clockFont = "pixel",
@@ -373,7 +402,7 @@ object Themes {
 
         // ------------------------------------------------------------ Kawaii
         theme(
-            "petit-nuage", "Petit nuage", "Ciel bleu layette et nuages guimauve", ThemeCategory.KAWAII,
+            "petit-nuage", "Petit nuage", "Ciel bleu layette et nuages guimauve", ThemeCategory.CUTE,
             home = WallpaperSpec(Scene.AURORA, c(0xCDEBFF, 0xA9D8FF, 0xFFE3F1, 0xFFFFFF, 0xD9E8FF), seed = 5),
             lock = WallpaperSpec(Scene.CLOUDS, c(0x8FD3FF, 0xBFE6FF, 0xFFE3F1, 0xFFFFFF, 0xFFE9F4, 0xFFD0E6, WHITE), seed = 4),
             pack = "sorbet", lightText = false, clockFont = "fredoka",
@@ -387,7 +416,7 @@ object Themes {
             ),
         ),
         theme(
-            "paquerettes", "Pâquerettes", "Des fleurs blanches sur un bleu tendre", ThemeCategory.KAWAII,
+            "paquerettes", "Pâquerettes", "Des fleurs blanches sur un bleu tendre", ThemeCategory.CUTE,
             home = WallpaperSpec(Scene.FLOWERS, c(0xBFE3FF, WHITE, 0xFFE3F0, 0xFFC83D, WHITE), seed = 2),
             lock = WallpaperSpec(Scene.FLOWERS, c(0xBFE3FF, WHITE, 0xFFE3F0, 0xFFC83D, WHITE), seed = 6),
             pack = "petale", lightText = false, clockFont = "caveat",
@@ -400,7 +429,7 @@ object Themes {
             ),
         ),
         theme(
-            "damier-fraise", "Damier fraise", "Carreaux roses et petites étoiles", ThemeCategory.KAWAII,
+            "damier-fraise", "Damier fraise", "Carreaux roses et petites étoiles", ThemeCategory.CUTE,
             home = WallpaperSpec(Scene.CHECKER, c(0xFFE6F0, 0xFFC2DA, 0xFF5C9A), seed = 3, variant = 0),
             lock = WallpaperSpec(Scene.CHECKER, c(0xFFE6F0, 0xFFC2DA, 0xFF5C9A), seed = 7, variant = 0),
             pack = "bonbon", lightText = false, clockFont = "fredoka",
@@ -414,7 +443,7 @@ object Themes {
             ),
         ),
         theme(
-            "bonbon", "Bonbon", "Fleurs acidulées sur rose dragée", ThemeCategory.KAWAII,
+            "bonbon", "Bonbon", "Fleurs acidulées sur rose dragée", ThemeCategory.CUTE,
             home = WallpaperSpec(Scene.AURORA, c(0xFFD6E8, 0xFFB3D9, 0xFFE9F3, 0xFFF3B8, 0xFFC2DA), seed = 8),
             lock = WallpaperSpec(Scene.FLOWERS, c(0xFFD6E8, 0xFF8FC0, WHITE, 0xFFD84D, WHITE), seed = 4),
             pack = "petale", lightText = false, clockFont = "fredoka",
@@ -429,10 +458,36 @@ object Themes {
         ),
     )
 
-    private val byId = all.associateBy { it.id }
+    /** Les thèmes à images d'abord, puis les thèmes dessinés par le code. */
+    val all: List<Theme> by lazy {
+        ImageThemes.themes + drawn.map { it.copy(featured = false, tags = tags[it.id].orEmpty().split(' ').filter(String::isNotBlank)) }
+    }
+
+    private val byId by lazy { all.associateBy { it.id } }
     fun get(id: String): Theme? = byId[id]
 
-    val featured: Theme get() = all.first { it.featured }
+    val featured: Theme get() = all.firstOrNull { it.featured } ?: all.first()
 
     fun byCategory(category: ThemeCategory): List<Theme> = all.filter { it.category == category }
+
+    private fun fold(text: String): String =
+        java.text.Normalizer.normalize(text.lowercase(), java.text.Normalizer.Form.NFD).replace(Regex("\\p{M}+"), "")
+
+    /** Ce dans quoi on cherche : nom, accroche, catégorie et mots-clés, sans accents ni majuscules. */
+    private val haystack by lazy { all.associate { it.id to fold("${it.name} ${it.tagline} ${it.category.label} ${it.tags.joinToString(" ")}") } }
+
+    /** Tous les mots de la recherche doivent se retrouver dans le thème (début de mot). */
+    fun search(query: String): List<Theme> {
+        val words = fold(query).split(Regex("[^a-z0-9]+")).filter { it.isNotEmpty() }
+        if (words.isEmpty()) return all
+        return all.filter { t ->
+            val hay = haystack.getValue(t.id)
+            words.all { w -> hay.startsWith(w) || hay.contains(" $w") || hay.contains("'$w") }
+        }
+    }
+
+    /** Mots-clés les plus fréquents, pour proposer des recherches. */
+    val popularTags: List<String> by lazy {
+        all.flatMap { it.tags }.groupingBy { it }.eachCount().entries.filter { it.value >= 2 }.sortedByDescending { it.value }.map { it.key }.take(24)
+    }
 }

@@ -12,7 +12,8 @@ object IconPacks {
 
     private fun c(vararg hex: Int) = hex.map { rgb(it) }
 
-    val all: List<IconPack> = listOf(
+    /** Les packs indépendants des thèmes. */
+    private val classics: List<IconPack> = listOf(
         IconPack(
             id = "encre", name = "Encre", tagline = "Tuiles bleu nuit, pictos blancs",
             tile = TileShape.SQUIRCLE,
@@ -124,13 +125,17 @@ object IconPacks {
         ),
     )
 
-    private val byId = all.associateBy { it.id }
-    fun get(id: String): IconPack = byId[id] ?: all.first()
+    /** Les packs assortis aux thèmes à images, puis les classiques. */
+    val all: List<IconPack> by lazy { ImageThemes.packs + classics }
 
-    /** Pictogrammes montrés dans les aperçus de pack. */
+    private val byId by lazy { all.associateBy { it.id } }
+    fun get(id: String): IconPack = byId[id] ?: classics.first()
+
+    /** Icônes montrées dans les aperçus de pack : des applis connues d'abord, puis les outils du téléphone. */
     val showcase = listOf(
-        "call", "chat_bubble", "photo_camera", "public", "photo_library", "music_note", "mail", "calendar_month",
-        "map", "settings", "smart_display", "sticky_note_2", "partly_cloudy_day", "local_mall", "schedule", "forum",
-        "graphic_eq", "folder", "calculate", "person", "sports_esports", "favorite", "movie", "podcasts",
+        "b_instagram", "b_tiktok", "b_whatsapp", "b_youtube", "b_spotify", "b_netflix", "b_pinterest", "b_snapchat",
+        "call", "chat_bubble", "photo_camera", "b_googlemaps", "b_gmail", "b_discord", "b_x", "b_twitch",
+        "photo_library", "music_note", "calendar_month", "settings", "partly_cloudy_day", "schedule", "calculate", "sticky_note_2",
+        "b_telegram", "b_duolingo", "b_roblox", "b_steam", "b_googlechrome", "b_facebook", "b_messenger", "b_reddit",
     )
 }

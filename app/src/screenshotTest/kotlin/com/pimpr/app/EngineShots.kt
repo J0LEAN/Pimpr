@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.android.tools.screenshot.PreviewTest
 import com.pimpr.app.data.catalog.IconPacks
+import com.pimpr.app.data.catalog.ImageThemes
 import com.pimpr.app.data.catalog.Themes
 import com.pimpr.app.model.Theme
 import com.pimpr.app.render.Fonts
@@ -49,23 +50,55 @@ private fun screens(ctx: Context, themes: List<Theme>, lock: Boolean): Bitmap {
     return sheet
 }
 
-@PreviewTest @Preview(widthDp = 706, heightDp = 603) @Composable
-fun HomeScreensA() = Sheet { screens(it, Themes.all.take(10), false) }
+/** Verrouillage et accueil côte à côte, six thèmes à images par planche. */
+private fun pairs(ctx: Context, page: Int): Bitmap {
+    val themes = ImageThemes.themes.drop(page * 6).take(6)
+    val cw = 324; val ch = 702; val gap = 12
+    val sheet = Bitmap.createBitmap(6 * (cw + gap) + gap, 2 * (ch + gap) + gap, Bitmap.Config.ARGB_8888)
+    val c = Canvas(sheet)
+    c.drawColor(0xFF2A2A33.toInt())
+    themes.forEachIndexed { i, t ->
+        val x = gap + (i % 3) * 2 * (cw + gap); val y = gap + (i / 3) * (ch + gap)
+        c.drawBitmap(PreviewPainter.lock(ctx, t, cw, ch, SHOT_NOW), x.toFloat(), y.toFloat(), null)
+        c.drawBitmap(PreviewPainter.home(ctx, t, cw, ch, SHOT_NOW), (x + cw + gap).toFloat(), y.toFloat(), null)
+    }
+    return sheet
+}
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes1() = Sheet { pairs(it, 0) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes2() = Sheet { pairs(it, 1) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes3() = Sheet { pairs(it, 2) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes4() = Sheet { pairs(it, 3) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes5() = Sheet { pairs(it, 4) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes6() = Sheet { pairs(it, 5) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun ImageThemes7() = Sheet { pairs(it, 6) }
+
+private val drawn get() = Themes.all.drop(ImageThemes.themes.size)
 
 @PreviewTest @Preview(widthDp = 706, heightDp = 603) @Composable
-fun HomeScreensB() = Sheet { screens(it, Themes.all.drop(10).take(10), false) }
+fun HomeScreensA() = Sheet { screens(it, drawn.take(10), false) }
+
+@PreviewTest @Preview(widthDp = 706, heightDp = 603) @Composable
+fun HomeScreensB() = Sheet { screens(it, drawn.drop(10).take(10), false) }
 
 @PreviewTest @Preview(widthDp = 706, heightDp = 304) @Composable
-fun HomeScreensC() = Sheet { screens(it, Themes.all.drop(20), false) }
+fun HomeScreensC() = Sheet { screens(it, drawn.drop(20), false) }
 
 @PreviewTest @Preview(widthDp = 706, heightDp = 603) @Composable
-fun LockScreensA() = Sheet { screens(it, Themes.all.take(10), true) }
-
-@PreviewTest @Preview(widthDp = 706, heightDp = 603) @Composable
-fun LockScreensB() = Sheet { screens(it, Themes.all.drop(10).take(10), true) }
-
-@PreviewTest @Preview(widthDp = 706, heightDp = 304) @Composable
-fun LockScreensC() = Sheet { screens(it, Themes.all.drop(20), true) }
+fun LockScreensA() = Sheet { screens(it, drawn.take(10), true) }
 
 @PreviewTest @Preview(widthDp = 600, heightDp = 620) @Composable
 fun IconPackSheet() = Sheet { ctx ->
@@ -86,7 +119,8 @@ fun IconPackSheet() = Sheet { ctx ->
 @PreviewTest @Preview(widthDp = 700, heightDp = 1000) @Composable
 fun WidgetSheet() = Sheet { ctx ->
     val scale = 1.3f
-    val designs = Themes.all.flatMap { it.widgets }
+    val owners = ImageThemes.themes.take(2).flatMap { t -> t.widgets.map { t } }
+    val designs = ImageThemes.themes.take(2).flatMap { it.widgets }
     val colW = 460; val rowH = 232
     val cols = 3
     val rows = (designs.size + cols - 1) / cols
@@ -94,7 +128,7 @@ fun WidgetSheet() = Sheet { ctx ->
     val c = Canvas(sheet)
     val label = Paint(Paint.ANTI_ALIAS_FLAG).apply { textSize = 15f; color = 0xFFFFFFFF.toInt(); typeface = Fonts.text(ctx) }
     designs.forEachIndexed { i, d ->
-        val theme = Themes.all[i / 3]
+        val theme = owners[i]
         val x = (i % cols) * colW; val y = (i / cols) * rowH
         c.save(); c.translate(x.toFloat(), y.toFloat())
         c.clipRect(0, 0, colW, rowH)

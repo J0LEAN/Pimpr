@@ -22,13 +22,14 @@ import kotlin.math.min
  */
 object PreviewPainter {
 
-    private val dock = listOf("call", "chat_bubble", "public", "photo_camera")
+    private val dock = listOf("call", "chat_bubble", "b_googlechrome", "photo_camera")
     private val grid = listOf(
-        "photo_library" to "Photos", "music_note" to "Musique", "mail" to "Mail", "calendar_month" to "Agenda",
-        "map" to "Plans", "settings" to "Réglages", "smart_display" to "Vidéos", "sticky_note_2" to "Notes",
-        "partly_cloudy_day" to "Météo", "local_mall" to "Boutique", "schedule" to "Horloge", "forum" to "Chat",
-        "graphic_eq" to "Radio", "folder" to "Fichiers", "calculate" to "Calcul", "person" to "Contacts",
-        "sports_esports" to "Jeux", "favorite" to "Santé", "movie" to "Films", "podcasts" to "Podcasts",
+        "b_instagram" to "Instagram", "b_tiktok" to "TikTok", "b_youtube" to "YouTube", "b_whatsapp" to "WhatsApp",
+        "b_spotify" to "Spotify", "b_netflix" to "Netflix", "b_pinterest" to "Pinterest", "b_snapchat" to "Snapchat",
+        "photo_library" to "Photos", "b_googlemaps" to "Maps", "b_gmail" to "Gmail", "calendar_month" to "Agenda",
+        "b_discord" to "Discord", "b_x" to "X", "settings" to "Réglages", "partly_cloudy_day" to "Météo",
+        "music_note" to "Musique", "schedule" to "Horloge", "sticky_note_2" to "Notes", "calculate" to "Calcul",
+        "b_twitch" to "Twitch", "b_telegram" to "Telegram", "b_duolingo" to "Duolingo", "folder" to "Fichiers",
     )
 
     private val cache = object : LruCache<String, Bitmap>(40 * 1024) {
@@ -38,11 +39,12 @@ object PreviewPainter {
     fun cached(key: String): Bitmap? = cache.get(key)
     fun store(key: String, bitmap: Bitmap) { cache.put(key, bitmap) }
 
-    private fun textColor(theme: Theme): Int = if (theme.lightText) 0xFFFFFFFF.toInt() else 0xFF27306F.toInt()
+    private fun textColor(theme: Theme, lock: Boolean = false): Int =
+        if (if (lock) theme.lockLightText else theme.lightText) 0xFFFFFFFF.toInt() else theme.ink
 
-    private fun statusBar(ctx: Context, c: Canvas, theme: Theme, w: Float, h: Float, now: Long) {
+    private fun statusBar(ctx: Context, c: Canvas, theme: Theme, w: Float, h: Float, now: Long, lock: Boolean = false) {
         val p = Paint(Paint.ANTI_ALIAS_FLAG)
-        val color = textColor(theme)
+        val color = textColor(theme, lock)
         val size = w * 0.036f
         p.typeface = Fonts.text(ctx, bold = true)
         p.textSize = size
@@ -61,11 +63,13 @@ object PreviewPainter {
         val c = Canvas(bmp)
         val w = width.toFloat()
         val h = height.toFloat()
-        val color = textColor(theme)
+        val color = textColor(theme, lock = true)
         val p = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
-        statusBar(ctx, c, theme, w, h, now)
+        statusBar(ctx, c, theme, w, h, now, lock = true)
         val t = Instant.ofEpochMilli(now).atZone(ZoneId.systemDefault())
 
+        // Un halo discret garde l'heure lisible sur une image chargée.
+        p.setShadowLayer(w * 0.03f, 0f, 0f, if (theme.lockLightText) 0x66000000 else 0x80FFFFFF.toInt())
         p.color = color
         p.textAlign = Paint.Align.CENTER
         p.typeface = Fonts.text(ctx)
@@ -82,6 +86,7 @@ object PreviewPainter {
         p.textAlign = Paint.Align.LEFT
         c.drawText(time, w / 2f - rect.width() / 2f - rect.left, h * 0.165f - rect.top, p)
 
+        p.clearShadowLayer()
         // Petits widgets ronds sous l'heure, comme sur un vrai écran de verrouillage.
         val chips = listOf("battery_full", "partly_cloudy_day", "bedtime")
         val r = w * 0.058f
@@ -157,25 +162,21 @@ object PreviewPainter {
             c.restoreToCount(save)
         }
 
+        // Comme sur un vrai écran d'accueil : un petit widget partage sa rangée avec des icônes,
+        // une fois à gauche, une fois à droite.
         var row = 0
-        var pending: WidgetDesign? = null
+        var flip = false
         for (d in theme.widgets) {
-            if (row + d.size.rows > maxRows) break
+            if (row + d.size.rows > maxRows) continue
             if (d.size.cols == 4) {
                 widget(d, 0, row.toFloat())
-                row += d.size.rows
-            } else if (pending == null) {
-                pending = d
-                widget(d, 0, row.toFloat())
             } else {
-                widget(d, 2, row.toFloat())
-                pending = null
-                row += 2
+                widget(d, if (flip) 2 else 0, row.toFloat())
+                for (r in 0 until d.size.rows) for (col in 0..1) icon(col + (if (flip) 0 else 2), row + r.toFloat())
+                flip = !flip
             }
-        }
-        if (pending != null) {
-            for (r in 0..1) for (col in 2..3) icon(col, row + r.toFloat())
-            row += 2
+            row += d.size.rows
+            if (row >= maxRows - 1) break
         }
         while (row < maxRows) {
             for (col in 0..3) icon(col, row.toFloat())

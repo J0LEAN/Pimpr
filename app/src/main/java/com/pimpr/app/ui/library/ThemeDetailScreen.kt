@@ -66,7 +66,9 @@ fun ThemeDetailScreen(
     onToggleFavorite: () -> Unit,
     onApplyWallpaper: (WallpaperTarget) -> Unit,
     onSaveWidgets: () -> Unit,
+    onAddWidget: (WidgetDesign) -> Unit,
     onOpenWidget: (WidgetDesign) -> Unit,
+    onTag: (String) -> Unit,
     onOpenPack: () -> Unit,
     modifier: Modifier = Modifier,
     applying: Boolean = false,
@@ -91,23 +93,19 @@ fun ThemeDetailScreen(
                 Text(theme.name, Modifier.padding(top = 4.dp), style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.onBackground)
                 Text(theme.tagline, Modifier.padding(top = 6.dp), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
+            if (theme.tags.isNotEmpty()) TagRow(theme.tags, onTag, Modifier.padding(top = 14.dp))
 
             Spacer(Modifier.height(28.dp))
-            SectionTitle("Widgets assortis", action = "Tout enregistrer", onAction = onSaveWidgets)
+            SectionTitle("Widgets du thème", action = "Tout enregistrer", onAction = onSaveWidgets)
             Text(
-                "Touche un widget pour le régler à ton goût avant de l'ajouter.",
+                "Déjà réglés aux couleurs du thème, avec ses images. « Ajouter » les pose tels quels sur l'écran d'accueil.",
                 Modifier.padding(horizontal = 20.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            WallpaperBox(theme.home, Modifier.padding(start = 20.dp, end = 20.dp, top = 12.dp).fillMaxWidth().height(152.dp).clip(RoundedCornerShape(28.dp))) {
-                LazyRow(
-                    Modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    items(theme.widgets, key = { it.id }) { d ->
-                        val h = if (d.size.rows == 1) 56.dp else 112.dp
-                        WidgetView(d, Modifier.height(h).clip(RoundedCornerShape(12.dp)).clickable(role = Role.Button) { onOpenWidget(d) })
-                    }
-                }
+            LazyRow(
+                Modifier.padding(top = 12.dp), contentPadding = PaddingValues(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                items(theme.widgets, key = { it.id }) { d -> ThemeWidgetCard(theme, d, { onAddWidget(d) }, { onOpenWidget(d) }) }
             }
 
             Spacer(Modifier.height(28.dp))
@@ -128,6 +126,10 @@ fun ThemeDetailScreen(
                 }
                 PimprIcon("chevron_right", tint = MaterialTheme.colorScheme.onSurfaceVariant)
             }
+            if (theme.credit.isNotEmpty()) Text(
+                "Images : ${theme.credit}. Domaine public ou CC0.",
+                Modifier.padding(start = 20.dp, end = 20.dp, top = 22.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
 
         Box(
@@ -160,6 +162,40 @@ fun ThemeDetailScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+/** Un widget du thème, prêt à poser : aperçu sur le fond du thème, puis « Ajouter » ou « Régler ». */
+@Composable
+private fun ThemeWidgetCard(theme: Theme, design: WidgetDesign, onAdd: () -> Unit, onEdit: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    val wide = design.size.cols == 4
+    Column(Modifier.width(if (wide) 268.dp else 176.dp).clip(RoundedCornerShape(26.dp)).background(scheme.surface).padding(8.dp)) {
+        WallpaperBox(theme.home, Modifier.fillMaxWidth().height(160.dp).clip(RoundedCornerShape(20.dp))) {
+            Box(Modifier.fillMaxSize().padding(14.dp), contentAlignment = Alignment.Center) {
+                // Un widget plus large que haut est calé sur la largeur, les autres sur la hauteur.
+                WidgetView(design, if (design.size.ratio > 1.2f) Modifier.fillMaxWidth() else Modifier.height(132.dp))
+            }
+        }
+        Text(
+            design.name, Modifier.padding(start = 6.dp, end = 6.dp, top = 10.dp),
+            style = MaterialTheme.typography.titleSmall, color = scheme.onSurface, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
+        Text(
+            "Format ${design.size.cols} × ${design.size.rows}", Modifier.padding(horizontal = 6.dp),
+            style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant,
+        )
+        Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier.weight(1f).height(44.dp).clip(RoundedCornerShape(50)).background(scheme.primary).clickable(role = Role.Button, onClick = onAdd),
+                horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,
+            ) {
+                PimprIcon("add", tint = scheme.onPrimary, size = 18.dp)
+                Spacer(Modifier.width(6.dp))
+                Text("Ajouter", style = MaterialTheme.typography.labelLarge, color = scheme.onPrimary)
+            }
+            RoundIconButton("tune", "Régler ${design.name}", onEdit, container = scheme.surfaceVariant)
         }
     }
 }

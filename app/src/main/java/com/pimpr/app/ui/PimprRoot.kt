@@ -57,6 +57,7 @@ import com.pimpr.app.model.PhotoContent
 import com.pimpr.app.model.Place
 import com.pimpr.app.model.ShapeKind
 import com.pimpr.app.model.TapAction
+import com.pimpr.app.model.QuoteContent
 import com.pimpr.app.model.TapKind
 import com.pimpr.app.model.Theme
 import com.pimpr.app.model.VideoContent
@@ -110,13 +111,16 @@ fun defaultDesign(type: WidgetType): WidgetDesign = when (type) {
     WidgetType.CLOCK -> WidgetDesign(newId(), "Mon horloge", WidgetSize.WIDE, content = ClockContent())
     WidgetType.WEATHER -> WidgetDesign(
         newId(), "Ma météo", WidgetSize.SMALL, ShapeKind.SQUIRCLE,
-        background = Background(BackgroundKind.GRADIENT, listOf(rgb(0x6FA0FF), rgb(0xB99BFF)), 150f), content = WeatherContent(),
+        background = Background(BackgroundKind.GRADIENT, listOf(rgb(0x4A4A4E), rgb(0x2C2C2E)), 150f), content = WeatherContent(),
     )
     WidgetType.PHOTO -> WidgetDesign(newId(), "Ma photo", WidgetSize.SMALL, content = PhotoContent())
     WidgetType.VIDEO -> WidgetDesign(newId(), "Ma vidéo", WidgetSize.SMALL, content = VideoContent())
+    WidgetType.QUOTE -> WidgetDesign(
+        newId(), "Mon texte", WidgetSize.WIDE, background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))), content = QuoteContent(),
+    )
     WidgetType.CALENDAR -> WidgetDesign(
         newId(), "Mon calendrier", WidgetSize.SMALL, ShapeKind.SQUIRCLE,
-        background = Background(BackgroundKind.GRADIENT, listOf(rgb(0xFFA3CF), rgb(0xFFC8A3))), content = CalendarContent(color = rgb(0x1E1B4B), accent = rgb(0x5B54E8)),
+        background = Background(BackgroundKind.SOLID, listOf(rgb(0xF3F2EF))), content = CalendarContent(color = rgb(0x1B1B1D), accent = rgb(0xB5523B)),
     )
 }
 
@@ -125,6 +129,7 @@ fun PimprRoot(services: Services, pendingEdit: String?, onEditConsumed: () -> Un
     val nav = rememberNavController()
     val weatherVersion by services.weather.version.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableStateOf("library") }
+    var query by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(pendingEdit) {
         if (pendingEdit != null) {
@@ -138,10 +143,10 @@ fun PimprRoot(services: Services, pendingEdit: String?, onEditConsumed: () -> Un
         LocalWeatherVersion provides weatherVersion,
     ) {
         NavHost(nav, startDestination = "home", modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-            composable("home") { HomeTabs(services, nav, tab) { tab = it } }
+            composable("home") { HomeTabs(services, nav, tab, query, { query = it }) { tab = it } }
             composable("theme/{id}") { entry ->
                 val theme = Themes.get(entry.arguments?.getString("id").orEmpty())
-                if (theme == null) LaunchedEffect(Unit) { nav.popBackStack() } else ThemeRoute(services, nav, theme) { tab = "studio" }
+                if (theme == null) LaunchedEffect(Unit) { nav.popBackStack() } else ThemeRoute(services, nav, theme, onShowStudio = { tab = "studio" }, onTag = { query = it; tab = "library"; nav.popBackStack("home", inclusive = false) })
             }
             composable("pack/{id}") { entry -> PackRoute(nav, entry.arguments?.getString("id").orEmpty()) }
             composable("editor/{id}") { entry -> EditorRoute(services, nav, entry.arguments?.getString("id").orEmpty()) }
@@ -150,7 +155,7 @@ fun PimprRoot(services: Services, pendingEdit: String?, onEditConsumed: () -> Un
 }
 
 @Composable
-private fun HomeTabs(services: Services, nav: NavHostController, tab: String, onTab: (String) -> Unit) {
+private fun HomeTabs(services: Services, nav: NavHostController, tab: String, query: String, onQuery: (String) -> Unit, onTab: (String) -> Unit) {
     Box(Modifier.fillMaxSize()) {
         when (tab) {
             "icons" -> IconPacksScreen(IconPacks.all, { nav.navigate("pack/${it.id}") })
@@ -158,7 +163,10 @@ private fun HomeTabs(services: Services, nav: NavHostController, tab: String, on
             "settings" -> SettingsRoute(services)
             else -> {
                 val favorites by services.prefs.favorites.collectAsStateWithLifecycle()
-                LibraryScreen(Themes.all, favorites, { nav.navigate("theme/${it.id}") })
+                LibraryScreen(
+                    Themes.all, favorites, { nav.navigate("theme/${it.id}") },
+                    query = query, onQuery = onQuery, search = Themes::search, suggestions = Themes.popularTags,
+                )
             }
         }
         Dock(DockItems, tab, onTab, Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 14.dp))
@@ -186,7 +194,7 @@ private fun applyWallpaper(context: Context, theme: Theme, target: WallpaperTarg
 }
 
 @Composable
-private fun ThemeRoute(services: Services, nav: NavHostController, theme: Theme, onShowStudio: () -> Unit) {
+private fun ThemeRoute(services: Services, nav: NavHostController, theme: Theme, onShowStudio: () -> Unit, onTag: (String) -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val favorites by services.prefs.favorites.collectAsStateWithLifecycle()
@@ -212,6 +220,13 @@ private fun ThemeRoute(services: Services, nav: NavHostController, theme: Theme,
             onShowStudio()
             nav.popBackStack("home", inclusive = false)
         },
+        onAddWidget = { d ->
+            // Enregistré tel quel dans « Mes widgets », puis proposé au launcher.
+            val saved = services.store.save(d.copy(id = newId()))
+            Schedules.ensure(context)
+            pin(context, saved)
+        },
+        onTag = onTag,
         onOpenWidget = { d ->
             val copy = d.copy(id = newId())
             services.draft = copy

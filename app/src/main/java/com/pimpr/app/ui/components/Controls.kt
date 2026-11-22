@@ -56,12 +56,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pimpr.app.render.Fonts
-import com.pimpr.app.ui.theme.Dusk
-import com.pimpr.app.ui.theme.Ink
 
 // ---------------------------------------------------------------- Boutons
 
-/** L'action principale d'un écran : c'est le seul endroit où le dégradé crépuscule sert de fond. */
+/** L'action principale d'un écran : un aplat d'encre, sans couleur, pour ne pas concurrencer les thèmes. */
 @Composable
 fun DuskButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, icon: String? = null, enabled: Boolean = true) {
     val shape = RoundedCornerShape(50)
@@ -69,13 +67,13 @@ fun DuskButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier,
         modifier
             .height(54.dp)
             .clip(shape)
-            .background(if (enabled) Dusk else Brush.linearGradient(listOf(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.colorScheme.surfaceVariant)))
+            .background(if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
             .padding(horizontal = 26.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val color = if (enabled) Ink else MaterialTheme.colorScheme.onSurfaceVariant
+        val color = if (enabled) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
         if (icon != null) {
             PimprIcon(icon, tint = color, size = 20.dp, filled = true)
             Spacer(Modifier.width(8.dp))
@@ -231,7 +229,7 @@ fun SwitchRow(label: String, checked: Boolean, onChange: (Boolean) -> Unit, modi
 // ---------------------------------------------------------------- Couleurs
 
 val Palette: List<Int> = listOf(
-    0xFFFFFFFF, 0xFF1E1B4B, 0xFF0F0E22, 0xFF8E9BFF, 0xFFB99BFF, 0xFFFFA3CF, 0xFFFFC8A3, 0xFFFF6FA8,
+    0xFFFFFFFF, 0xFF1B1B1D, 0xFFF3EDE2, 0xFF8E9BFF, 0xFFB99BFF, 0xFFFFA3CF, 0xFFFFC8A3, 0xFFFF6FA8,
     0xFFFF8A5C, 0xFFFFD84D, 0xFF8FE3CF, 0xFF45F3FF, 0xFF5B8DEF, 0xFF5B54E8, 0xFF7A3B3E, 0xFF214F47,
 ).map { it.toInt() }
 
@@ -365,7 +363,7 @@ data class DockItem(val id: String, val label: String, val icon: String)
 fun Dock(items: List<DockItem>, selected: String, onSelect: (String) -> Unit, modifier: Modifier = Modifier) {
     val scheme = MaterialTheme.colorScheme
     Surface(
-        modifier.shadow(18.dp, RoundedCornerShape(50), ambientColor = Color(0x405B54E8), spotColor = Color(0x405B54E8)),
+        modifier.shadow(18.dp, RoundedCornerShape(50), ambientColor = Color(0x33000000), spotColor = Color(0x33000000)),
         shape = RoundedCornerShape(50), color = scheme.surface, border = BorderStroke(1.dp, scheme.outlineVariant),
     ) {
         Row(Modifier.padding(6.dp), horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -375,17 +373,17 @@ fun Dock(items: List<DockItem>, selected: String, onSelect: (String) -> Unit, mo
                     Modifier
                         .height(52.dp)
                         .clip(RoundedCornerShape(50))
-                        .then(if (active) Modifier.background(Dusk) else Modifier)
+                        .then(if (active) Modifier.background(scheme.primary) else Modifier)
                         .clickable(role = Role.Tab) { onSelect(item.id) }
                         .padding(horizontal = if (active) 18.dp else 15.dp)
                         .semantics { contentDescription = item.label },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    CompositionLocalProvider(LocalContentColor provides if (active) Ink else scheme.onSurfaceVariant) {
+                    CompositionLocalProvider(LocalContentColor provides if (active) scheme.onPrimary else scheme.onSurfaceVariant) {
                         PimprIcon(item.icon, size = 24.dp, filled = active)
                         if (active) {
                             Spacer(Modifier.width(8.dp))
-                            Text(item.label, style = MaterialTheme.typography.labelLarge, color = Ink, maxLines = 1)
+                            Text(item.label, style = MaterialTheme.typography.labelLarge, color = scheme.onPrimary, maxLines = 1)
                         }
                     }
                 }

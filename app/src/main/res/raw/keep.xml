@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Les images des thèmes sont chargées par leur nom : le réducteur de ressources doit les garder. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@raw/th_*,@raw/glyphs,@raw/brands" />

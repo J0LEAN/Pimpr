@@ -18,10 +18,13 @@ import kotlin.math.sin
 import kotlin.random.Random
 
 /**
- * Dessine les fonds d'écran. Tout est procédural : une scène, une palette et une graine
- * suffisent, ce qui permet de rendre le même fond en vignette comme en pleine résolution.
+ * Dessine les fonds d'écran : soit une image embarquée, recadrée pour remplir l'écran, soit
+ * une scène procédurale (une scène, une palette et une graine suffisent).
  */
 object WallpaperPainter {
+
+    /** Valeur de `variant` pour une image en pixel art (agrandie sans lissage). */
+    const val PIXEL = 9
 
     fun render(spec: WallpaperSpec, width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width.coerceAtLeast(1), height.coerceAtLeast(1), Bitmap.Config.ARGB_8888)
@@ -32,6 +35,21 @@ object WallpaperPainter {
     fun draw(c: Canvas, spec: WallpaperSpec, w: Float, h: Float) {
         val rnd = Random(spec.seed * 7919 + spec.scene.ordinal * 31 + spec.variant)
         val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        if (spec.image != null) {
+            val bmp = MediaCache.load(MediaCache.RES + spec.image, kotlin.math.max(w, h).toInt())
+            if (bmp != null) {
+                val s = kotlin.math.max(w / bmp.width, h / bmp.height)
+                val m = android.graphics.Matrix()
+                m.setScale(s, s)
+                m.postTranslate((w - bmp.width * s) / 2f, (h - bmp.height * s) / 2f)
+                // Le pixel art reste net : pas de lissage quand on agrandit beaucoup.
+                p.isFilterBitmap = spec.variant != PIXEL
+                c.drawBitmap(bmp, m, p)
+                return
+            }
+            c.drawColor(spec.colors.firstOrNull() ?: 0xFF202022.toInt())
+            return
+        }
         when (spec.scene) {
             Scene.CLOUDS -> clouds(c, spec, w, h, rnd, p)
             Scene.AURORA -> aurora(c, spec, w, h, rnd, p)
@@ -42,6 +60,11 @@ object WallpaperPainter {
             Scene.SHAPES -> shapes(c, spec, w, h, rnd, p)
             Scene.FLOWERS -> flowers(c, spec, w, h, rnd, p)
             Scene.CHECKER -> checker(c, spec, w, h, rnd, p)
+            Scene.PLAIN -> {
+                p.shader = vertical(0f, h, spec.colors.first(), spec.colors.last())
+                c.drawRect(0f, 0f, w, h, p)
+                p.shader = null
+            }
         }
     }
 

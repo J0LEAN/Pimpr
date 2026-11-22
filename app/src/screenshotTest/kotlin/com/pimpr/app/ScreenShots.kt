@@ -55,6 +55,8 @@ private fun Shot(dark: Boolean = false, tab: String? = null, content: @Composabl
     }
 }
 
+private val D get() = Themes.all.drop(com.pimpr.app.data.catalog.ImageThemes.themes.size)
+
 private val sampleApps = listOf(
     "com.android.camera" to "Appareil photo", "com.android.calendar" to "Agenda", "com.android.chrome" to "Chrome",
     "com.google.android.gm" to "Gmail", "com.instagram.android" to "Instagram", "com.google.android.apps.maps" to "Maps",
@@ -62,22 +64,28 @@ private val sampleApps = listOf(
 ).map { (pkg, label) -> AppEntry(pkg, label, null, AppGlyphs.glyphFor(pkg, label)) }
 
 private val myDesigns get() = listOf(
-    Themes.all[0].widgets[0].copy(id = "a", name = "Horloge givrée"),
-    Themes.all[6].widgets[1].copy(id = "b", name = "Jour violet"),
-    Themes.all[21].widgets[0].copy(id = "c", name = "Heure guimauve"),
-    Themes.all[1].widgets[0].copy(id = "d", name = "Prévisions"),
+    D[0].widgets[0].copy(id = "a", name = "Horloge givrée"),
+    D[6].widgets[1].copy(id = "b", name = "Jour violet"),
+    D[21].widgets[0].copy(id = "c", name = "Heure guimauve"),
+    D[1].widgets[0].copy(id = "d", name = "Prévisions"),
 )
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
-fun Library() = Shot(tab = "library") { LibraryScreen(Themes.all, emptySet(), {}) }
+fun Library() = Shot(tab = "library") { LibraryScreen(Themes.all, emptySet(), {}, suggestions = Themes.popularTags) }
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
-fun LibraryDark() = Shot(dark = true, tab = "library") { LibraryScreen(Themes.all, setOf("x"), {}) }
+fun LibrarySearch() = Shot(tab = "library") { LibraryScreen(Themes.all, emptySet(), {}, query = "japon", search = Themes::search, suggestions = Themes.popularTags) }
 
-@PreviewTest @Preview(widthDp = 412, heightDp = 1180) @Composable
+@PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
+fun EditorQuote() = Shot { EditorScreen(defaultDesign(WidgetType.QUOTE).copy(id = "x"), {}, EditorActions()) }
+
+@PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
+fun LibraryDark() = Shot(dark = true, tab = "library") { LibraryScreen(Themes.all, setOf("x"), {}, suggestions = Themes.popularTags) }
+
+@PreviewTest @Preview(widthDp = 412, heightDp = 1420) @Composable
 fun ThemeDetail() = Shot {
     val t = Themes.all[0]
-    ThemeDetailScreen(t, IconPacks.get(t.iconPack), true, {}, {}, {}, {}, {}, {})
+    ThemeDetailScreen(t, IconPacks.get(t.iconPack), true, {}, {}, {}, {}, {}, {}, {}, {})
 }
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
@@ -98,10 +106,10 @@ fun StudioDark() = Shot(dark = true, tab = "studio") { StudioScreen(emptyList(),
 fun EditorClockContent() = Shot { EditorScreen(defaultDesign(WidgetType.CLOCK).copy(id = "x"), {}, EditorActions()) }
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 1000) @Composable
-fun EditorClockStyle() = Shot { EditorScreen(Themes.all[0].widgets[0], {}, EditorActions(), initialTab = EditorTab.STYLE) }
+fun EditorClockStyle() = Shot { EditorScreen(D[0].widgets[0], {}, EditorActions(), initialTab = EditorTab.STYLE) }
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 1000) @Composable
-fun EditorShape() = Shot { EditorScreen(Themes.all[4].widgets[0].copy(borderWidth = 2f), {}, EditorActions(), initialTab = EditorTab.SHAPE) }
+fun EditorShape() = Shot { EditorScreen(D[4].widgets[0].copy(borderWidth = 2f), {}, EditorActions(), initialTab = EditorTab.SHAPE) }
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 1000) @Composable
 fun EditorBackground() = Shot { EditorScreen(defaultDesign(WidgetType.WEATHER).copy(id = "x"), {}, EditorActions(), initialTab = EditorTab.BACKGROUND) }
@@ -111,7 +119,7 @@ fun EditorPhotoDark() = Shot(dark = true) { EditorScreen(defaultDesign(WidgetTyp
 
 @PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
 fun EditorLargeWeather() = Shot {
-    val d = Themes.all[7].widgets[0].copy(size = com.pimpr.app.model.WidgetSize.LARGE)
+    val d = D[7].widgets[0].copy(size = com.pimpr.app.model.WidgetSize.LARGE)
     EditorScreen(d, {}, EditorActions())
 }
 
@@ -126,7 +134,7 @@ fun WidgetChooser() = Shot { ConfigScreen(myDesigns.take(2), Templates, {}, {}, 
 fun HomeScreenRemoteViews() = Shot {
     val context = LocalContext.current
     androidx.compose.foundation.layout.Column(Modifier.padding(16.dp), verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(12.dp)) {
-        listOf(Themes.all[0].widgets[0], Themes.all[5].widgets[2]).forEach { d ->
+        listOf(D[0].widgets[0], D[5].widgets[2]).forEach { d ->
             androidx.compose.ui.viewinterop.AndroidView(
                 factory = { ctx ->
                     val host = android.widget.FrameLayout(ctx)

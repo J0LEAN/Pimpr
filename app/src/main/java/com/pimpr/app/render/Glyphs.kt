@@ -17,15 +17,22 @@ import java.util.concurrent.ConcurrentHashMap
 object Glyphs {
     const val BOX = 24f
 
+    /** Préfixe des logos de marques : `b_instagram`, `b_spotify`… */
+    const val BRAND = "b_"
+
     @Volatile private var data: Map<String, List<String>> = emptyMap()
     private val cache = ConcurrentHashMap<String, Path>()
 
     fun init(context: Context) {
+        MediaCache.init(context)
         if (data.isNotEmpty()) return
         synchronized(this) {
             if (data.isNotEmpty()) return
             val text = context.resources.openRawResource(R.raw.glyphs).bufferedReader().use { it.readText() }
-            data = Json.decodeFromString<Map<String, List<String>>>(text)
+            val brands = context.resources.openRawResource(R.raw.brands).bufferedReader().use { it.readText() }
+            // Logos de marques (Simple Icons) : un seul tracé, dans une boîte de 24 unités.
+            data = Json.decodeFromString<Map<String, List<String>>>(text) +
+                Json.decodeFromString<Map<String, String>>(brands).entries.associate { (k, d) -> "$BRAND$k" to listOf(d, d, "24") }
         }
     }
 

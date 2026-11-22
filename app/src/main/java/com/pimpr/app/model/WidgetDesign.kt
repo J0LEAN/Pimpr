@@ -150,6 +150,20 @@ data class CalendarContent(
     val mondayFirst: Boolean = true,
 ) : WidgetContent
 
+/** Un texte libre : citation, mot doux, pense-bête. */
+@Serializable
+@SerialName("quote")
+data class QuoteContent(
+    val text: String = "Fais de ta vie un rêve.",
+    val font: String = "playfair",
+    val color: Int = rgb(0xFFFFFF),
+    val scale: Float = 1f,
+    val align: Align = Align.CENTER,
+    /** Petit pictogramme posé au-dessus du texte (vide = aucun). */
+    val ornament: String = "",
+    val accent: Int = rgb(0xFFFFFF),
+) : WidgetContent
+
 @Serializable
 data class WidgetDesign(
     val id: String,
@@ -171,7 +185,7 @@ data class WidgetDesign(
     val updatedAt: Long = 0L,
 )
 
-enum class WidgetType { CLOCK, WEATHER, PHOTO, VIDEO, CALENDAR }
+enum class WidgetType { CLOCK, WEATHER, PHOTO, VIDEO, CALENDAR, QUOTE }
 
 val WidgetContent.type: WidgetType
     get() = when (this) {
@@ -180,4 +194,5 @@ val WidgetContent.type: WidgetType
         is PhotoContent -> WidgetType.PHOTO
         is VideoContent -> WidgetType.VIDEO
         is CalendarContent -> WidgetType.CALENDAR
+        is QuoteContent -> WidgetType.QUOTE
     }

@@ -62,6 +62,7 @@ import com.pimpr.app.model.ClockStyle
 import com.pimpr.app.model.DateStyle
 import com.pimpr.app.model.Framing
 import com.pimpr.app.model.PhotoContent
+import com.pimpr.app.model.QuoteContent
 import com.pimpr.app.model.PhotoFilter
 import com.pimpr.app.model.ShapeKind
 import com.pimpr.app.model.TapKind
@@ -210,7 +211,7 @@ private fun Stage(design: WidgetDesign, backdrop: Int, onNextBackdrop: () -> Uni
             WidgetView(design, Modifier.width((design.size.widthDp * scale).dp), frame = frame, live = true)
         }
         Box(Modifier.fillMaxSize().padding(10.dp), contentAlignment = Alignment.BottomEnd) {
-            RoundIconButton("wallpaper", "Changer le décor", onNextBackdrop, container = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+            RoundIconButton("contrast", "Changer le gris de fond", onNextBackdrop, container = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
         }
         if (busy != null) {
             Box(Modifier.fillMaxSize().background(Color(0x99000000)), contentAlignment = Alignment.Center) {
@@ -295,6 +296,21 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
             Group("Fluidité") { ChoiceRow(listOf(5 to "Douce", 8 to "Normale", 12 to "Rapide"), c.fps, { set(c.copy(fps = it)) }) }
             FramingControls(c.framing) { set(c.copy(framing = it)) }
             CaptionField(c.caption) { set(c.copy(caption = it)) }
+        }
+        is QuoteContent -> {
+            Group("Texte") {
+                OutlinedTextField(
+                    c.text, { set(c.copy(text = it.take(160))) },
+                    Modifier.fillMaxWidth().padding(horizontal = 20.dp), minLines = 2, maxLines = 4,
+                    placeholder = { Text("Une citation, un mot doux, un pense-bête…") }, shape = RoundedCornerShape(18.dp),
+                )
+            }
+            Group("Ornement") {
+                ChoiceRow(
+                    listOf("" to "Aucun", "favorite" to "Cœur", "star" to "Étoile", "auto_awesome" to "Étincelles", "local_florist" to "Fleur", "bedtime" to "Lune", "format_quote" to "Guillemets"),
+                    c.ornament, { set(c.copy(ornament = it)) },
+                )
+            }
         }
         is CalendarContent -> {
             Group("Affichage") { ChoiceRow(listOf(CalendarStyle.DAY to "Le jour", CalendarStyle.MONTH to "Le mois"), c.style, { set(c.copy(style = it)) }) }
@@ -389,6 +405,15 @@ private fun ColumnScope.StylePanel(design: WidgetDesign, onChange: (WidgetDesign
             ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
             ColorRow("Couleur d'accent", c.accent, { set(c.copy(accent = it)) })
             LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1.2f)
+        }
+        is QuoteContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) }, sample = "Abc")
+            ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
+            if (c.ornament.isNotEmpty()) ColorRow("Couleur de l'ornement", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.5f..1.6f)
+            Group("Alignement") {
+                ChoiceRow(listOf(Align.START to "À gauche", Align.CENTER to "Centré", Align.END to "À droite"), c.align, { set(c.copy(align = it)) })
+            }
         }
         is PhotoContent -> CaptionStyle(c.caption) { set(c.copy(caption = it)) }
         is VideoContent -> CaptionStyle(c.caption) { set(c.copy(caption = it)) }

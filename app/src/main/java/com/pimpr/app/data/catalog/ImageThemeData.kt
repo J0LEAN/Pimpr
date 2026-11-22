@@ -1,0 +1,133 @@
+package com.pimpr.app.data.catalog
+
+import com.pimpr.app.model.ShapeKind
+import com.pimpr.app.model.ThemeCategory
+import com.pimpr.app.model.TileShape
+
+// Fichier généré par tools/build_themes.py à partir de tools/themes_spec.py : ne pas modifier à la main.
+
+@Suppress("unused")
+private val keepImports = listOf<Any>(ShapeKind.ROUNDED, TileShape.SQUIRCLE)
+
+internal val ImageThemeRows: List<ImageThemeRow> = listOf(
+    ImageThemeRow(
+        "cerise", "Cerise", "Rouge cerise et crème, façon carnet gourmand", ThemeCategory.AESTHETIC,
+        "rouge cerise fruit bordeaux crème vintage coquette amour",
+        dark = true, lockLight = true,
+        card = 0x57401D, onCard = 0xF3ECE2, card2 = 0xE7DED0, onCard2 = 0x3D2D14, accent = 0xE5CDA9,
+        tiles = listOf(0x685334, 0x57401D, 0x79664A),
+        font = "abril", quoteFont = "playfair", recipe = 0,
+        quote = "Juteuse, sucrée, irrésistible.",
+        credit = "Robert Spear Dunning, William Mason Brown, Jacob van Hulsdonck", ornament = "favorite", featured = true,
+    ),
+    ImageThemeRow(
+        "sauge", "Sauge", "Vert sauge, roses blanches et papier crème", ThemeCategory.AESTHETIC,
+        "vert sauge crème fleurs roses doux botanique cottage calme",
+        dark = false, lockLight = false,
+        card = 0x789574, onCard = 0xF4F6F3, card2 = 0xEEF2EE, onCard2 = 0x344832, accent = 0x445742,
+        tiles = listOf(0x789574, 0x9EB39B, 0x627A5F, 0xEEF2EE),
+        font = "playfair", quoteFont = "playfair", recipe = 4,
+        quote = "Ma maison de pierre, ton lierre y grimpe.",
+        credit = "Julian Alden Weir, Ralph Albert Blakelock, Jean-Baptiste-Camille Corot", ornament = "local_florist",
+    ),
+    ImageThemeRow(
+        "koson", "Corbeaux et lune", "Oiseaux et animaux des estampes de Koson", ThemeCategory.ANIMALS,
+        "estampe japon oiseaux koson lune corbeau animaux zen",
+        dark = false, lockLight = true,
+        card = 0xA49A65, onCard = 0xF7F7F2, card2 = 0xF4F2EC, onCard2 = 0x504A2B, accent = 0x605A39,
+        tiles = listOf(0xA49A65, 0xBDB690, 0x867E53, 0xF4F2EC),
+        font = "playfair", quoteFont = "playfair", recipe = 3,
+        quote = "Le silence a des ailes.",
+        credit = "Ohara Koson (1877-1945)",
+    ),
+    ImageThemeRow(
+        "vague", "Grande vague", "Hokusai : la mer, l'écume et le mont Fuji", ThemeCategory.JAPAN,
+        "japon vague hokusai estampe bleu mer fuji ukiyo-e",
+        dark = false, lockLight = false,
+        card = 0xA48E65, onCard = 0xF7F6F2, card2 = 0xF4F1EC, onCard2 = 0x50432A, accent = 0x457ABA,
+        tiles = listOf(0xA48E65, 0xBDAE90, 0x867453, 0xF4F1EC),
+        font = "abril", quoteFont = "playfair", recipe = 4,
+        quote = "Sept fois à terre, huit fois debout.",
+        credit = "Katsushika Hokusai",
+    ),
+    ImageThemeRow(
+        "edo-nuit", "Nuit d'Edo", "Hiroshige : pluie, neige et lanternes", ThemeCategory.JAPAN,
+        "japon nuit hiroshige estampe indigo pluie neige lune ukiyo-e",
+        dark = false, lockLight = true,
+        card = 0x467899, onCard = 0xF1F6F9, card2 = 0xEAF1F5, onCard2 = 0x234257, accent = 0xB9B046,
+        tiles = listOf(0x467899, 0x7A9EB6, 0x39627D, 0xEAF1F5),
+        font = "playfair", quoteFont = "playfair", recipe = 1,
+        quote = "La lune suit celui qui marche.",
+        credit = "Utagawa Hiroshige", ornament = "bedtime",
+    ),
+    ImageThemeRow(
+        "pixel-crepuscule", "Pixel crépuscule", "Un décor de jeu à l'heure bleue", ThemeCategory.GAMING,
+        "pixel art jeu rétro gaming crépuscule montagne 16-bit paysage",
+        dark = true, lockLight = false,
+        card = 0x61384E, onCard = 0xF0E5EB, card2 = 0xE5D2DC, onCard2 = 0x341E29, accent = 0xA872CA,
+        tiles = listOf(0x714C60, 0x61384E, 0x816071),
+        font = "pixel", quoteFont = "pixel", recipe = 3,
+        quote = "Appuie sur Start.",
+        credit = "ansimuz, ShggothSlave", pixel = true, tile = TileShape.ROUNDED, shape = ShapeKind.ROUNDED, corner = 0.12f,
+    ),
+    ImageThemeRow(
+        "pixel-ville", "Pixel city", "Toits et néons en pixel art", ThemeCategory.GAMING,
+        "pixel art jeu rétro gaming ville néon cyberpunk nuit 16-bit",
+        dark = true, lockLight = true,
+        card = 0x19194D, onCard = 0xE2E2F3, card2 = 0xD0D0E7, onCard2 = 0x14143D, accent = 0xBE55E7,
+        tiles = listOf(0x30305F, 0x19194D, 0x474771),
+        font = "pixel", quoteFont = "pixel", recipe = 1,
+        quote = "Nouvelle partie ?",
+        credit = "ansimuz, Gustavo Saraiva, cottonball", pixel = true, tile = TileShape.ROUNDED, corner = 0.12f,
+    ),
+    ImageThemeRow(
+        "pixel-donjon", "Donjon", "Tuiles de RPG rétro, vues de dessus", ThemeCategory.GAMING,
+        "pixel art jeu rétro gaming rpg donjon aventure 8-bit héros",
+        dark = false, lockLight = true,
+        card = 0xD07D39, onCard = 0xFAF4F0, card2 = 0xF6EFEA, onCard2 = 0x623A18, accent = 0x4670B9,
+        tiles = listOf(0xD07D39, 0xDDA170, 0xAB662F, 0xF6EFEA),
+        font = "pixel", quoteFont = "pixel", recipe = 0,
+        quote = "Il est dangereux d'y aller seul.",
+        credit = "Kenney (kenney.nl)", pixel = true, tile = TileShape.ROUNDED, corner = 0.12f,
+    ),
+    ImageThemeRow(
+        "nebuleuse", "Nébuleuse", "Nuages d'étoiles vus par les télescopes de la NASA", ThemeCategory.COSMOS,
+        "espace nébuleuse étoiles nasa galaxie cosmos orange bleu nuit",
+        dark = true, lockLight = true,
+        card = 0x1B324B, onCard = 0xE2EAF3, card2 = 0xD0DBE7, onCard2 = 0x16283C, accent = 0xADC6E1,
+        tiles = listOf(0x32465D, 0x1B324B, 0x495B6F),
+        font = "orbitron", quoteFont = "figtree", recipe = 1,
+        quote = "Nous sommes faits de poussière d'étoiles.",
+        credit = "NASA, ESA, Hubble Heritage Team (STScI/AURA), NASA, ESA, M. Livio and the Hubble 20th Anniversary Team (STScI), NASA, ESA, CSA, STScI",
+    ),
+    ImageThemeRow(
+        "planetes", "Planètes", "La Terre, la Lune et les géantes", ThemeCategory.COSMOS,
+        "espace planète terre lune jupiter saturne nasa cosmos noir",
+        dark = true, lockLight = true,
+        card = 0x564C43, onCard = 0xEDEAE8, card2 = 0xE0DBD7, onCard2 = 0x2E2824, accent = 0xCEC6C0,
+        tiles = listOf(0x675E56, 0x564C43, 0x787069),
+        font = "unbounded", quoteFont = "figtree", recipe = 2,
+        quote = "Un point bleu pâle.",
+        credit = "NASA/JPL/Space Science Institute, NASA/NOAA/GSFC/Suomi NPP/VIIRS/Norman Kuring, NASA",
+    ),
+    ImageThemeRow(
+        "voie-lactee", "Voie lactée", "La galaxie au-dessus des crêtes", ThemeCategory.COSMOS,
+        "espace étoiles voie lactée nuit ciel galaxie montagne bleu violet",
+        dark = true, lockLight = true,
+        card = 0x444755, onCard = 0xE8E9ED, card2 = 0xD7D9DF, onCard2 = 0x24262D, accent = 0xC1C3CD,
+        tiles = listOf(0x575966, 0x444755, 0x696C77),
+        font = "bebas", quoteFont = "playfair", recipe = 3,
+        quote = "Lève les yeux.",
+        credit = "NPS / Jacob W. Frank, NPS / Great Sand Dunes National Park and Preserve, NPS Natural Resources",
+    ),
+    ImageThemeRow(
+        "morris", "Morris", "Les papiers peints de William Morris", ThemeCategory.ART,
+        "art motif morris papier peint fleurs feuilles vintage arts and crafts",
+        dark = true, lockLight = true,
+        card = 0x243A49, onCard = 0xE4ECF2, card2 = 0xD0DDE7, onCard2 = 0x1B2B37, accent = 0xCAA672,
+        tiles = listOf(0x3A4E5B, 0x243A49, 0x50616D),
+        font = "playfair", quoteFont = "playfair", recipe = 0,
+        quote = "N'aie rien chez toi que tu ne trouves beau.",
+        credit = "William Morris (British, 1834–1896), William Morris",
+    ),
+)

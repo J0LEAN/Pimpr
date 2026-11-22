@@ -7,7 +7,6 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -16,58 +15,57 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.pimpr.app.R
 
-/** Encre : le bleu nuit des textes, repris des icônes marine des écrans pastel. */
-val Ink = Color(0xFF1E1B4B)
+/** Encre : l'anthracite des textes et des actions. L'interface reste neutre pour laisser la couleur aux thèmes. */
+val Ink = Color(0xFF1B1B1D)
 
-/** Dégradé « crépuscule » : réservé à ce qui est actif ou à ce qu'on applique. */
-val DuskColors = listOf(Color(0xFF8E9BFF), Color(0xFFB99BFF), Color(0xFFFFA3CF), Color(0xFFFFC8A3))
-val Dusk: Brush get() = Brush.linearGradient(DuskColors)
+/** Gris de travail proposés derrière un widget en cours de création. */
+val StageGreys = listOf(Color(0xFF8E8E90), Color(0xFFE9E7E2), Color(0xFF2A2A2C))
 
 private val LightColors: ColorScheme = lightColorScheme(
-    primary = Color(0xFF5B54E8),
+    primary = Ink,
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFE4E1FF),
+    primaryContainer = Color(0xFFE6E4DF),
     onPrimaryContainer = Ink,
-    secondary = Color(0xFFE0679C),
+    secondary = Color(0xFFB5523B),
     onSecondary = Color.White,
-    background = Color(0xFFF4F2FB),
+    background = Color(0xFFF3F2EF),
     onBackground = Ink,
     surface = Color.White,
     onSurface = Ink,
-    surfaceVariant = Color(0xFFEBE8F8),
-    onSurfaceVariant = Color(0xFF5F5B87),
+    surfaceVariant = Color(0xFFE9E7E2),
+    onSurfaceVariant = Color(0xFF66645F),
     surfaceContainerLowest = Color.White,
-    surfaceContainerLow = Color(0xFFFAF9FE),
-    surfaceContainer = Color(0xFFF4F2FB),
-    surfaceContainerHigh = Color(0xFFEBE8F8),
-    surfaceContainerHighest = Color(0xFFE3DFF4),
-    outline = Color(0xFFB9B4DA),
-    outlineVariant = Color(0xFFE1DDF2),
-    error = Color(0xFFC93A5B),
-    scrim = Color(0xFF0F0E22),
+    surfaceContainerLow = Color(0xFFFAF9F7),
+    surfaceContainer = Color(0xFFF3F2EF),
+    surfaceContainerHigh = Color(0xFFE9E7E2),
+    surfaceContainerHighest = Color(0xFFDFDCD6),
+    outline = Color(0xFFBDBAB3),
+    outlineVariant = Color(0xFFE0DDD7),
+    error = Color(0xFFB3261E),
+    scrim = Color(0xFF101011),
 )
 
 private val DarkColors: ColorScheme = darkColorScheme(
-    primary = Color(0xFFB0ABFF),
-    onPrimary = Color(0xFF1A1750),
-    primaryContainer = Color(0xFF34307A),
-    onPrimaryContainer = Color(0xFFE4E1FF),
-    secondary = Color(0xFFFF9CCB),
-    onSecondary = Color(0xFF4A1230),
-    background = Color(0xFF0F0E22),
-    onBackground = Color(0xFFEDEBFF),
-    surface = Color(0xFF1B1A36),
-    onSurface = Color(0xFFEDEBFF),
-    surfaceVariant = Color(0xFF272549),
-    onSurfaceVariant = Color(0xFFB7B3DC),
-    surfaceContainerLowest = Color(0xFF0B0A1A),
-    surfaceContainerLow = Color(0xFF15142C),
-    surfaceContainer = Color(0xFF1B1A36),
-    surfaceContainerHigh = Color(0xFF272549),
-    surfaceContainerHighest = Color(0xFF312F58),
-    outline = Color(0xFF55527F),
-    outlineVariant = Color(0xFF302E55),
-    error = Color(0xFFFF8FA6),
+    primary = Color(0xFFF1F0EC),
+    onPrimary = Ink,
+    primaryContainer = Color(0xFF3A3A3C),
+    onPrimaryContainer = Color(0xFFF1F0EC),
+    secondary = Color(0xFFE08A72),
+    onSecondary = Color(0xFF3A120A),
+    background = Color(0xFF111112),
+    onBackground = Color(0xFFF1F0EC),
+    surface = Color(0xFF1D1D1F),
+    onSurface = Color(0xFFF1F0EC),
+    surfaceVariant = Color(0xFF2A2A2C),
+    onSurfaceVariant = Color(0xFFB4B2AD),
+    surfaceContainerLowest = Color(0xFF0B0B0C),
+    surfaceContainerLow = Color(0xFF171718),
+    surfaceContainer = Color(0xFF1D1D1F),
+    surfaceContainerHigh = Color(0xFF2A2A2C),
+    surfaceContainerHighest = Color(0xFF343436),
+    outline = Color(0xFF5C5B58),
+    outlineVariant = Color(0xFF323234),
+    error = Color(0xFFF2B8B5),
     scrim = Color.Black,
 )
 

@@ -172,7 +172,9 @@ fun IconView(pack: IconPack, subject: IconSubject, modifier: Modifier = Modifier
 /** Un fond d'écran procédural utilisé comme décor (derrière un aperçu, une rangée d'icônes…). */
 @Composable
 fun WallpaperBox(spec: WallpaperSpec, modifier: Modifier = Modifier, content: @Composable () -> Unit = {}) {
+    val context = LocalContext.current
     BoxWithConstraints(modifier) {
+        remember(context) { Glyphs.init(context); 0 }
         val w = (constraints.maxWidth / 2).coerceIn(1, 540)
         val h = (constraints.maxHeight / 2).coerceIn(1, 1200)
         val image = rememberRendered(spec, w, h) { WallpaperPainter.render(spec, w, h) }

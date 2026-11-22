@@ -52,27 +52,26 @@ import com.pimpr.app.ui.components.SectionTitle
 import com.pimpr.app.ui.components.SoftButton
 import com.pimpr.app.ui.components.WallpaperBox
 import com.pimpr.app.ui.components.WidgetView
-import com.pimpr.app.ui.theme.DuskColors
 
 /** Un modèle = un design prêt à l'emploi, montré sur le fond pour lequel il a été pensé. */
 data class Template(val design: WidgetDesign, val backdrop: WallpaperSpec)
 
-/** Décors proposés derrière un widget en cours de création. */
+/** Fonds neutres derrière un widget en cours de création : gris moyen, clair, sombre. */
 val StageBackdrops = listOf(
-    WallpaperSpec(Scene.AURORA, listOf(0xC9B8F5, 0x8E9BF0, 0xF7B8D8, 0xFFD9C2, 0xB7A3F2).map { rgb(it) }, seed = 11),
-    WallpaperSpec(Scene.COSMOS, listOf(0x070B1E, 0x101437, 0x3B4AA8, 0x5B2D9A, 0x5FE0D0, 0x5B67E8, 0xEAF6FF).map { rgb(it) }, seed = 5, variant = 2),
-    WallpaperSpec(Scene.AURORA, listOf(0xF4F2FB, 0xFFFFFF, 0xECE9F8, 0xF8F5FF, 0xE9E3FF).map { rgb(it) }, seed = 3),
-    WallpaperSpec(Scene.DUNES, listOf(0xE8795A, 0xFFC58A, 0xFFF3D6, 0xE98A5E, 0xD46A4C, 0xAE5145, 0x74383C).map { rgb(it) }, seed = 2),
+    WallpaperSpec(Scene.PLAIN, listOf(rgb(0x97979A), rgb(0x86868A))),
+    WallpaperSpec(Scene.PLAIN, listOf(rgb(0xECEAE6), rgb(0xE0DED9))),
+    WallpaperSpec(Scene.PLAIN, listOf(rgb(0x2C2C2E), rgb(0x1F1F21))),
 )
 
 data class TypeInfo(val type: WidgetType, val label: String, val icon: String, val hint: String, val tint: Color)
 
 val WidgetTypes = listOf(
-    TypeInfo(WidgetType.CLOCK, "Horloge", "schedule", "Chiffres, empilée ou aiguilles", DuskColors[0]),
-    TypeInfo(WidgetType.WEATHER, "Météo", "partly_cloudy_day", "Du jour ou sur 5 jours", DuskColors[3]),
-    TypeInfo(WidgetType.PHOTO, "Photo", "image", "Une image ou un diaporama", DuskColors[2]),
-    TypeInfo(WidgetType.VIDEO, "Vidéo", "movie", "Une boucle animée", DuskColors[1]),
-    TypeInfo(WidgetType.CALENDAR, "Calendrier", "calendar_month", "Le jour ou le mois", Color(0xFF8FE3CF)),
+    TypeInfo(WidgetType.CLOCK, "Horloge", "schedule", "Chiffres, empilée ou aiguilles", Color(0xFFD9D6CF)),
+    TypeInfo(WidgetType.WEATHER, "Météo", "partly_cloudy_day", "Du jour ou sur 5 jours", Color(0xFFE6DFD3)),
+    TypeInfo(WidgetType.PHOTO, "Photo", "image", "Une image ou un diaporama", Color(0xFFD3D7D2)),
+    TypeInfo(WidgetType.VIDEO, "Vidéo", "movie", "Une boucle animée", Color(0xFFDAD5DB)),
+    TypeInfo(WidgetType.CALENDAR, "Calendrier", "calendar_month", "Le jour ou le mois", Color(0xFFD2D8DC)),
+    TypeInfo(WidgetType.QUOTE, "Texte", "format_quote", "Citation ou mot doux", Color(0xFFDDD9CE)),
 )
 
 fun sizeLabel(size: WidgetSize): String = "${size.cols} × ${size.rows}"
