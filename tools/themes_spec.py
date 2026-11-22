@@ -13,7 +13,8 @@ THEMES = [
     # ------------------------------------------------------------ Esthétique
     t("cerise", "Cerise", "Rouge cerise et crème, façon carnet gourmand", "AESTHETIC",
       "rouge cerise fruit bordeaux crème vintage coquette amour", "abril",
-      "Juteuse, sucrée, irrésistible.", quoteFont="playfair", ornament="favorite", recipe=0, featured=True),
+      "Juteuse, sucrée, irrésistible.", quoteFont="playfair", ornament="favorite", recipe=0, featured=True,
+      dark=False, main=0x9B2226, base=0xF3E9DD, accent=0x7A1B1F),
     t("sauge", "Sauge", "Vert sauge, roses blanches et papier crème", "AESTHETIC",
       "vert sauge crème fleurs roses doux botanique cottage calme", "playfair",
       "Ma maison de pierre, ton lierre y grimpe.", quoteFont="playfair", ornament="local_florist", recipe=4),

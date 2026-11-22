@@ -26,7 +26,6 @@ import com.pimpr.app.model.WidgetContent
 import com.pimpr.app.model.WidgetDesign
 import com.pimpr.app.model.WidgetSize
 import com.pimpr.app.model.rgb
-import com.pimpr.app.render.Colors
 import com.pimpr.app.render.MediaCache
 import com.pimpr.app.render.WallpaperPainter
 import kotlin.math.abs
@@ -71,6 +70,14 @@ data class ImageThemeRow(
 /** Construit, pour chaque ligne, le thème complet : fonds, pack d'icônes et widgets déjà réglés. */
 object ImageThemes {
 
+    // Calculs de couleur sans dépendance Android, pour que le catalogue se teste sur la JVM.
+    private fun lum(c: Int): Float = (0.2126f * (c shr 16 and 0xFF) + 0.7152f * (c shr 8 and 0xFF) + 0.0722f * (c and 0xFF)) / 255f
+
+    private fun lighten(c: Int, t: Float): Int {
+        fun ch(shift: Int): Int { val v = c shr shift and 0xFF; return (v + (255 - v) * t).toInt() shl shift }
+        return (0xFF shl 24) or ch(16) or ch(8) or ch(0)
+    }
+
     fun res(id: String, part: String) = "th_${id.replace('-', '_')}_$part"
 
     private fun build(r: ImageThemeRow): Pair<Theme, IconPack> {
@@ -86,8 +93,8 @@ object ImageThemes {
         val on2 = rgb(r.onCard2)
         val accent = rgb(r.accent)
         // Sur la carte secondaire, l'accent doit rester lisible : sinon on prend la couleur de la carte principale.
-        val accent2 = if (abs(Colors.luminance(accent) - Colors.luminance(rgb(r.card2))) > 0.25f) accent else rgb(r.card)
-        val accent1 = if (abs(Colors.luminance(accent) - Colors.luminance(rgb(r.card))) > 0.25f) accent else on
+        val accent2 = if (abs(lum(accent) - lum(rgb(r.card2))) > 0.25f) accent else rgb(r.card)
+        val accent1 = if (abs(lum(accent) - lum(rgb(r.card))) > 0.25f) accent else on
 
         fun w(name: String, size: WidgetSize, bg: Background, content: WidgetContent, shape: ShapeKind = r.shape, padding: Float = 0.4f) =
             WidgetDesign(id = "", name = "$name ${r.name}".take(40), size = size, shape = shape, corner = r.corner, background = bg, padding = padding, content = content)
@@ -133,8 +140,8 @@ object ImageThemes {
             tile = r.tile,
             swatches = r.tiles.map { t ->
                 val tile = rgb(t)
-                val glyph = candidates.maxBy { abs(Colors.luminance(it) - Colors.luminance(tile)) }
-                Swatch(listOf(Colors.lighten(tile, 0.06f), tile), listOf(glyph))
+                val glyph = candidates.maxBy { abs(lum(it) - lum(tile)) }
+                Swatch(listOf(lighten(tile, 0.06f), tile), listOf(glyph))
             },
             backdrop = home,
         )
@@ -144,7 +151,7 @@ object ImageThemes {
             widgets = all.mapIndexed { i, d -> d.copy(id = "tpl-${r.id}-$i") },
             lightText = r.dark, clockFont = r.font, featured = r.featured,
             tags = r.tags.split(' ').filter { it.isNotBlank() },
-            lockLightText = r.lockLight, ink = on2.takeIf { Colors.luminance(it) < 0.4f } ?: rgb(0x2A2A2C),
+            lockLightText = r.lockLight, ink = on2.takeIf { lum(it) < 0.4f } ?: rgb(0x2A2A2C),
             credit = r.credit,
         )
         return theme to pack

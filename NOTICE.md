@@ -1,7 +1,24 @@
 # Crédits et licences des éléments tiers
 
-Pimpr embarque quelques éléments créés par d'autres. Les fonds d'écran, les icônes
-stylisées et les widgets, eux, sont dessinés par le code de l'app.
+Pimpr embarque quelques éléments créés par d'autres : des images du domaine public pour
+les thèmes, des pictogrammes, des logos d'applis et des polices. Les tuiles d'icônes, les
+widgets et les thèmes « dessinés » sont produits par le code de l'app.
+
+## Images des thèmes
+
+Les fonds d'écran et les images de widgets des thèmes (`app/src/main/res/raw/th_*.webp`)
+viennent de collections en accès ouvert : musées (The Met, Art Institute of Chicago,
+Rijksmuseum, Cleveland Museum of Art…), NASA, agences fédérales américaines, Wikimedia
+Commons, OpenGameArt et Kenney. Toutes sont dans le domaine public ou sous licence CC0.
+Elles ont été recadrées, et floutées ou teintées pour les fonds d'accueil. La liste complète,
+image par image, avec auteur et source, est dans [docs/CREDITS-IMAGES.md](docs/CREDITS-IMAGES.md).
+
+## Logos d'applis
+
+`app/src/main/res/raw/brands.json` contient des tracés issus de
+[Simple Icons](https://github.com/simple-icons/simple-icons) (CC0 1.0). Les logos et les
+noms restent des marques de leurs propriétaires respectifs : Pimpr ne s'en sert que pour
+désigner l'appli que l'icône ouvre, sans lien ni partenariat avec ces marques.
 
 ## Pictogrammes
 

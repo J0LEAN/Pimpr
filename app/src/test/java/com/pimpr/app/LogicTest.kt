@@ -9,6 +9,7 @@ import com.pimpr.app.data.catalog.Themes
 import com.pimpr.app.model.CalendarContent
 import com.pimpr.app.model.ClockContent
 import com.pimpr.app.model.PhotoContent
+import com.pimpr.app.model.QuoteContent
 import com.pimpr.app.model.Place
 import com.pimpr.app.model.Scene
 import com.pimpr.app.model.VideoContent
@@ -84,28 +85,45 @@ class LogicTest {
     }
 
     @Test fun `les applis connues recoivent un pictogramme, les inconnues non`() {
-        assertEquals("photo_camera", AppGlyphs.glyphFor("com.instagram.android", "Instagram"))
+        assertEquals("b_instagram", AppGlyphs.glyphFor("com.instagram.android", "Instagram"))
+        assertEquals("shopping_cart", AppGlyphs.glyphFor("com.amazon.mShop.android.shopping", "Amazon"))
         assertEquals("partly_cloudy_day", AppGlyphs.glyphFor("fr.exemple.app", "Météo locale"))
         assertNull(AppGlyphs.glyphFor("com.acme.zzz", "Zzz"))
     }
 
+    @Test fun `la recherche ignore les accents et croise les mots`() {
+        assertTrue(Themes.search("").size == Themes.all.size)
+        assertTrue(Themes.search("JAPON").any { it.id == "vague" })
+        assertTrue(Themes.search("pixel nuit").all { "pixel" in it.tags })
+        assertTrue(Themes.search("neon").isNotEmpty())
+        assertTrue(Themes.search("zzzz").isEmpty())
+        assertTrue(Themes.popularTags.isNotEmpty())
+    }
+
     @Test fun `le catalogue est coherent`() {
-        val glyphs = Json.decodeFromString<Map<String, List<String>>>(File("src/main/res/raw/glyphs.json").readText()).keys
+        val glyphs = Json.decodeFromString<Map<String, List<String>>>(File("src/main/res/raw/glyphs.json").readText()).keys +
+            Json.decodeFromString<Map<String, String>>(File("src/main/res/raw/brands.json").readText()).keys.map { "b_$it" }
         val packs = IconPacks.all.map { it.id }.toSet()
         val fonts = Fonts.all.map { it.id }.toSet()
-        val needed = mapOf(Scene.CLOUDS to 7, Scene.AURORA to 2, Scene.COSMOS to 7, Scene.MARBLE to 3, Scene.DUNES to 7, Scene.RETRO to 6, Scene.SHAPES to 2, Scene.FLOWERS to 5, Scene.CHECKER to 3)
+        val needed = mapOf(Scene.CLOUDS to 7, Scene.AURORA to 2, Scene.COSMOS to 7, Scene.MARBLE to 3, Scene.DUNES to 7, Scene.RETRO to 6, Scene.SHAPES to 2, Scene.FLOWERS to 5, Scene.CHECKER to 3, Scene.PLAIN to 1)
         assertEquals(Themes.all.size, Themes.all.map { it.id }.toSet().size)
         assertEquals(1, Themes.all.count { it.featured })
         for (t in Themes.all) {
             assertTrue("pack de ${t.id}", t.iconPack in packs)
             assertTrue("police de ${t.id}", t.clockFont in fonts)
-            for (spec in listOf(t.home, t.lock)) assertTrue("couleurs de ${t.id}", spec.colors.size >= needed.getValue(spec.scene))
+            for (spec in listOf(t.home, t.lock)) {
+                assertTrue("couleurs de ${t.id}", spec.colors.size >= needed.getValue(spec.scene))
+                spec.image?.let { assertTrue("image $it", File("src/main/res/raw/$it.webp").exists()) }
+            }
+            assertTrue("mots-clés de ${t.id}", t.tags.size >= 3)
             for (w in t.widgets) {
                 val font = when (val c = w.content) {
                     is ClockContent -> c.font; is WeatherContent -> c.font; is CalendarContent -> c.font
-                    is PhotoContent -> c.caption.font; is VideoContent -> c.caption.font
+                    is PhotoContent -> c.caption.font; is VideoContent -> c.caption.font; is QuoteContent -> c.font
                 }
                 assertTrue("police de ${w.name}", font in fonts)
+                val images = (w.content as? PhotoContent)?.images.orEmpty() + listOfNotNull(w.background.image)
+                for (i in images) assertTrue("image $i", File("src/main/res/raw/${i.removePrefix("res:")}.webp").exists())
             }
         }
         assertEquals(Themes.all.sumOf { it.widgets.size }, Themes.all.flatMap { it.widgets }.map { it.id }.toSet().size)
