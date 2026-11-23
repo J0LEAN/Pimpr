@@ -78,7 +78,7 @@ internal val ImageThemeRows: List<ImageThemeRow> = listOf(
         tiles = listOf(0x9F726A, 0xBA9994, 0x825D57, 0xF3EDEC),
         font = "dmserif", quoteFont = "playfair", recipe = 4,
         quote = "Une tasse, et tout s'arrange.",
-        credit = "Mary Cassatt, Jean-Étienne Liotard, John F. Francis",
+        credit = "Mary Cassatt, Manufacture nationale de Sèvres, John F. Francis",
     ),
     ImageThemeRow(
         "herbier", "Herbier", "Planches botaniques sur papier ancien", ThemeCategory.NATURE,
@@ -119,6 +119,16 @@ internal val ImageThemeRows: List<ImageThemeRow> = listOf(
         font = "dmserif", quoteFont = "caveat", recipe = 0,
         quote = "Petit à petit, sous la mousse.",
         credit = "Léon Dufour (1861–1942)",
+    ),
+    ImageThemeRow(
+        "fraises", "Fraises", "Fraises des bois et feuilles dentelées", ThemeCategory.NATURE,
+        "nouveauté fraises fruit rouge vert botanique été gourmand cottagecore",
+        dark = false, lockLight = false,
+        card = 0xC6382F, onCard = 0xFAF0F0, card2 = 0xF6EAEA, onCard2 = 0x621D18, accent = 0x4F7A35,
+        tiles = listOf(0xC6382F, 0xD67069, 0xA22E27, 0xF6EAEA),
+        font = "pacifico", quoteFont = "caveat", recipe = 3,
+        quote = "Un été dans une barquette.",
+        credit = "Augusta Innes Withers (c. 1792–1877), in John Lindley (ed.), The Pomological Magazine", ornament = "favorite",
     ),
     ImageThemeRow(
         "coquelicots", "Coquelicots", "Les prés fleuris des impressionnistes", ThemeCategory.NATURE,

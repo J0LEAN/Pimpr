@@ -53,9 +53,9 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 ## L'heure du thé
 
 - The Cup of Tea, Mary Cassatt, c. 1880–81, The Metropolitan Museum of Art (Open Access, via Wikimedia Commons), CC0 — <https://commons.wikimedia.org/wiki/File:The_Cup_of_Tea_MET_DT88.jpg>
-- The Chocolate Girl, Jean-Étienne Liotard, c. 1744–45, Gemäldegalerie Alte Meister, Dresden (via Wikimedia Commons, PD-Art), Public domain — <https://commons.wikimedia.org/wiki/File:Jean-Etienne_Liotard_-_The_Chocolate_Girl_-_Google_Art_Project.jpg>
+- Cup and Saucer (from a tea service), Manufacture nationale de Sèvres, 1770, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/24779>
 - Still Life with Silver Cake Basket, John F. Francis, 1866, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.178114.html>
-- Still Life: Tea Set, Jean-Étienne Liotard, c. 1781–83, J. Paul Getty Museum (via Wikimedia Commons, PD-Art), Public domain — <https://commons.wikimedia.org/wiki/File:Liotard,_Jean-%C3%89tienne_-_Still_Life-_Tea_Set_-_Google_Art_Project.jpg>
+- Teapot (from a tea service), Manufacture nationale de Sèvres, 1770, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/24772>
 - Still Life with Cake, Lemon, Strawberries, and Glass, John Frederick Peto, 1890, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.164947.html>
 
 ## Herbier
@@ -89,6 +89,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Atlas des champignons comestibles et vénéneux — Planche 29 : Russula rubra (détail), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n146/mode/1up>
 - Atlas des champignons comestibles et vénéneux — Planche 27 : Russula xerampelina var. alutacea (détail), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n142/mode/1up>
 - Atlas des champignons comestibles et vénéneux — Planche 6 : Amanita vaginata, Lepiota procera, Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n100/mode/1up>
+
+## Fraises
+
+- The Pomological Magazine, vol. 2 — strawberry plate (detail), Augusta Innes Withers (c. 1792–1877), in John Lindley (ed.), The Pomological Magazine, 1828–30, UMass Amherst Libraries (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/pomologicalmagaz02lind/page/n177/mode/1up>
+- The Pomological Magazine, vol. 2 — strawberry plate (detail), Augusta Innes Withers (c. 1792–1877), in John Lindley (ed.), The Pomological Magazine, 1828–30, UMass Amherst Libraries (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/pomologicalmagaz02lind/page/n21/mode/1up>
+- The Pomological Magazine, vol. 1 — strawberry plate (detail), Augusta Innes Withers (c. 1792–1877), in John Lindley (ed.), The Pomological Magazine, 1828–30, UMass Amherst Libraries (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/pomologicalmagaz00lind/page/n197/mode/1up>
+- The Pomological Magazine, vol. 3 — strawberry plate (detail), Augusta Innes Withers (c. 1792–1877), in John Lindley (ed.), The Pomological Magazine, 1828–30, UMass Amherst Libraries (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/pomologicalmagaz03lind/page/n167/mode/1up>
+- The Pomological Magazine, vol. 1 — cherry plate (detail), Augusta Innes Withers (c. 1792–1877), in John Lindley (ed.), The Pomological Magazine, 1828–30, UMass Amherst Libraries (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/pomologicalmagaz00lind/page/n177/mode/1up>
 
 ## Coquelicots
 
