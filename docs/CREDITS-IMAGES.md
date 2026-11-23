@@ -329,6 +329,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - SunnyLand Expansion Pack: Trees, ansimuz, 2021, OpenGameArt.org, CC0 — <https://opengameart.org/content/sunnyland-expansion-pack-trees>
 - Country Side Platform Tiles, ansimuz, 2015, OpenGameArt.org, CC0 — <https://opengameart.org/content/country-side-platform-tiles>
 
+## Cartes de cour
+
+- King of Horns, from The Cloisters Playing Cards, Unknown (South Netherlandish), ca. 1475–80, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP354503), CC0 — <https://www.metmuseum.org/art/collection/search/475526>
+- Queen of Collars, from The Cloisters Playing Cards, Unknown (South Netherlandish), ca. 1475–80, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP354530), CC0 — <https://www.metmuseum.org/art/collection/search/475553>
+- King of Tethers, from The Cloisters Playing Cards, Unknown (South Netherlandish), ca. 1475–80, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP354508), CC0 — <https://www.metmuseum.org/art/collection/search/475539>
+- King of Collars, from The Cloisters Playing Cards, Unknown (South Netherlandish), ca. 1475–80, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP366851), CC0 — <https://www.metmuseum.org/art/collection/search/475552>
+- Knave of Nooses, from The Cloisters Playing Cards, Unknown (South Netherlandish), ca. 1475–80, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP354544), CC0 — <https://www.metmuseum.org/art/collection/search/475567>
+
 ## Nébuleuse
 
 - Pillars of Creation, Eagle Nebula (Hubble, near-infrared), NASA, ESA, Hubble Heritage Team (STScI/AURA), 2015, NASA, Public domain — <https://images.nasa.gov/details/GSFC_20171208_Archive_e000842>

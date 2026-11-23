@@ -421,6 +421,16 @@ internal val ImageThemeRows: List<ImageThemeRow> = listOf(
         credit = "ansimuz", pixel = true, tile = TileShape.ROUNDED, corner = 0.12f,
     ),
     ImageThemeRow(
+        "tarot", "Cartes de cour", "Rois et reines peints d'un jeu du XVe siècle", ThemeCategory.GAMING,
+        "nouveauté cartes jeu roi reine or médiéval vintage mystique noir",
+        dark = true, lockLight = true,
+        card = 0x674F32, onCard = 0xF2EBE3, card2 = 0xE7DCD0, onCard2 = 0x372A1A, accent = 0xDBC8B3,
+        tiles = listOf(0x766146, 0x674F32, 0x85725B),
+        font = "marcellus", quoteFont = "playfair", recipe = 4,
+        quote = "Tire une carte.",
+        credit = "Unknown (South Netherlandish)", ornament = "auto_awesome", tile = TileShape.ROUNDED, corner = 0.2f,
+    ),
+    ImageThemeRow(
         "nebuleuse", "Nébuleuse", "Nuages d'étoiles vus par les télescopes de la NASA", ThemeCategory.COSMOS,
         "espace nébuleuse étoiles nasa galaxie cosmos orange bleu nuit",
         dark = true, lockLight = true,
