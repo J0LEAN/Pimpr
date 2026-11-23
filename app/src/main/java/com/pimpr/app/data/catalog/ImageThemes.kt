@@ -155,13 +155,17 @@ object ImageThemes {
         val cloud = w("Mot nuage", WidgetSize.WIDE, card2, QuoteContent(r.quote, r.quoteFont, on2), shape = ShapeKind.CLOUD, padding = 0.5f)
         val hexClock = w("Hexagone", WidgetSize.SMALL, card, ClockContent(style = ClockStyle.STACKED, font = r.font, color = on, accent = accent1, date = DateStyle.NONE), shape = ShapeKind.HEXAGON)
 
-        val lead = when (r.recipe % 5) {
+        val base = when (r.recipe % 5) {
             0 -> listOf(photoA, quoteWide, calMonth)
             1 -> listOf(clockPhoto, photoA, quoteSmall)
             2 -> listOf(clockAnalog, photoB, weatherSmall)
             3 -> listOf(clockStrip, photoA, weatherWide)
             else -> listOf(photoB, calDay, quoteWide)
         }
+        // Un thème sur deux troque son dernier petit widget phare contre un des nouveaux, pour varier les accueils.
+        val spice = listOf(countdown, battery, note, moon, heart, hexClock)
+        val k = r.id.sumOf { it.code }
+        val lead = if (k % 2 == 0 && base.last().size == WidgetSize.SMALL) base.dropLast(1) + spice[k / 2 % spice.size] else base
         val all = lead + listOf(
             clockPhoto, photoA, quoteWide, weatherSmall, calMonth, photoB, clockAnalog, quoteSmall,
             weatherWide, calDay, photoC, clockStack, clockStrip, slides,
