@@ -46,9 +46,17 @@ Le texte de licence et la mention de copyright de chacune se trouvent dans
 | Orbitron | `orbitron_semibold.ttf` | `orbitron-OFL.txt` |
 | Space Mono | `space_mono_bold.ttf` | `spacemono-OFL.txt` |
 | Press Start 2P | `press_start.ttf` | `pressstart2p-OFL.txt` |
+| Pacifico | `pacifico.ttf` | `pacifico-OFL.txt` |
+| Sacramento | `sacramento.ttf` | `sacramento-OFL.txt` |
+| Amatic SC | `amatic_bold.ttf` | `amaticsc-OFL.txt` |
+| DM Serif Display | `dm_serif.ttf` | `dmserifdisplay-OFL.txt` |
+| Marcellus | `marcellus.ttf` | `marcellus-OFL.txt` |
+| Righteous | `righteous.ttf` | `righteous-OFL.txt` |
+| Bungee | `bungee.ttf` | `bungee-OFL.txt` |
+| Silkscreen | `silkscreen.ttf` | `silkscreen-OFL.txt` |
 
 Unbounded, Figtree, Fredoka, Bebas Neue, Caveat et Space Mono ont été réduites aux
-caractères latins pour alléger l'app. Les six autres, dont la licence réserve le nom,
+caractères latins pour alléger l'app. Toutes les autres
 sont les fichiers d'origine distribués par Google Fonts, non modifiés.
 
 ## Météo

@@ -23,6 +23,14 @@ object Fonts {
         FontDef("orbitron", "Orbitron", R.font.orbitron_semibold, true),
         FontDef("spacemono", "Space Mono", R.font.space_mono_bold, false),
         FontDef("pixel", "Pixel", R.font.press_start, true),
+        FontDef("pacifico", "Pacifico", R.font.pacifico, true),
+        FontDef("sacramento", "Sacramento", R.font.sacramento, true),
+        FontDef("amatic", "Amatic", R.font.amatic_bold, false),
+        FontDef("dmserif", "DM Serif", R.font.dm_serif, false),
+        FontDef("marcellus", "Marcellus", R.font.marcellus, false),
+        FontDef("righteous", "Righteous", R.font.righteous, true),
+        FontDef("bungee", "Bungee", R.font.bungee, true),
+        FontDef("silkscreen", "Silkscreen", R.font.silkscreen, true),
     )
 
     private val byId = all.associateBy { it.id }

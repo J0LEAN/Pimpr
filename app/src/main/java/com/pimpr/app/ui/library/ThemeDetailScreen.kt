@@ -74,6 +74,10 @@ fun ThemeDetailScreen(
     applying: Boolean = false,
 ) {
     var choosing by remember { mutableStateOf(false) }
+    var installing by remember { mutableStateOf(false) }
+    var wallDone by remember { mutableStateOf(false) }
+    var pinned by remember { mutableStateOf(0) }
+    val lead = remember(theme.id) { theme.widgets.take(3) }
     Box(modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().padding(bottom = 120.dp)) {
             TopBar(theme.name, onBack) {
@@ -137,10 +141,32 @@ fun ThemeDetailScreen(
                 .background(androidx.compose.ui.graphics.Brush.verticalGradient(listOf(MaterialTheme.colorScheme.background.copy(alpha = 0f), MaterialTheme.colorScheme.background)))
                 .navigationBarsPadding().padding(start = 20.dp, end = 20.dp, top = 28.dp, bottom = 16.dp),
         ) {
-            DuskButton(
-                if (applying) "Application en cours…" else "Appliquer le fond d'écran", { choosing = true },
-                Modifier.fillMaxWidth(), icon = "wallpaper", enabled = !applying,
-            )
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                DuskButton("Installer le thème", { installing = true }, Modifier.weight(1f), icon = "auto_awesome")
+                RoundIconButton("wallpaper", "Appliquer seulement le fond d'écran", { choosing = true }, container = MaterialTheme.colorScheme.surface)
+            }
+        }
+    }
+
+    if (installing) {
+        ModalBottomSheet(onDismissRequest = { installing = false }, containerColor = MaterialTheme.colorScheme.surface) {
+            Column(Modifier.padding(horizontal = 20.dp).padding(bottom = 28.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("Installer « ${theme.name} »", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onSurface)
+                Text(
+                    "Trois étapes, dans l'ordre que tu veux. Android demande de confirmer chaque widget et chaque icône : c'est lui qui les pose.",
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                InstallStep(
+                    1, "Fond d'écran", if (applying) "Application en cours…" else if (wallDone) "Posé sur l'accueil et le verrouillage" else "Accueil et verrouillage",
+                    if (wallDone) "Refaire" else "Appliquer", done = wallDone, enabled = !applying,
+                ) { wallDone = true; onApplyWallpaper(WallpaperTarget.BOTH) }
+                val next = lead.getOrNull(pinned % lead.size.coerceAtLeast(1))
+                InstallStep(
+                    2, "Widgets", if (pinned >= lead.size) "Les ${lead.size} widgets phares ont été proposés" else "À venir : ${next?.name.orEmpty()}",
+                    if (pinned >= lead.size) "Encore" else "Ajouter ${pinned + 1}/${lead.size}", done = pinned >= lead.size,
+                ) { next?.let(onAddWidget); pinned = if (pinned >= lead.size) 1 else pinned + 1 }
+                InstallStep(3, "Icônes", "Pack ${pack.name} : choisis tes applis", "Choisir", done = false) { installing = false; onOpenPack() }
+            }
         }
     }
 
@@ -163,6 +189,27 @@ fun ThemeDetailScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun InstallStep(number: Int, title: String, detail: String, action: String, done: Boolean, enabled: Boolean = true, onAction: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(scheme.surfaceVariant).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.width(36.dp).height(36.dp).clip(RoundedCornerShape(50)).background(if (done) scheme.primary else scheme.surface), contentAlignment = Alignment.Center) {
+            if (done) PimprIcon("check", tint = scheme.onPrimary, size = 20.dp)
+            else Text("$number", style = MaterialTheme.typography.titleSmall, color = scheme.onSurface)
+        }
+        Column(Modifier.weight(1f).padding(horizontal = 12.dp)) {
+            Text(title, style = MaterialTheme.typography.titleMedium, color = scheme.onSurface)
+            Text(detail, style = MaterialTheme.typography.bodySmall, color = scheme.onSurfaceVariant, maxLines = 2, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+        }
+        Text(
+            action,
+            Modifier.clip(RoundedCornerShape(50)).background(if (enabled) scheme.primary else scheme.outlineVariant)
+                .clickable(enabled = enabled, role = Role.Button, onClick = onAction).padding(horizontal = 16.dp, vertical = 12.dp),
+            style = MaterialTheme.typography.labelLarge, color = scheme.onPrimary,
+        )
     }
 }
 

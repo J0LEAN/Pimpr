@@ -138,4 +138,44 @@ class LogicTest {
             assertNotNull(WeatherCodes.label(code))
         }
     }
+
+    @Test fun `la lune est pleine et nouvelle aux bonnes dates`() {
+        fun utc(y: Int, mo: Int, d: Int, h: Int) = ZonedDateTime.of(y, mo, d, h, 0, 0, 0, ZoneId.of("UTC")).toInstant().toEpochMilli()
+        val full = com.pimpr.app.render.ExtraWidgets.moonPhase(utc(2026, 11, 24, 15))
+        assertTrue("pleine lune du 24 novembre 2026 : $full", kotlin.math.abs(full - 0.5) < 0.03)
+        assertEquals("Pleine lune", com.pimpr.app.render.ExtraWidgets.moonName(full))
+        val new = com.pimpr.app.render.ExtraWidgets.moonPhase(utc(2026, 12, 9, 1))
+        assertTrue("nouvelle lune du 9 décembre 2026 : $new", new < 0.03 || new > 0.97)
+        assertEquals("Nouvelle lune", com.pimpr.app.render.ExtraWidgets.moonName(new))
+        assertEquals("Premier quartier", com.pimpr.app.render.ExtraWidgets.moonName(0.25))
+    }
+
+    @Test fun `le compte a rebours vise le prochain nouvel an par defaut`() {
+        val today = LocalDate.of(2026, 11, 22)
+        val k = com.pimpr.app.model.CountdownContent()
+        assertEquals(LocalDate.of(2027, 1, 1), com.pimpr.app.render.ExtraWidgets.targetDay(k, today))
+        assertEquals(LocalDate.of(2026, 12, 25), com.pimpr.app.render.ExtraWidgets.targetDay(k.copy(epochDay = LocalDate.of(2026, 12, 25).toEpochDay()), today))
+        val midnight = ZonedDateTime.of(2026, 11, 23, 0, 0, 0, 0, paris).toInstant().toEpochMilli()
+        assertEquals(midnight, Schedules.nextUpdate(WidgetDesign("a", "c", content = k), at(18, 0), paris))
+    }
+
+    @Test fun `la phrase du jour change chaque jour et boucle`() {
+        val q = com.pimpr.app.render.DailyQuotes
+        assertTrue(q.all.size >= 28 && q.all.toSet().size == q.all.size)
+        assertTrue(q.forDay(100) != q.forDay(101))
+        assertEquals(q.forDay(5), q.forDay(5 + q.all.size.toLong()))
+        assertEquals(q.forDay(-1), q.all.last())
+    }
+
+    @Test fun `les nouveaux contenus survivent a un aller-retour JSON`() {
+        val json = com.pimpr.app.data.PimprJson
+        listOf(
+            com.pimpr.app.model.BatteryContent(), com.pimpr.app.model.CountdownContent(epochDay = 20500), com.pimpr.app.model.NoteContent(done = listOf(1, 2)),
+            com.pimpr.app.model.PanelContent(), com.pimpr.app.model.MoonContent(), com.pimpr.app.model.MusicContent(title = "x"),
+            PhotoContent(images = listOf("a"), layout = com.pimpr.app.model.PhotoLayout.HEART),
+        ).forEach { c ->
+            val d = WidgetDesign("id", "n", content = c)
+            assertEquals(d, json.decodeFromString(WidgetDesign.serializer(), json.encodeToString(WidgetDesign.serializer(), d)))
+        }
+    }
 }

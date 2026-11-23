@@ -249,6 +249,11 @@ fun WallMakerScreen(
                         }
                     }
                 }
+                if (design.backdrop.image == null && design.backdrop.scene == Scene.PLAIN) {
+                    ColorRow("Couleur du décor", design.backdrop.colors.first(), { picked ->
+                        onChange(design.copy(backdrop = WallpaperSpec(Scene.PLAIN, listOf(picked, com.pimpr.app.render.Colors.darken(picked, 0.12f)))))
+                    })
+                }
                 Group("Un mot en bas") {
                     OutlinedTextField(
                         design.text, { onChange(design.copy(text = it.take(32))) }, Modifier.fillMaxWidth().padding(horizontal = 20.dp), singleLine = true,
