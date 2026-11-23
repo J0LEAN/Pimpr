@@ -23,7 +23,7 @@ fleurs, Paysages, Animaux, Mignon, Anime et Japon, Gaming, Cosmos, Art, Pastel, 
 Néon et rétro. 36 d'entre eux reposent sur des images du domaine public (tableaux,
 estampes, photos de la NASA et des parcs nationaux, pixel art) ; les 25 autres sont
 dessinés par le code. Chaque thème réunit un fond de verrouillage, un fond d'accueil
-assorti, un pack d'icônes et, pour les thèmes à images, quatorze widgets déjà réglés.
+assorti, un pack d'icônes et, pour les thèmes à images, vingt-six widgets déjà réglés.
 
 **Recherche.** Un champ en haut de la bibliothèque cherche dans les noms, les catégories
 et les mots-clés (« japon », « pixel nuit », « rose »…), sans tenir compte des accents.
@@ -44,7 +44,15 @@ Environ 150 applis courantes (Instagram, TikTok, WhatsApp, Spotify, Discord…) 
 leur logo aux couleurs du pack ; les autres ont un pictogramme générique ou gardent leur
 icône d'origine, posée sur la tuile du pack.
 
-**Atelier de widgets.** Six types : horloge, météo, photo, vidéo, calendrier, texte. Pour
+**Fonds d'écran.** Un onglet à part : tous les fonds des thèmes, filtrables par catégorie,
+à poser sur l'accueil, le verrouillage ou les deux. Et un créateur de fond : tes photos en
+polaroïds, en mosaïque, en pellicule, en cœur ou en plein écran, sur le décor de ton choix,
+avec un mot en bas et un filtre.
+
+**Atelier de widgets.** Dix types : horloge (chiffres, empilée, volets, aiguilles), météo,
+photo (seule, diaporama ou mur de photos), vidéo, calendrier, texte, compte à rebours,
+batterie, pense-bête à cocher, tableau de bord (heure, batterie, stockage, avancée du
+jour et de l'année). Plus de mille modèles, filtrables par type. Pour
 chacun :
 
 - **5 formats** : 2 × 2, 4 × 2, 4 × 4, 4 × 1, 2 × 4 (et redimensionnables ensuite) ;

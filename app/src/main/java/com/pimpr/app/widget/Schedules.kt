@@ -12,7 +12,10 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.pimpr.app.model.BatteryContent
 import com.pimpr.app.model.CalendarContent
+import com.pimpr.app.model.CountdownContent
+import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.ClockContent
 import com.pimpr.app.model.PhotoContent
 import com.pimpr.app.model.WeatherContent
@@ -29,8 +32,9 @@ object Schedules {
 
     /** Prochain instant où ce design doit être redessiné, ou null s'il ne dépend pas de l'heure. */
     fun nextUpdate(design: WidgetDesign, after: Long, zone: ZoneId = ZoneId.systemDefault()): Long? = when (val c = design.content) {
-        is ClockContent -> (after / 60_000L + 1) * 60_000L
-        is CalendarContent -> Instant.ofEpochMilli(after).atZone(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
+        is ClockContent, is PanelContent -> (after / 60_000L + 1) * 60_000L
+        is BatteryContent -> (after / 300_000L + 1) * 300_000L
+        is CalendarContent, is CountdownContent -> Instant.ofEpochMilli(after).atZone(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli()
         is PhotoContent -> if (c.images.size > 1 && c.slideMinutes > 0) {
             val step = c.slideMinutes * 60_000L
             (after / step + 1) * step

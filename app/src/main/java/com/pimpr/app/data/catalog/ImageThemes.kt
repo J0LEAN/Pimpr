@@ -3,7 +3,14 @@ package com.pimpr.app.data.catalog
 import com.pimpr.app.model.Align
 import com.pimpr.app.model.Background
 import com.pimpr.app.model.BackgroundKind
+import com.pimpr.app.model.BatteryContent
+import com.pimpr.app.model.BatteryStyle
 import com.pimpr.app.model.CalendarContent
+import com.pimpr.app.model.CountdownContent
+import com.pimpr.app.model.CountdownStyle
+import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.PanelContent
+import com.pimpr.app.model.PhotoLayout
 import com.pimpr.app.model.CalendarStyle
 import com.pimpr.app.model.Caption
 import com.pimpr.app.model.ClockContent
@@ -122,6 +129,19 @@ object ImageThemes {
         val weatherSmall = w("Météo", WidgetSize.SMALL, card2, WeatherContent(WeatherLayout.DETAILED, color = on2, accent = accent2))
         val weatherWide = w("Prévisions", WidgetSize.WIDE, card, WeatherContent(WeatherLayout.FORECAST, color = on, accent = accent1))
 
+        val wall = w("Polaroïds", WidgetSize.WIDE, card2, PhotoContent(images = listOf(img(1), img(3), img(2)), caption = Caption(text = r.caption.ifBlank { r.name }, font = "caveat"), layout = PhotoLayout.POLAROID))
+        val mosaic = w("Mosaïque", WidgetSize.LARGE, Background(BackgroundKind.NONE), PhotoContent(images = listOf(img(1), img(2), img(3), img(4)), layout = PhotoLayout.GRID), padding = 0f)
+        val film = w("Pellicule", WidgetSize.STRIP, Background(BackgroundKind.NONE), PhotoContent(images = listOf(img(1), img(3), img(4), img(2)), layout = PhotoLayout.FILM), shape = ShapeKind.ROUNDED)
+        val heart = w("Cœur", WidgetSize.SMALL, card, PhotoContent(images = listOf(img(1), img(2), img(3), img(4)), layout = PhotoLayout.HEART))
+        val flip = w("Volets", WidgetSize.WIDE, card, ClockContent(style = ClockStyle.FLIP, font = r.font, color = on, accent = accent1, date = DateStyle.MEDIUM))
+        val battery = w("Batterie", WidgetSize.SMALL, card, BatteryContent(listOf(BatteryStyle.RING, BatteryStyle.FACE, BatteryStyle.BAR)[r.recipe % 3], r.font, on, accent1))
+        val batteryWide = w("Énergie", WidgetSize.WIDE, card2, BatteryContent(BatteryStyle.RING, r.font, on2, accent2))
+        val countdown = w("Compte à rebours", WidgetSize.SMALL, card2, CountdownContent(style = listOf(CountdownStyle.TICKET, CountdownStyle.RING, CountdownStyle.BIG)[r.recipe % 3], font = r.font, color = on2, accent = accent2))
+        val countdownWide = w("Grand jour", WidgetSize.WIDE, card, CountdownContent(style = CountdownStyle.BIG, font = r.font, color = on, accent = accent1))
+        val note = w("Pense-bête", WidgetSize.SMALL, card, NoteContent(font = r.quoteFont.takeIf { it != "playfair" } ?: "caveat", color = on, accent = accent1))
+        val panel = w("Tableau de bord", WidgetSize.WIDE, card, PanelContent(r.font, on, accent1))
+        val panelLarge = w("Grand tableau", WidgetSize.LARGE, card2, PanelContent(r.font, on2, accent2))
+
         val lead = when (r.recipe % 5) {
             0 -> listOf(photoA, quoteWide, calMonth)
             1 -> listOf(clockPhoto, photoA, quoteSmall)
@@ -132,6 +152,7 @@ object ImageThemes {
         val all = lead + listOf(
             clockPhoto, photoA, quoteWide, weatherSmall, calMonth, photoB, clockAnalog, quoteSmall,
             weatherWide, calDay, photoC, clockStack, clockStrip, slides,
+            wall, battery, countdown, flip, note, panel, heart, countdownWide, batteryWide, film, mosaic, panelLarge,
         ).filter { it !in lead }
 
         val candidates = listOf(on, on2, rgb(0xFFFFFF))

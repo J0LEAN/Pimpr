@@ -51,7 +51,11 @@ import com.pimpr.app.data.catalog.IconPacks
 import com.pimpr.app.data.catalog.Themes
 import com.pimpr.app.model.Background
 import com.pimpr.app.model.BackgroundKind
+import com.pimpr.app.model.BatteryContent
 import com.pimpr.app.model.CalendarContent
+import com.pimpr.app.model.CountdownContent
+import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.ClockContent
 import com.pimpr.app.model.PhotoContent
 import com.pimpr.app.model.Place
@@ -79,6 +83,12 @@ import com.pimpr.app.ui.library.LibraryScreen
 import com.pimpr.app.ui.library.ThemeDetailScreen
 import com.pimpr.app.ui.library.WallpaperTarget
 import com.pimpr.app.ui.settings.SettingsScreen
+import com.pimpr.app.render.WallDesign
+import com.pimpr.app.render.WallMaker
+import com.pimpr.app.ui.walls.PlainBackdrops
+import com.pimpr.app.ui.walls.WallMakerScreen
+import com.pimpr.app.ui.walls.WallpapersScreen
+import com.pimpr.app.ui.walls.wallsOf
 import com.pimpr.app.ui.studio.AppSheet
 import com.pimpr.app.ui.studio.CitySheet
 import com.pimpr.app.ui.studio.EditorActions
@@ -94,7 +104,8 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 
 val DockItems = listOf(
-    DockItem("library", "Thèmes", "wallpaper"),
+    DockItem("library", "Thèmes", "style"),
+    DockItem("walls", "Fonds", "wallpaper"),
     DockItem("icons", "Icônes", "apps"),
     DockItem("studio", "Atelier", "widgets"),
     DockItem("settings", "Réglages", "settings"),
@@ -117,6 +128,23 @@ fun defaultDesign(type: WidgetType): WidgetDesign = when (type) {
     WidgetType.VIDEO -> WidgetDesign(newId(), "Ma vidéo", WidgetSize.SMALL, content = VideoContent())
     WidgetType.QUOTE -> WidgetDesign(
         newId(), "Mon texte", WidgetSize.WIDE, background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))), content = QuoteContent(),
+    )
+    WidgetType.BATTERY -> WidgetDesign(
+        newId(), "Ma batterie", WidgetSize.SMALL, ShapeKind.SQUIRCLE,
+        background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))), content = BatteryContent(),
+    )
+    WidgetType.COUNTDOWN -> WidgetDesign(
+        newId(), "Mon compte à rebours", WidgetSize.SMALL,
+        background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))),
+        content = CountdownContent(title = "Vacances", epochDay = java.time.LocalDate.now().plusDays(30).toEpochDay()),
+    )
+    WidgetType.NOTE -> WidgetDesign(
+        newId(), "Mon pense-bête", WidgetSize.SMALL, corner = 0.3f,
+        background = Background(BackgroundKind.SOLID, listOf(rgb(0xFBF3D0))), content = NoteContent(),
+    )
+    WidgetType.PANEL -> WidgetDesign(
+        newId(), "Mon tableau de bord", WidgetSize.WIDE,
+        background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))), content = PanelContent(),
     )
     WidgetType.CALENDAR -> WidgetDesign(
         newId(), "Mon calendrier", WidgetSize.SMALL, ShapeKind.SQUIRCLE,
@@ -149,6 +177,7 @@ fun PimprRoot(services: Services, pendingEdit: String?, onEditConsumed: () -> Un
                 if (theme == null) LaunchedEffect(Unit) { nav.popBackStack() } else ThemeRoute(services, nav, theme, onShowStudio = { tab = "studio" }, onTag = { query = it; tab = "library"; nav.popBackStack("home", inclusive = false) })
             }
             composable("pack/{id}") { entry -> PackRoute(nav, entry.arguments?.getString("id").orEmpty()) }
+            composable("maker") { MakerRoute(nav) }
             composable("editor/{id}") { entry -> EditorRoute(services, nav, entry.arguments?.getString("id").orEmpty()) }
         }
     }
@@ -160,6 +189,7 @@ private fun HomeTabs(services: Services, nav: NavHostController, tab: String, qu
         when (tab) {
             "icons" -> IconPacksScreen(IconPacks.all, { nav.navigate("pack/${it.id}") })
             "studio" -> StudioRoute(services, nav)
+            "walls" -> WallsRoute(nav)
             "settings" -> SettingsRoute(services)
             else -> {
                 val favorites by services.prefs.favorites.collectAsStateWithLifecycle()
@@ -186,11 +216,69 @@ private fun screenSize(context: Context): Pair<Int, Int> {
     return minOf(w, h) to maxOf(w, h)
 }
 
-private fun applyWallpaper(context: Context, theme: Theme, target: WallpaperTarget) {
+/** Pose un fond sur l'accueil, le verrouillage ou les deux ; `render` reçoit true pour l'écran de verrouillage. */
+private fun setWallpaper(context: Context, target: WallpaperTarget, render: (lock: Boolean, w: Int, h: Int) -> android.graphics.Bitmap) {
     val manager = WallpaperManager.getInstance(context)
     val (w, h) = screenSize(context)
-    if (target != WallpaperTarget.LOCK) manager.setBitmap(WallpaperPainter.render(theme.home, w, h), null, true, WallpaperManager.FLAG_SYSTEM)
-    if (target != WallpaperTarget.HOME) manager.setBitmap(WallpaperPainter.render(theme.lock, w, h), null, true, WallpaperManager.FLAG_LOCK)
+    if (target != WallpaperTarget.LOCK) manager.setBitmap(render(false, w, h), null, true, WallpaperManager.FLAG_SYSTEM)
+    if (target != WallpaperTarget.HOME) manager.setBitmap(render(true, w, h), null, true, WallpaperManager.FLAG_LOCK)
+}
+
+private fun applyWallpaper(context: Context, theme: Theme, target: WallpaperTarget) =
+    setWallpaper(context, target) { lock, w, h -> WallpaperPainter.render(if (lock) theme.lock else theme.home, w, h) }
+
+private const val WALL_OK = "Fond d'écran appliqué"
+private const val WALL_KO = "Impossible de changer le fond d'écran sur ce téléphone"
+
+// ---------------------------------------------------------------- Fonds d'écran
+
+private val Walls by lazy { wallsOf(Themes.all) }
+
+@Composable
+private fun WallsRoute(nav: NavHostController) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    WallpapersScreen(
+        walls = Walls,
+        onApply = { wall, target ->
+            scope.launch {
+                val ok = withContext(Dispatchers.Default) { runCatching { setWallpaper(context, target) { _, w, h -> WallpaperPainter.render(wall.spec, w, h) } }.isSuccess }
+                toast(context, if (ok) WALL_OK else WALL_KO)
+            }
+        },
+        onOpenTheme = { nav.navigate("theme/$it") },
+        onCreate = { nav.navigate("maker") },
+    )
+}
+
+@Composable
+private fun MakerRoute(nav: NavHostController) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val backdrops = remember { PlainBackdrops + Themes.all.map { it.home } }
+    var design by remember { mutableStateOf(WallDesign(backdrop = backdrops.first(), textColor = rgb(0x3A3A3C))) }
+    var busy by remember { mutableStateOf<String?>(null) }
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(12)) { uris ->
+        if (uris.isEmpty()) return@rememberLauncherForActivityResult
+        scope.launch {
+            busy = "Import des photos…"
+            val paths = withContext(Dispatchers.IO) { uris.mapNotNull { MediaFiles.importImage(context, it) } }
+            busy = null
+            if (paths.isEmpty()) toast(context, "Ces photos n'ont pas pu être lues") else design = design.copy(photos = (design.photos + paths).takeLast(24))
+        }
+    }
+    WallMakerScreen(
+        design = design, backdrops = backdrops, onChange = { design = it }, onBack = { nav.popBackStack() }, busy = busy,
+        onPickPhotos = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+        onApply = { target ->
+            scope.launch {
+                busy = "Application…"
+                val ok = withContext(Dispatchers.Default) { runCatching { setWallpaper(context, target) { _, w, h -> WallMaker.render(context, design, w, h) } }.isSuccess }
+                busy = null
+                toast(context, if (ok) WALL_OK else WALL_KO)
+            }
+        },
+    )
 }
 
 @Composable
@@ -211,7 +299,7 @@ private fun ThemeRoute(services: Services, nav: NavHostController, theme: Theme,
                 applying = true
                 val ok = withContext(Dispatchers.Default) { runCatching { applyWallpaper(context, theme, target) }.isSuccess }
                 applying = false
-                toast(context, if (ok) "Fond d'écran appliqué" else "Impossible de changer le fond d'écran sur ce téléphone")
+                toast(context, if (ok) WALL_OK else WALL_KO)
             }
         },
         onSaveWidgets = {
@@ -297,7 +385,7 @@ private fun StudioRoute(services: Services, nav: NavHostController) {
     val designs by services.store.designs.collectAsStateWithLifecycle()
     var resumes by remember { mutableIntStateOf(0) }
     LifecycleResumeEffect(Unit) { resumes++; onPauseOrDispose { } }
-    val needsPermission = remember(designs, resumes) { designs.any { it.content is ClockContent } && !Schedules.canBeExact(context) }
+    val needsPermission = remember(designs, resumes) { designs.any { it.content is ClockContent || it.content is PanelContent } && !Schedules.canBeExact(context) }
 
     fun open(design: WidgetDesign) {
         services.draft = design

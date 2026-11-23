@@ -26,6 +26,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -59,6 +63,13 @@ import com.pimpr.app.model.Caption
 import com.pimpr.app.model.ClockContent
 import com.pimpr.app.model.ClockSeparator
 import com.pimpr.app.model.ClockStyle
+import com.pimpr.app.model.BatteryContent
+import com.pimpr.app.model.BatteryStyle
+import com.pimpr.app.model.CountdownContent
+import com.pimpr.app.model.CountdownStyle
+import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.PanelContent
+import com.pimpr.app.model.PhotoLayout
 import com.pimpr.app.model.DateStyle
 import com.pimpr.app.model.Framing
 import com.pimpr.app.model.PhotoContent
@@ -253,7 +264,7 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
     when (val c = design.content) {
         is ClockContent -> {
             Group("Affichage") {
-                ChoiceRow(listOf(ClockStyle.DIGITAL to "Chiffres", ClockStyle.STACKED to "Empilée", ClockStyle.ANALOG to "Aiguilles"), c.style, { set(c.copy(style = it)) })
+                ChoiceRow(listOf(ClockStyle.DIGITAL to "Chiffres", ClockStyle.STACKED to "Empilée", ClockStyle.FLIP to "Volets", ClockStyle.ANALOG to "Aiguilles"), c.style, { set(c.copy(style = it)) })
             }
             if (c.style != ClockStyle.ANALOG) {
                 SwitchRow("Format 24 h", c.use24h, { set(c.copy(use24h = it)) })
@@ -278,17 +289,24 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
             SwitchRow("Pictos pleins", c.filledIcons, { set(c.copy(filledIcons = it)) }, hint = "Décoche pour des pictos au trait")
         }
         is PhotoContent -> {
+            Group("Présentation") {
+                ChoiceRow(
+                    listOf(PhotoLayout.SINGLE to "Une photo", PhotoLayout.POLAROID to "Polaroïds", PhotoLayout.GRID to "Mosaïque", PhotoLayout.FILM to "Pellicule", PhotoLayout.HEART to "Cœur"),
+                    c.layout, { set(c.copy(layout = it)) },
+                )
+            }
             Group("Photos") {
                 Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 20.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     AddTile("Ajouter", actions.onPickPhotos)
                     c.images.forEach { path -> Thumb(path) { set(c.copy(images = c.images - path)) } }
                 }
             }
-            if (c.images.size > 1) Group("Changer de photo") {
+            if (c.layout != PhotoLayout.SINGLE) Hint("Le mur utilise toutes tes photos, dans l'ordre. Sa couleur de fond se règle dans l'onglet Fond.")
+            if (c.images.size > 1 && c.layout == PhotoLayout.SINGLE) Group("Changer de photo") {
                 ChoiceRow(listOf(0 to "Jamais", 15 to "Toutes les 15 min", 60 to "Chaque heure", 360 to "Toutes les 6 h", 1440 to "Chaque jour"), c.slideMinutes, { set(c.copy(slideMinutes = it)) })
             }
-            FramingControls(c.framing) { set(c.copy(framing = it)) }
-            CaptionField(c.caption) { set(c.copy(caption = it)) }
+            if (c.layout == PhotoLayout.SINGLE) FramingControls(c.framing) { set(c.copy(framing = it)) } else FilterRow(c.framing) { set(c.copy(framing = it)) }
+            if (c.layout == PhotoLayout.SINGLE || c.layout == PhotoLayout.POLAROID) CaptionField(c.caption) { set(c.copy(caption = it)) }
         }
         is VideoContent -> {
             ValueRow("Vidéo", if (c.frameCount > 0) "Boucle de ${c.frameCount} images" else "Aucune vidéo choisie", if (c.frameCount > 0) "Remplacer" else "Choisir", actions.onPickVideo)
@@ -312,6 +330,57 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
                 )
             }
         }
+        is BatteryContent -> {
+            Group("Affichage") {
+                ChoiceRow(listOf(BatteryStyle.RING to "Anneau", BatteryStyle.BAR to "Jauge", BatteryStyle.FACE to "Frimousse"), c.style, { set(c.copy(style = it)) })
+            }
+            Hint("Le niveau se met à jour toutes les cinq minutes environ.")
+        }
+        is CountdownContent -> {
+            Group("Événement") {
+                OutlinedTextField(
+                    c.title, { set(c.copy(title = it.take(28))) }, Modifier.fillMaxWidth().padding(horizontal = 20.dp), singleLine = true,
+                    placeholder = { Text("Vacances, anniversaire, concert…") }, shape = RoundedCornerShape(18.dp),
+                )
+            }
+            DayRow(c.epochDay) { set(c.copy(epochDay = it)) }
+            Group("Affichage") {
+                ChoiceRow(listOf(CountdownStyle.BIG to "Grand chiffre", CountdownStyle.TICKET to "Éphéméride", CountdownStyle.RING to "Anneau"), c.style, { set(c.copy(style = it)) })
+            }
+            Hint("Une date passée compte les jours écoulés : pratique pour un anniversaire de rencontre.")
+        }
+        is NoteContent -> {
+            Group("Titre") {
+                OutlinedTextField(
+                    c.title, { set(c.copy(title = it.take(24))) }, Modifier.fillMaxWidth().padding(horizontal = 20.dp), singleLine = true,
+                    placeholder = { Text("À faire, courses, idées…") }, shape = RoundedCornerShape(18.dp),
+                )
+            }
+            Group("Une ligne par chose à noter") {
+                OutlinedTextField(
+                    c.lines.joinToString("\n"), { v -> set(c.copy(lines = v.split('\n').take(10).map { it.take(40) })) },
+                    Modifier.fillMaxWidth().padding(horizontal = 20.dp), minLines = 3, maxLines = 8, shape = RoundedCornerShape(18.dp),
+                )
+            }
+            SwitchRow("Cases à cocher", c.checklist, { set(c.copy(checklist = it)) })
+            if (c.checklist) Group("Déjà fait") {
+                Column(Modifier.padding(horizontal = 20.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    // La numérotation suit celle du rendu, qui ignore les lignes vides.
+                    c.lines.filter { it.isNotBlank() }.forEachIndexed { i, line ->
+                        val checked = i in c.done
+                        Row(
+                            Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).clickable(role = Role.Checkbox) { set(c.copy(done = if (checked) c.done - i else c.done + i)) }.padding(vertical = 10.dp, horizontal = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            PimprIcon(if (checked) "check_box" else "check_box_outline_blank", tint = MaterialTheme.colorScheme.onSurface, filled = checked)
+                            Spacer(Modifier.width(10.dp))
+                            Text(line.trim(), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                    }
+                }
+            }
+        }
+        is PanelContent -> Hint("Heure, date, batterie, stockage occupé, avancée de la journée et de l'année. Les jauges suivent ton téléphone.")
         is CalendarContent -> {
             Group("Affichage") { ChoiceRow(listOf(CalendarStyle.DAY to "Le jour", CalendarStyle.MONTH to "Le mois"), c.style, { set(c.copy(style = it)) }) }
             SwitchRow("La semaine commence le lundi", c.mondayFirst, { set(c.copy(mondayFirst = it)) })
@@ -325,11 +394,33 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
     if (design.tap.kind == TapKind.APP) ValueRow("Appli", design.tap.label ?: "Aucune", "Choisir", actions.onPickApp)
 }
 
+/** Choix du jour visé : un calendrier, ou « prochain 1er janvier » tant que rien n'est choisi. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DayRow(epochDay: Long?, onChange: (Long?) -> Unit) {
+    var picking by remember { mutableStateOf(false) }
+    val label = epochDay?.let { java.time.LocalDate.ofEpochDay(it).format(java.time.format.DateTimeFormatter.ofPattern("EEEE d MMMM yyyy")) } ?: "Le prochain 1er janvier"
+    ValueRow("Date", label, "Choisir") { picking = true }
+    if (picking) {
+        val state = rememberDatePickerState(initialSelectedDateMillis = (epochDay ?: java.time.LocalDate.now().toEpochDay()) * 86_400_000L)
+        DatePickerDialog(
+            onDismissRequest = { picking = false },
+            confirmButton = { TextButton({ picking = false; state.selectedDateMillis?.let { onChange(it / 86_400_000L) } }) { Text("Valider") } },
+            dismissButton = { TextButton({ picking = false }) { Text("Annuler") } },
+        ) { DatePicker(state) }
+    }
+}
+
 @Composable
 private fun FramingControls(f: Framing, onChange: (Framing) -> Unit) {
     LabeledSlider("Zoom", f.zoom, { onChange(f.copy(zoom = it)) }, range = 1f..3f, display = { "× %.1f".format(it) })
     LabeledSlider("Cadrage horizontal", f.offsetX, { onChange(f.copy(offsetX = it)) }, range = -1f..1f, display = { offsetLabel(it, "gauche", "droite") })
     LabeledSlider("Cadrage vertical", f.offsetY, { onChange(f.copy(offsetY = it)) }, range = -1f..1f, display = { offsetLabel(it, "haut", "bas") })
+    FilterRow(f, onChange)
+}
+
+@Composable
+private fun FilterRow(f: Framing, onChange: (Framing) -> Unit) {
     Group("Filtre") {
         ChoiceRow(
             listOf(PhotoFilter.NONE to "Aucun", PhotoFilter.MONO to "Noir et blanc", PhotoFilter.SEPIA to "Sépia", PhotoFilter.WARM to "Chaud", PhotoFilter.COOL to "Froid", PhotoFilter.FADE to "Délavé"),
@@ -355,7 +446,7 @@ private fun CaptionField(caption: Caption, onChange: (Caption) -> Unit) {
 }
 
 @Composable
-private fun AddTile(label: String, onClick: () -> Unit) {
+internal fun AddTile(label: String, onClick: () -> Unit) {
     Column(
         Modifier.size(72.dp).clip(RoundedCornerShape(20.dp)).border(1.5.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(20.dp)).clickable(role = Role.Button, onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
@@ -366,7 +457,7 @@ private fun AddTile(label: String, onClick: () -> Unit) {
 }
 
 @Composable
-private fun Thumb(path: String, onRemove: () -> Unit) {
+internal fun Thumb(path: String, onRemove: () -> Unit) {
     Box(Modifier.size(72.dp)) {
         val image = rememberRendered(path, 144, 144) { MediaCache.load(path, 144) ?: android.graphics.Bitmap.createBitmap(1, 1, android.graphics.Bitmap.Config.ARGB_8888) }
         Box(Modifier.fillMaxSize().clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
@@ -390,9 +481,33 @@ private fun ColumnScope.StylePanel(design: WidgetDesign, onChange: (WidgetDesign
             ColorRow(if (c.style == ClockStyle.ANALOG) "Cadran et petite aiguille" else "Couleur de l'heure", c.color, { set(c.copy(color = it)) })
             ColorRow(if (c.style == ClockStyle.STACKED) "Couleur des minutes" else if (c.style == ClockStyle.ANALOG) "Grande aiguille" else "Couleur de la date", c.accent, { set(c.copy(accent = it)) })
             LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.5f..1.25f)
-            if (c.style != ClockStyle.ANALOG) Group("Alignement") {
+            if (c.style != ClockStyle.ANALOG && c.style != ClockStyle.FLIP) Group("Alignement") {
                 ChoiceRow(listOf(Align.START to "À gauche", Align.CENTER to "Centré", Align.END to "À droite"), c.align, { set(c.copy(align = it)) })
             }
+        }
+        is BatteryContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) }, sample = "76")
+            ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
+            ColorRow("Couleur de la jauge", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1f)
+        }
+        is CountdownContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) }, sample = "24")
+            ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
+            ColorRow("Couleur d'accent", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1f)
+        }
+        is NoteContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) }, sample = "Abc")
+            ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
+            ColorRow("Titre et cases cochées", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1.5f)
+        }
+        is PanelContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) })
+            ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
+            ColorRow("Couleur des jauges", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille de l'heure", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1.1f)
         }
         is WeatherContent -> {
             FontRow(c.font, { set(c.copy(font = it)) }, sample = "21°")
@@ -458,7 +573,7 @@ private val GradientPresets = listOf(
 private fun ColumnScope.BackgroundPanel(design: WidgetDesign, onChange: (WidgetDesign) -> Unit, actions: EditorActions) {
     val bg = design.background
     fun set(b: Background) = onChange(design.copy(background = b))
-    if (design.content is PhotoContent || design.content is VideoContent) Hint("Le fond n'apparaît que tant qu'aucune photo ou vidéo n'est choisie.")
+    if (design.content is PhotoContent || design.content is VideoContent) Hint("Avec une seule photo ou une vidéo, le fond n'apparaît que tant que rien n'est choisi. Un mur de photos, lui, le laisse voir.")
     Group("Type de fond") {
         ChoiceRow(
             listOf(BackgroundKind.GRADIENT to "Dégradé", BackgroundKind.SOLID to "Uni", BackgroundKind.IMAGE to "Image", BackgroundKind.NONE to "Transparent"),
@@ -503,7 +618,7 @@ private fun ColumnScope.BackgroundPanel(design: WidgetDesign, onChange: (WidgetD
 // ---------------------------------------------------------------- Briques communes
 
 @Composable
-private fun Group(title: String, content: @Composable () -> Unit) {
+internal fun Group(title: String, content: @Composable () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         FieldLabel(title)
         content()
@@ -511,7 +626,7 @@ private fun Group(title: String, content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun Hint(text: String) {
+internal fun Hint(text: String) {
     Text(text, Modifier.padding(horizontal = 20.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
 

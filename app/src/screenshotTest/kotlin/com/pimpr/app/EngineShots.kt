@@ -119,8 +119,9 @@ fun IconPackSheet() = Sheet { ctx ->
 @PreviewTest @Preview(widthDp = 700, heightDp = 1000) @Composable
 fun WidgetSheet() = Sheet { ctx ->
     val scale = 1.3f
-    val owners = ImageThemes.themes.take(2).flatMap { t -> t.widgets.map { t } }
-    val designs = ImageThemes.themes.take(2).flatMap { it.widgets }
+    val picked = listOf(0, 7, 21).map { ImageThemes.themes[it] }
+    val owners = picked.flatMap { t -> t.widgets.takeLast(12).map { t } }
+    val designs = picked.flatMap { it.widgets.takeLast(12) }
     val colW = 460; val rowH = 232
     val cols = 3
     val rows = (designs.size + cols - 1) / cols

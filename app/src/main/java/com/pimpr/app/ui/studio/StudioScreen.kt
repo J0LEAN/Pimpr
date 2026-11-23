@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +47,8 @@ import com.pimpr.app.model.WidgetDesign
 import com.pimpr.app.model.WidgetSize
 import com.pimpr.app.model.WidgetType
 import com.pimpr.app.model.rgb
+import com.pimpr.app.model.type
+import com.pimpr.app.ui.components.ChoiceRow
 import com.pimpr.app.ui.components.DuskButton
 import com.pimpr.app.ui.components.PimprIcon
 import com.pimpr.app.ui.components.SectionTitle
@@ -66,12 +69,16 @@ val StageBackdrops = listOf(
 data class TypeInfo(val type: WidgetType, val label: String, val icon: String, val hint: String, val tint: Color)
 
 val WidgetTypes = listOf(
-    TypeInfo(WidgetType.CLOCK, "Horloge", "schedule", "Chiffres, empilée ou aiguilles", Color(0xFFD9D6CF)),
+    TypeInfo(WidgetType.CLOCK, "Horloge", "schedule", "Chiffres, volets ou aiguilles", Color(0xFFD9D6CF)),
     TypeInfo(WidgetType.WEATHER, "Météo", "partly_cloudy_day", "Du jour ou sur 5 jours", Color(0xFFE6DFD3)),
-    TypeInfo(WidgetType.PHOTO, "Photo", "image", "Une image ou un diaporama", Color(0xFFD3D7D2)),
+    TypeInfo(WidgetType.PHOTO, "Photo", "image", "Une image, un diaporama ou un mur", Color(0xFFD3D7D2)),
     TypeInfo(WidgetType.VIDEO, "Vidéo", "movie", "Une boucle animée", Color(0xFFDAD5DB)),
     TypeInfo(WidgetType.CALENDAR, "Calendrier", "calendar_month", "Le jour ou le mois", Color(0xFFD2D8DC)),
     TypeInfo(WidgetType.QUOTE, "Texte", "format_quote", "Citation ou mot doux", Color(0xFFDDD9CE)),
+    TypeInfo(WidgetType.COUNTDOWN, "Compte à rebours", "hourglass_top", "Les jours avant le grand jour", Color(0xFFE2D6CF)),
+    TypeInfo(WidgetType.BATTERY, "Batterie", "battery_full", "Anneau, jauge ou frimousse", Color(0xFFD3DDD2)),
+    TypeInfo(WidgetType.NOTE, "Pense-bête", "checklist", "Liste à cocher ou note", Color(0xFFE6E0C8)),
+    TypeInfo(WidgetType.PANEL, "Tableau de bord", "dashboard", "Heure, batterie, stockage", Color(0xFFD2D6E0)),
 )
 
 fun sizeLabel(size: WidgetSize): String = "${size.cols} × ${size.rows}"
@@ -93,6 +100,8 @@ fun StudioScreen(
     bottomPadding: Dp = 110.dp,
 ) {
     var actionsFor by remember { mutableStateOf<WidgetDesign?>(null) }
+    var filter by rememberSaveable { mutableStateOf<WidgetType?>(null) }
+    val shown = remember(templates, filter) { if (filter == null) templates else templates.filter { it.design.content.type == filter } }
 
     LazyColumn(modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = bottomPadding)) {
         item {
@@ -154,11 +163,12 @@ fun StudioScreen(
         item {
             SectionTitle("Modèles", Modifier.padding(top = 26.dp))
             Text(
-                "Pars d'un modèle et change ce que tu veux.",
+                "${templates.size} modèles : pars de l'un d'eux et change ce que tu veux.",
                 Modifier.padding(horizontal = 20.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            ChoiceRow(listOf<Pair<WidgetType?, String>>(null to "Tous") + WidgetTypes.map { it.type to it.label }, filter, { filter = it }, Modifier.padding(top = 10.dp))
         }
-        items(templates.chunked(2), key = { "tpl-" + it.first().design.id }) { pair ->
+        items(shown.chunked(2), key = { "tpl-" + it.first().design.id }) { pair ->
             Row(Modifier.padding(start = 20.dp, end = 20.dp, top = 12.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                 pair.forEach { t -> WidgetTile(t.design, t.backdrop, { onUseTemplate(t.design) }, Modifier.weight(1f)) }
                 if (pair.size == 1) Spacer(Modifier.weight(1f))

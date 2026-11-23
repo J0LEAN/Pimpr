@@ -20,6 +20,11 @@ import com.pimpr.app.data.WeatherCodes
 import com.pimpr.app.data.WeatherSnapshot
 import com.pimpr.app.model.Align
 import com.pimpr.app.model.BackgroundKind
+import com.pimpr.app.model.BatteryContent
+import com.pimpr.app.model.CountdownContent
+import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.PanelContent
+import com.pimpr.app.model.PhotoLayout
 import com.pimpr.app.model.CalendarContent
 import com.pimpr.app.model.CalendarStyle
 import com.pimpr.app.model.Caption
@@ -106,6 +111,10 @@ object WidgetRenderer {
             is WeatherContent -> weather(context, c, content, contentRect(d, b, border), u, env)
             is CalendarContent -> calendar(context, c, content, contentRect(d, b, border), u, env)
             is QuoteContent -> quote(context, c, content, contentRect(d, b, border), u)
+            is BatteryContent -> ExtraWidgets.battery(context, c, content, contentRect(d, b, border), u, env)
+            is CountdownContent -> ExtraWidgets.countdown(context, c, content, contentRect(d, b, border), u, env)
+            is NoteContent -> ExtraWidgets.note(context, c, content, contentRect(d, b, border), u)
+            is PanelContent -> ExtraWidgets.panel(context, c, content, contentRect(d, b, border), u, env)
         }
         if (border > 0f) {
             // Trait deux fois plus large, rogné par la forme : le contour reste à l'intérieur.
@@ -182,7 +191,7 @@ object WidgetRenderer {
 
     // ---------------------------------------------------------------- Texte
 
-    private fun label(
+    internal fun label(
         c: Canvas, p: Paint, text: String, x: Float, baseline: Float, size: Float, color: Int,
         tf: Typeface, align: Paint.Align, maxW: Float = Float.MAX_VALUE,
     ) {
@@ -205,7 +214,7 @@ object WidgetRenderer {
     }
 
     /** Dessine un texte dont la boîte englobante exacte commence en (left, top). Renvoie sa taille. */
-    private fun tight(c: Canvas, p: Paint, text: String, left: Float, top: Float, size: Float, color: Int, tf: Typeface): Rect {
+    internal fun tight(c: Canvas, p: Paint, text: String, left: Float, top: Float, size: Float, color: Int, tf: Typeface): Rect {
         p.shader = null
         p.style = Paint.Style.FILL
         p.typeface = tf
@@ -218,7 +227,7 @@ object WidgetRenderer {
         return r
     }
 
-    private fun bounds(p: Paint, text: String, size: Float, tf: Typeface): Rect {
+    internal fun bounds(p: Paint, text: String, size: Float, tf: Typeface): Rect {
         p.typeface = tf
         p.textSize = size
         val r = Rect()
@@ -227,15 +236,15 @@ object WidgetRenderer {
     }
 
     /** Plus grande taille de police pour que le texte tienne dans (maxW, maxH). */
-    private fun fit(p: Paint, text: String, tf: Typeface, maxW: Float, maxH: Float): Float {
+    internal fun fit(p: Paint, text: String, tf: Typeface, maxW: Float, maxH: Float): Float {
         val r = bounds(p, text, 100f, tf)
         if (r.width() <= 0 || r.height() <= 0) return 1f
         return 100f * min(maxW / r.width(), maxH / r.height())
     }
 
-    private fun small(r: RectF, u: Float): Float = (min(r.width(), r.height()) * 0.115f).coerceIn(9f * u, 16f * u)
+    internal fun small(r: RectF, u: Float): Float = (min(r.width(), r.height()) * 0.115f).coerceIn(9f * u, 16f * u)
 
-    private fun capitalize(s: String, locale: Locale) = s.replaceFirstChar { it.titlecase(locale) }
+    internal fun capitalize(s: String, locale: Locale) = s.replaceFirstChar { it.titlecase(locale) }
 
     // ---------------------------------------------------------------- Horloge
 
@@ -352,6 +361,8 @@ object WidgetRenderer {
                     else label(c, p, date, r.centerX(), r.bottom - s2 * 0.2f, s2, soft, text, Paint.Align.CENTER, r.width())
                 }
             }
+
+            ClockStyle.FLIP -> ExtraWidgets.flip(c, p, k, r, hh, mm, date, main, text, s2, footH, u)
         }
     }
 
@@ -379,7 +390,7 @@ object WidgetRenderer {
         return "${v.roundToInt()}°"
     }
 
-    private fun glyph(c: Canvas, p: Paint, name: String, filled: Boolean, left: Float, top: Float, size: Float, color: Int) {
+    internal fun glyph(c: Canvas, p: Paint, name: String, filled: Boolean, left: Float, top: Float, size: Float, color: Int) {
         p.shader = null
         p.style = Paint.Style.FILL
         p.color = color
@@ -518,7 +529,7 @@ object WidgetRenderer {
 
     // ---------------------------------------------------------------- Photo et vidéo
 
-    private fun filter(f: PhotoFilter): ColorMatrixColorFilter? {
+    internal fun filter(f: PhotoFilter): ColorMatrixColorFilter? {
         val m = ColorMatrix()
         when (f) {
             PhotoFilter.NONE -> return null
@@ -539,7 +550,7 @@ object WidgetRenderer {
     }
 
     /** Remplit le rectangle avec l'image (recadrage centré), en tenant compte du zoom et du décalage. */
-    private fun cover(c: Canvas, bmp: Bitmap, r: RectF, f: Framing, p: Paint) {
+    internal fun cover(c: Canvas, bmp: Bitmap, r: RectF, f: Framing, p: Paint) {
         val s = max(r.width() / bmp.width, r.height() / bmp.height) * f.zoom.coerceIn(1f, 4f)
         val dw = bmp.width * s
         val dh = bmp.height * s
@@ -599,6 +610,12 @@ object WidgetRenderer {
     }
 
     private fun photo(ctx: Context, c: Canvas, k: PhotoContent, r: RectF, u: Float, env: RenderEnv, d: WidgetDesign) {
+        if (k.layout != PhotoLayout.SINGLE) {
+            val shots = k.images.mapNotNull { MediaCache.load(it, max(r.width(), r.height()).toInt()) }
+            if (shots.isEmpty() && !env.demo) emptyMedia(ctx, c, r, u, env, d, "collections", "Choisis des photos")
+            else PhotoWall.draw(ctx, c, k.layout, shots, r, u, k.framing.filter, k.caption, d.background.colors)
+            return
+        }
         val index = currentPhotoIndex(k, env.now)
         val bmp = k.images.getOrNull(index)?.let { MediaCache.load(it, max(r.width(), r.height()).toInt()) }
         if (bmp == null) {

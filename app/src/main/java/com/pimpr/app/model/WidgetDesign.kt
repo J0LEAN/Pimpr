@@ -47,7 +47,7 @@ data class TapAction(val kind: TapKind = TapKind.EDITOR, val pkg: String? = null
 enum class Align { START, CENTER, END }
 
 @Serializable
-enum class ClockStyle { DIGITAL, STACKED, ANALOG }
+enum class ClockStyle { DIGITAL, STACKED, ANALOG, FLIP }
 
 @Serializable
 enum class ClockSeparator(val text: String) { COLON(":"), DOT("·"), SPACE(" ") }
@@ -63,6 +63,16 @@ enum class CalendarStyle { DAY, MONTH }
 
 @Serializable
 enum class PhotoFilter { NONE, MONO, SEPIA, WARM, COOL, FADE }
+
+/** Façon de présenter les photos : une seule, ou un « mur » de plusieurs. */
+@Serializable
+enum class PhotoLayout { SINGLE, POLAROID, GRID, FILM, HEART }
+
+@Serializable
+enum class BatteryStyle { RING, BAR, FACE }
+
+@Serializable
+enum class CountdownStyle { BIG, TICKET, RING }
 
 @Serializable
 data class Place(val name: String, val lat: Double, val lon: Double)
@@ -126,6 +136,7 @@ data class PhotoContent(
     /** Change de photo toutes les N minutes quand il y en a plusieurs (0 = fixe). */
     val slideMinutes: Int = 0,
     val caption: Caption = Caption(),
+    val layout: PhotoLayout = PhotoLayout.SINGLE,
 ) : WidgetContent
 
 @Serializable
@@ -164,6 +175,56 @@ data class QuoteContent(
     val accent: Int = rgb(0xFFFFFF),
 ) : WidgetContent
 
+/** Niveau de batterie du téléphone. */
+@Serializable
+@SerialName("battery")
+data class BatteryContent(
+    val style: BatteryStyle = BatteryStyle.RING,
+    val font: String = "figtree",
+    val color: Int = rgb(0xFFFFFF),
+    val accent: Int = rgb(0x7BD88F),
+    val scale: Float = 1f,
+) : WidgetContent
+
+/** Jours restants avant une date (ou écoulés depuis). */
+@Serializable
+@SerialName("countdown")
+data class CountdownContent(
+    val title: String = "Nouvel An",
+    /** Jour visé (nombre de jours depuis 1970) ; null = le prochain 1er janvier. */
+    val epochDay: Long? = null,
+    val style: CountdownStyle = CountdownStyle.BIG,
+    val font: String = "unbounded",
+    val color: Int = rgb(0xFFFFFF),
+    val accent: Int = rgb(0xFFD36E),
+    val scale: Float = 1f,
+) : WidgetContent
+
+/** Pense-bête : une liste à cocher ou quelques lignes libres. */
+@Serializable
+@SerialName("note")
+data class NoteContent(
+    val title: String = "À faire",
+    val lines: List<String> = listOf("Arroser les plantes", "Appeler mamie", "Courses"),
+    /** Numéros des lignes cochées. */
+    val done: List<Int> = listOf(0),
+    val checklist: Boolean = true,
+    val font: String = "caveat",
+    val color: Int = rgb(0x2A2A2C),
+    val accent: Int = rgb(0xE0654F),
+    val scale: Float = 1f,
+) : WidgetContent
+
+/** Tableau de bord : heure, date, batterie, stockage, avancée du jour et de l'année. */
+@Serializable
+@SerialName("panel")
+data class PanelContent(
+    val font: String = "figtree",
+    val color: Int = rgb(0xFFFFFF),
+    val accent: Int = rgb(0x8FB8FF),
+    val scale: Float = 1f,
+) : WidgetContent
+
 @Serializable
 data class WidgetDesign(
     val id: String,
@@ -185,7 +246,7 @@ data class WidgetDesign(
     val updatedAt: Long = 0L,
 )
 
-enum class WidgetType { CLOCK, WEATHER, PHOTO, VIDEO, CALENDAR, QUOTE }
+enum class WidgetType { CLOCK, WEATHER, PHOTO, VIDEO, CALENDAR, QUOTE, BATTERY, COUNTDOWN, NOTE, PANEL }
 
 val WidgetContent.type: WidgetType
     get() = when (this) {
@@ -195,4 +256,8 @@ val WidgetContent.type: WidgetType
         is VideoContent -> WidgetType.VIDEO
         is CalendarContent -> WidgetType.CALENDAR
         is QuoteContent -> WidgetType.QUOTE
+        is BatteryContent -> WidgetType.BATTERY
+        is CountdownContent -> WidgetType.COUNTDOWN
+        is NoteContent -> WidgetType.NOTE
+        is PanelContent -> WidgetType.PANEL
     }

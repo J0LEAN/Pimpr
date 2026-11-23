@@ -151,3 +151,21 @@ fun HomeScreenRemoteViews() = Shot {
         )
     }
 }
+
+@PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
+fun Wallpapers() = Shot(tab = "walls") { com.pimpr.app.ui.walls.WallpapersScreen(com.pimpr.app.ui.walls.wallsOf(Themes.all), { _, _ -> }, {}, {}) }
+
+@PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
+fun WallMaker() = Shot {
+    val backdrops = com.pimpr.app.ui.walls.PlainBackdrops + Themes.all.map { it.home }
+    com.pimpr.app.ui.walls.WallMakerScreen(
+        com.pimpr.app.render.WallDesign(backdrop = backdrops[1], photos = listOf("res:th_cerise_w1", "res:th_cerise_w3"), text = "Nous deux", textColor = 0xFF7A2E3A.toInt()),
+        backdrops, {}, {}, {}, {},
+    )
+}
+
+@PreviewTest @Preview(widthDp = 412, heightDp = 915) @Composable
+fun EditorCountdown() = Shot { EditorScreen(defaultDesign(WidgetType.COUNTDOWN).copy(id = "x"), {}, EditorActions()) }
+
+@PreviewTest @Preview(widthDp = 412, heightDp = 1100) @Composable
+fun EditorNote() = Shot { EditorScreen(defaultDesign(WidgetType.NOTE).copy(id = "x"), {}, EditorActions()) }
