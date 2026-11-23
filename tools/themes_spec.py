@@ -156,8 +156,8 @@ THEMES = [
     t("pixel-foret", "Forêt pixel", "Sous-bois en parallaxe, façon jeu de plateforme", "GAMING",
       "nouveauté pixel art jeu rétro gaming forêt nature vert plateforme 16-bit", "silkscreen",
       "Niveau 1-1.", quoteFont="silkscreen", recipe=2, pixel=True, corner=0.12, tile="ROUNDED"),
-    t("tarot", "Tarot", "Arcanes dorés et cartes anciennes", "GAMING",
-      "nouveauté tarot cartes jeu mystique or arcane divination vintage sorcière", "marcellus",
+    t("tarot", "Cartes de cour", "Rois et reines peints d'un jeu du XVe siècle", "GAMING",
+      "nouveauté cartes jeu roi reine or médiéval vintage mystique noir", "marcellus",
       "Tire une carte.", quoteFont="playfair", ornament="auto_awesome", recipe=4, corner=0.2, tile="ROUNDED"),
 
     # ------------------------------------------------------------ Cosmos
