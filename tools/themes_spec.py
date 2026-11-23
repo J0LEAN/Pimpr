@@ -140,7 +140,7 @@ THEMES = [
       "art nouveau mucha affiche fleurs femme ocre vintage rose", "abril",
       "L'art existe pour dire l'âme.", quoteFont="playfair", recipe=2, tile="CIRCLE",
       wfocus={"w1": (0.5, 0.18), "w2": (0.5, 0.2), "w3": (0.5, 0.18), "w4": (0.5, 0.2)}),
-    t("klimt-or", "Or", "Feuille d'or, mosaïques et arabesques", "ART",
-      "art or doré klimt mosaïque luxe noir motif", "abril",
+    t("klimt-or", "Laque d'or", "Laques japonaises et paravents à la feuille d'or", "ART",
+      "art or doré laque japon paravent luxe noir motif", "abril",
       "Tout ce qui brille.", quoteFont="playfair", recipe=3),
 ]
