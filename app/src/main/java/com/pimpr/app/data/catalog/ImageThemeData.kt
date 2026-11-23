@@ -123,7 +123,7 @@ internal val ImageThemeRows: List<ImageThemeRow> = listOf(
     ImageThemeRow(
         "fraises", "Fraises", "Fraises des bois et feuilles dentelées", ThemeCategory.NATURE,
         "nouveauté fraises fruit rouge vert botanique été gourmand cottagecore",
-        dark = false, lockLight = false,
+        dark = false, lockLight = true,
         card = 0xC6382F, onCard = 0xFAF0F0, card2 = 0xF6EAEA, onCard2 = 0x621D18, accent = 0x4F7A35,
         tiles = listOf(0xC6382F, 0xD67069, 0xA22E27, 0xF6EAEA),
         font = "pacifico", quoteFont = "caveat", recipe = 3,

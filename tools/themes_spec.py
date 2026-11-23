@@ -53,7 +53,7 @@ THEMES = [
     t("fraises", "Fraises", "Fraises des bois et feuilles dentelées", "NATURE",
       "nouveauté fraises fruit rouge vert botanique été gourmand cottagecore", "pacifico",
       "Un été dans une barquette.", quoteFont="caveat", ornament="favorite", recipe=3,
-      dark=False, lockLight=False, main=0xC8372D, accent=0x4F7A35),
+      dark=False, lockLight=True, main=0xC8372D, accent=0x4F7A35),
     t("coquelicots", "Coquelicots", "Les prés fleuris des impressionnistes", "NATURE",
       "nouveauté coquelicots champ fleurs impressionnisme monet rouge vert été prairie", "marcellus",
       "Va où les fleurs poussent.", quoteFont="playfair", ornament="local_florist", recipe=2),
@@ -158,7 +158,8 @@ THEMES = [
       "Niveau 1-1.", quoteFont="silkscreen", recipe=2, pixel=True, corner=0.12, tile="ROUNDED"),
     t("tarot", "Cartes de cour", "Rois et reines peints d'un jeu du XVe siècle", "GAMING",
       "nouveauté cartes jeu roi reine or médiéval vintage mystique noir", "marcellus",
-      "Tire une carte.", quoteFont="playfair", ornament="auto_awesome", recipe=4, corner=0.2, tile="ROUNDED"),
+      "Tire une carte.", quoteFont="playfair", ornament="auto_awesome", recipe=4, corner=0.2, tile="ROUNDED",
+      wfocus={"w1": (0.5, 0.12), "w2": (0.5, 0.12), "w3": (0.5, 0.12), "w4": (0.5, 0.12)}),
 
     # ------------------------------------------------------------ Cosmos
     t("nebuleuse", "Nébuleuse", "Nuages d'étoiles vus par les télescopes de la NASA", "COSMOS",

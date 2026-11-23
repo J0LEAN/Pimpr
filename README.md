@@ -18,12 +18,13 @@ Quelques thèmes, écran de verrouillage puis écran d'accueil :
 
 ## Ce que fait l'app
 
-**Bibliothèque de thèmes.** 61 thèmes rangés en douze catégories : Esthétique, Nature et
+**Bibliothèque de thèmes.** 76 thèmes rangés en douze catégories : Esthétique, Nature et
 fleurs, Paysages, Animaux, Mignon, Anime et Japon, Gaming, Cosmos, Art, Pastel, Minimal,
-Néon et rétro. 36 d'entre eux reposent sur des images du domaine public (tableaux,
+Néon et rétro. 51 d'entre eux reposent sur des images du domaine public (tableaux,
 estampes, photos de la NASA et des parcs nationaux, pixel art) ; les 25 autres sont
 dessinés par le code. Chaque thème réunit un fond de verrouillage, un fond d'accueil
-assorti, un pack d'icônes et, pour les thèmes à images, vingt-six widgets déjà réglés.
+assorti, un pack d'icônes et, pour les thèmes à images, une trentaine de widgets déjà réglés. Un thème différent est mis
+à la une chaque jour, et les derniers arrivés ont leur rangée « Nouveautés ».
 
 **Recherche.** Un champ en haut de la bibliothèque cherche dans les noms, les catégories
 et les mots-clés (« japon », « pixel nuit », « rose »…), sans tenir compte des accents.
@@ -152,7 +153,7 @@ Kotlin et Jetpack Compose, un seul module `app`.
 - **Fond du jour.** Le changement est vérifié toutes les six heures : le nouveau fond
   arrive dans la matinée plutôt qu'à minuit pile.
 - **Météo.** Une ville se choisit par recherche ; l'app n'utilise pas la localisation.
-- **Poids.** Les images des thèmes portent l'APK à environ 38 Mo.
+- **Poids.** Les images des thèmes portent l'APK à environ 50 Mo.
 - **Langue.** L'interface est en français uniquement.
 - **Signature.** Les builds sont signés avec la clé de test du dossier `keystore/`,
   publique par nature : elle sert à installer et mettre à jour des builds de test, pas à
