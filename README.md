@@ -34,8 +34,14 @@ Les mots-clés d'un thème se touchent pour relancer la recherche.
 proposé à l'écran d'accueil. Le bouton de réglage à côté l'ouvre dans l'éditeur si on
 veut le changer.
 
-**Packs d'icônes.** 47 packs : un par thème à images, plus onze styles indépendants. On
-choisit un pack, on coche ses applis, et Pimpr pose les icônes sur l'écran d'accueil :
+**Installation guidée.** « Installer le thème » déroule trois étapes : le fond d'écran,
+les trois widgets phares, puis les icônes. Android demande de confirmer chaque widget et
+chaque icône, c'est lui qui les pose.
+
+**Packs d'icônes.** Deux packs par thème à images, plus onze styles indépendants : un pack
+aux tuiles unies, et une version « illustrée » dont chaque tuile est taillée dans une
+image du thème. On choisit un pack, on coche ses applis, et Pimpr pose les icônes sur
+l'écran d'accueil :
 
 - en **widget 1 × 1**, qui garde la forme exacte du pack ;
 - ou en **raccourci** classique.
@@ -45,26 +51,34 @@ leur logo aux couleurs du pack ; les autres ont un pictogramme générique ou ga
 icône d'origine, posée sur la tuile du pack.
 
 **Fonds d'écran.** Un onglet à part : tous les fonds des thèmes, filtrables par catégorie,
-à poser sur l'accueil, le verrouillage ou les deux. Et un créateur de fond : tes photos en
-polaroïds, en mosaïque, en pellicule, en cœur ou en plein écran, sur le décor de ton choix,
-avec un mot en bas et un filtre.
+à poser sur l'accueil, le verrouillage ou les deux. « Un nouveau fond chaque jour » fait
+tourner le catalogue, ou une seule catégorie, sans rien demander. Et un créateur de fond :
+tes photos en polaroïds, en mosaïque, en pellicule, en cœur ou en plein écran, sur le
+décor de ton choix (couleur libre ou image d'un thème), avec un mot en bas et un filtre.
 
-**Atelier de widgets.** Dix types : horloge (chiffres, empilée, volets, aiguilles), météo,
-photo (seule, diaporama ou mur de photos), vidéo, calendrier, texte, compte à rebours,
-batterie, pense-bête à cocher, tableau de bord (heure, batterie, stockage, avancée du
-jour et de l'année). Plus de mille modèles, filtrables par type. Pour
-chacun :
+**Atelier de widgets.** Douze types :
+
+- **horloge** : chiffres, empilée, à volets ou à aiguilles, fuseau horaire au choix ;
+- **météo** : compacte, détaillée ou avec prévisions ;
+- **photo** : seule, en diaporama, ou en mur de photos (polaroïds, mosaïque, pellicule, cœur) ;
+- **vidéo** : une courte boucle animée ;
+- **calendrier** : le jour ou le mois ;
+- **texte** : une citation à soi, ou une phrase différente chaque jour ;
+- **compte à rebours** : jours restants avant une date, ou écoulés depuis ;
+- **batterie** : anneau, jauge ou petite batterie à frimousse ;
+- **pense-bête** : liste à cocher ou note libre ;
+- **tableau de bord** : heure, batterie, stockage, avancée du jour et de l'année ;
+- **musique** : précédent, lecture ou pause, suivant, pour le lecteur en cours ;
+- **lune** : la phase de ce soir.
+
+Les modèles tirés des thèmes se filtrent par type. Pour chaque widget :
 
 - **5 formats** : 2 × 2, 4 × 2, 4 × 4, 4 × 1, 2 × 4 (et redimensionnables ensuite) ;
-- **6 formes** : coins arrondis réglables de l'angle droit à la pilule, squircle, pilule,
-  arche, feuille, fleur ;
+- **10 formes** : coins arrondis réglables de l'angle droit à la pilule, squircle, pilule,
+  arche, feuille, fleur, cœur, nuage, hexagone, ticket ;
 - **fond** uni, dégradé (couleurs et direction), image ou transparent, avec opacité ;
 - **contour, ombre, marge intérieure** ;
-- **12 polices**, couleurs libres (palette ou teinte/saturation/luminosité), taille du texte ;
-- réglages propres à chaque type : horloge en chiffres, empilée ou à aiguilles, fuseau
-  horaire ; météo compacte, détaillée ou avec prévisions ; photo avec zoom, cadrage,
-  filtres, diaporama et légende ; vidéo en boucle animée ; calendrier du jour ou du mois ;
-  texte libre avec ornement ;
+- **20 polices**, couleurs libres (palette ou teinte/saturation/luminosité), taille du texte ;
 - ce qui se passe quand on touche le widget (ouvrir Pimpr, une appli, ou rien).
 
 L'aperçu de l'éditeur est posé sur un fond gris neutre, qu'on peut passer en clair ou en
@@ -131,6 +145,12 @@ Kotlin et Jetpack Compose, un seul module `app`.
   demande une confirmation pour chacun.
 - **Heure.** Pour une horloge juste à la minute, il faut accorder l'autorisation
   « alarmes exactes » (l'app le propose). Sans elle, l'heure peut afficher un peu de retard.
+- **Musique.** Les trois boutons envoient les touches multimédia au lecteur en cours.
+  Le widget n'affiche pas le titre joué : il faudrait l'accès aux notifications, que
+  Pimpr ne demande pas.
+- **Batterie.** Le niveau est relu toutes les cinq minutes environ, pas en continu.
+- **Fond du jour.** Le changement est vérifié toutes les six heures : le nouveau fond
+  arrive dans la matinée plutôt qu'à minuit pile.
 - **Météo.** Une ville se choisit par recherche ; l'app n'utilise pas la localisation.
 - **Poids.** Les images des thèmes portent l'APK à environ 38 Mo.
 - **Langue.** L'interface est en français uniquement.

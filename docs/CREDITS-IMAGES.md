@@ -50,6 +50,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Pink Roses, American 19th Century, fourth quarter 19th century, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.42505.html>
 - Madame du Barry, Élisabeth Louise Vigée Le Brun, 1782, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.172073.html>
 
+## L'heure du thé
+
+- The Cup of Tea, Mary Cassatt, c. 1880–81, The Metropolitan Museum of Art (Open Access, via Wikimedia Commons), CC0 — <https://commons.wikimedia.org/wiki/File:The_Cup_of_Tea_MET_DT88.jpg>
+- The Chocolate Girl, Jean-Étienne Liotard, c. 1744–45, Gemäldegalerie Alte Meister, Dresden (via Wikimedia Commons, PD-Art), Public domain — <https://commons.wikimedia.org/wiki/File:Jean-Etienne_Liotard_-_The_Chocolate_Girl_-_Google_Art_Project.jpg>
+- Still Life with Silver Cake Basket, John F. Francis, 1866, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.178114.html>
+- Still Life: Tea Set, Jean-Étienne Liotard, c. 1781–83, J. Paul Getty Museum (via Wikimedia Commons, PD-Art), Public domain — <https://commons.wikimedia.org/wiki/File:Liotard,_Jean-%C3%89tienne_-_Still_Life-_Tea_Set_-_Google_Art_Project.jpg>
+- Still Life with Cake, Lemon, Strawberries, and Glass, John Frederick Peto, 1890, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.164947.html>
+
 ## Herbier
 
 - Crown Imperial Fritillary, Henri Joseph Redouté, 1827, Cleveland Museum of Art, CC0 — <https://clevelandart.org/art/1939.287>
@@ -81,6 +89,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Atlas des champignons comestibles et vénéneux — Planche 29 : Russula rubra (détail), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n146/mode/1up>
 - Atlas des champignons comestibles et vénéneux — Planche 27 : Russula xerampelina var. alutacea (détail), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n142/mode/1up>
 - Atlas des champignons comestibles et vénéneux — Planche 6 : Amanita vaginata, Lepiota procera, Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n100/mode/1up>
+
+## Coquelicots
+
+- Poppies, Isles of Shoals, Childe Hassam, 1891, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.103172.html>
+- Meadow, Alfred Sisley, 1875, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.52227.html>
+- Poppy Field (Giverny), Claude Monet, 1890–91, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/4783>
+- Green Wheat Fields, Auvers, Vincent van Gogh, 1890, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.163323.html>
+- Picking Flowers, Auguste Renoir, 1875, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.52205.html>
 
 ## Jungle
 
@@ -177,6 +193,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Heron at full moon (Reiger bij volle maan), Ohara Koson (1877-1945), 1900-1930, Rijksmuseum, via Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Reiger_bij_volle_maan%2C_RP-P-1999-462.jpg>
 - Two ducks at full moon (Twee eenden bij volle maan), Ohara Koson (1877-1945), 1900-1930, Rijksmuseum, via Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Twee_eenden_bij_volle_maan%2C_RP-P-1999-520.jpg>
 
+## Carpes koï
+
+- Carp, Katsushika Taito II, c. 1830/44, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/7610>
+- Red Carp Ascending a Waterfall, Yashima Gakutei, late 1820s, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP139052), CC0 — <https://www.metmuseum.org/art/collection/search/54158>
+- Two carp (Twee karpers), RP-P-1999-499, Ohara Koson, 1900-1930, Rijksmuseum / Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Twee_karpers,_RP-P-1999-499.jpg>
+- Carp (Karper), RP-P-1961-152, Ohara Koson, 1900-1930, Rijksmuseum / Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Karper,_RP-P-1961-152.jpg>
+- Kurodai and Kodai Fish with Bamboo Shoots and Berries, from the series Uozukushi (Every Variety of Fish), Utagawa Hiroshige, 1830s, The Metropolitan Museum of Art (file via Wikimedia Commons, MET DP123580), CC0 — <https://www.metmuseum.org/art/collection/search/55902>
+
 ## Chats farfelus
 
 - Psychedelic cat, Louis Wain (1860-1939), c. 1925-1939, Wikimedia Commons, Public domain — <https://commons.wikimedia.org/wiki/File:L._Wain%27s_psychedelic_cat.jpg>
@@ -200,6 +224,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Pile of pink and green meringue candies, Bigul Malayi, 2025, WordPress Photo Directory, CC0 — <https://wordpress.org/photos/photo/86567d7280/>
 - Food - ice cream, www.Pixel.la Free Stock Photos, 2015, Wikimedia Commons (via Flickr), CC0 — <https://commons.wikimedia.org/wiki/File:Food-ice-cream_(24244079871).jpg>
 - Strawberry Cake, Kcdtsg (David), English Wikipedia, 2009, Wikimedia Commons, Public domain — <https://commons.wikimedia.org/wiki/File:Strawberry_Cake.JPG>
+
+## Chiots
+
+- A King Charles Spaniel, Edouard Manet, c. 1866, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.52180.html>
+- Head of a Dog, Auguste Renoir, 1870, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.52201.html>
+- Tama, the Japanese Dog, Edouard Manet, c. 1875, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.92997.html>
+- White Poodle in a Punt, George Stubbs, c. 1780, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.110281.html>
+- The Artist's Dog Flèche, Henri de Toulouse-Lautrec, c. 1881, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.52228.html>
 
 ## Grande vague
 
