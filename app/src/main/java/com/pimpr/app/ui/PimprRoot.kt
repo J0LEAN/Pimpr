@@ -98,6 +98,8 @@ import com.pimpr.app.ui.studio.EditorScreen
 import com.pimpr.app.ui.studio.StudioScreen
 import com.pimpr.app.ui.studio.Template
 import com.pimpr.app.widget.Pinner
+import com.pimpr.app.widget.WallRotation
+import com.pimpr.app.services
 import com.pimpr.app.widget.Schedules
 import com.pimpr.app.widget.WidgetUpdater
 import kotlinx.coroutines.Dispatchers
@@ -248,8 +250,18 @@ private val Walls by lazy { wallsOf(Themes.all) }
 private fun WallsRoute(nav: NavHostController) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val rotation by context.services.prefs.wallRotation.collectAsStateWithLifecycle()
     WallpapersScreen(
         walls = Walls,
+        rotation = rotation,
+        onRotation = { key ->
+            context.services.prefs.setWallRotation(key)
+            WallRotation.ensure(context)
+            if (key != null) scope.launch {
+                val ok = withContext(Dispatchers.Default) { WallRotation.apply(context, force = true) }
+                toast(context, if (ok) "Fond du jour appliqué. Il changera demain." else WALL_KO)
+            }
+        },
         onApply = { wall, target ->
             scope.launch {
                 val ok = withContext(Dispatchers.Default) { runCatching { setWallpaper(context, target) { _, w, h -> WallpaperPainter.render(wall.spec, w, h) } }.isSuccess }
@@ -331,6 +343,7 @@ private fun ThemeRoute(services: Services, nav: NavHostController, theme: Theme,
             nav.navigate("editor/${copy.id}")
         },
         onOpenPack = { nav.navigate("pack/${theme.iconPack}") },
+        onOpenPhotoPack = "p-${theme.id}".takeIf { id -> IconPacks.all.any { it.id == id } }?.let { id -> { nav.navigate("pack/$id") } },
     )
 }
 

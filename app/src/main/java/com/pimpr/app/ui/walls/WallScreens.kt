@@ -129,6 +129,9 @@ fun WallpapersScreen(
     onCreate: () -> Unit,
     modifier: Modifier = Modifier,
     bottomPadding: Dp = 110.dp,
+    /** Rotation quotidienne en cours : null, « ALL » ou un nom de catégorie. */
+    rotation: String? = null,
+    onRotation: (String?) -> Unit = {},
 ) {
     var category by rememberSaveable { mutableStateOf<ThemeCategory?>(null) }
     var picked by remember { mutableStateOf<Wall?>(null) }
@@ -161,6 +164,13 @@ fun WallpapersScreen(
                     }
                     PimprIcon("chevron_right", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
+                val scope = category?.name ?: "ALL"
+                val current = ThemeCategory.entries.firstOrNull { it.name == rotation }?.label ?: "tout le catalogue"
+                com.pimpr.app.ui.components.SwitchRow(
+                    "Un nouveau fond chaque jour", rotation != null, { on -> onRotation(if (on) scope else null) },
+                    Modifier.padding(top = 10.dp).clip(RoundedCornerShape(28.dp)).background(MaterialTheme.colorScheme.surface).padding(vertical = 6.dp),
+                    hint = if (rotation != null) "Pioché dans : $current" else "Choisis d'abord une catégorie ci-dessous, ou laisse « Tous »",
+                )
             }
         }
         item(span = { GridItemSpan(3) }) {

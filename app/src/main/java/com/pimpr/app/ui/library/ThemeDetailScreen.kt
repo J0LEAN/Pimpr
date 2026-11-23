@@ -72,6 +72,8 @@ fun ThemeDetailScreen(
     onOpenPack: () -> Unit,
     modifier: Modifier = Modifier,
     applying: Boolean = false,
+    /** Ouvre la variante illustrée du pack, quand le thème en a une. */
+    onOpenPhotoPack: (() -> Unit)? = null,
 ) {
     var choosing by remember { mutableStateOf(false) }
     var installing by remember { mutableStateOf(false) }
@@ -127,6 +129,17 @@ fun ThemeDetailScreen(
                 Column(Modifier.weight(1f).padding(start = 14.dp)) {
                     Text("Pack ${pack.name}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
                     Text(pack.tagline, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                PimprIcon("chevron_right", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            if (onOpenPhotoPack != null) Row(
+                Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp).fillMaxWidth().clip(RoundedCornerShape(24.dp))
+                    .background(MaterialTheme.colorScheme.surface).clickable(role = Role.Button, onClick = onOpenPhotoPack).padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("Version illustrée", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface)
+                    Text("Des tuiles taillées dans les images du thème", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 PimprIcon("chevron_right", tint = MaterialTheme.colorScheme.onSurfaceVariant)
             }

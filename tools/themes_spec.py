@@ -29,10 +29,11 @@ THEMES = [
       "Bonjour, toi.", quoteFont="caveat", ornament="favorite", recipe=3, home="veil", main=0xC78C9E, accent=0x8E5A6B),
 
     t("rubans", "Rubans", "Rose poudré, soie et nœuds de satin", "AESTHETIC",
-      "nouveau coquette rose ruban nœud dentelle soie roses rococo girly poudré", "sacramento",
-      "Douce, mais pas fragile.", quoteFont="sacramento", ornament="favorite", recipe=1, tile="FLOWER"),
+      "nouveauté coquette rose ruban nœud dentelle soie roses rococo girly poudré", "dmserif",
+      "Douce, mais pas fragile.", quoteFont="sacramento", ornament="favorite", recipe=1, tile="FLOWER",
+      dark=False, lockLight=False, main=0xD49AA5, accent=0x9C4F5C),
     t("gouter", "L'heure du thé", "Porcelaine, gâteaux et lumière d'après-midi", "AESTHETIC",
-      "nouveau thé goûter gâteau porcelaine pâtisserie crème cosy gourmand vintage", "dmserif",
+      "nouveauté thé goûter gâteau porcelaine pâtisserie crème cosy gourmand vintage", "dmserif",
       "Une tasse, et tout s'arrange.", quoteFont="playfair", recipe=4),
 
     # ------------------------------------------------------------ Nature et fleurs
@@ -47,16 +48,16 @@ THEMES = [
       "Deviens ce que tu es.", quoteFont="playfair", recipe=4),
 
     t("champignons", "Champignons", "Planches de mycologue, chapeaux rouges et sous-bois", "NATURE",
-      "nouveau champignons forêt cottagecore planche vintage automne rouge sous-bois", "amatic",
-      "Petit à petit, sous la mousse.", quoteFont="amatic", recipe=0),
+      "nouveauté champignons forêt cottagecore planche vintage automne rouge sous-bois", "dmserif",
+      "Petit à petit, sous la mousse.", quoteFont="caveat", recipe=0, lockLight=False, main=0xC8442B, accent=0x7A2A1B),
     t("fraises", "Fraises", "Fraises des bois et feuilles dentelées", "NATURE",
-      "nouveau fraises fruit rouge vert botanique été gourmand cottagecore", "pacifico",
+      "nouveauté fraises fruit rouge vert botanique été gourmand cottagecore", "pacifico",
       "Un été dans une barquette.", quoteFont="caveat", ornament="favorite", recipe=3),
     t("coquelicots", "Coquelicots", "Les prés fleuris des impressionnistes", "NATURE",
-      "nouveau coquelicots champ fleurs impressionnisme monet rouge vert été prairie", "marcellus",
+      "nouveauté coquelicots champ fleurs impressionnisme monet rouge vert été prairie", "marcellus",
       "Va où les fleurs poussent.", quoteFont="playfair", ornament="local_florist", recipe=2),
     t("tropical", "Jungle", "Feuillages géants, perroquets et orchidées", "NATURE",
-      "nouveau jungle tropical feuilles perroquet palmier vert exotique rousseau orchidée", "righteous",
+      "nouveauté jungle tropical feuilles perroquet palmier vert exotique rousseau orchidée", "righteous",
       "Sauvage et bien enraciné.", quoteFont="figtree", recipe=1),
 
     # ------------------------------------------------------------ Paysages
@@ -74,10 +75,10 @@ THEMES = [
       "Regarde en l'air.", quoteFont="figtree", recipe=1),
 
     t("ocean", "Grand large", "Houle, écume et ciels de tempête", "LANDSCAPE",
-      "nouveau océan mer vagues tempête bleu marine écume peinture large", "marcellus",
+      "nouveauté océan mer vagues tempête bleu marine écume peinture large", "marcellus",
       "La mer ne s'excuse jamais.", quoteFont="playfair", recipe=1),
     t("hiver", "Neige", "Chemins blancs et lumière d'hiver", "LANDSCAPE",
-      "nouveau hiver neige blanc froid paysage impressionnisme noël calme gris", "dmserif",
+      "nouveauté hiver neige blanc froid paysage impressionnisme noël calme gris", "dmserif",
       "Le silence a neigé cette nuit.", quoteFont="playfair", recipe=4),
 
     # ------------------------------------------------------------ Animaux
@@ -98,7 +99,7 @@ THEMES = [
       "Le silence a des ailes.", quoteFont="playfair", recipe=3),
 
     t("carpes", "Carpes koï", "Poissons d'estampe entre deux eaux", "ANIMALS",
-      "nouveau carpe koï poisson japon estampe eau orange bleu zen animaux", "marcellus",
+      "nouveauté carpe koï poisson japon estampe eau orange bleu zen animaux", "marcellus",
       "Remonte le courant.", quoteFont="playfair", recipe=2),
 
     # ------------------------------------------------------------ Mignon
@@ -113,7 +114,7 @@ THEMES = [
       "La vie en rose dragée.", quoteFont="caveat", ornament="favorite", recipe=3, tile="FLOWER"),
 
     t("chiots", "Chiots", "Truffes humides et regards qui fondent", "CUTE",
-      "nouveau chien chiot animaux mignon peinture vintage doux truffe kawaii", "fredoka",
+      "nouveauté chien chiot animaux mignon peinture vintage doux truffe kawaii", "fredoka",
       "Toujours content de te voir.", quoteFont="caveat", ornament="pets", recipe=0, tile="CIRCLE"),
 
     # ------------------------------------------------------------ Anime et Japon
@@ -131,10 +132,10 @@ THEMES = [
       "La ville ne dort pas, moi non plus.", quoteFont="spacemono", recipe=2, main=0x3A2A5C, accent=0x55CCE7),
 
     t("fuji", "Mont Fuji", "Les trente-six vues, du rouge au bleu de Prusse", "JAPAN",
-      "nouveau japon fuji hokusai hiroshige estampe montagne bleu rouge ukiyo-e", "dmserif",
+      "nouveauté japon fuji hokusai hiroshige estampe montagne bleu rouge ukiyo-e", "dmserif",
       "Même le Fuji se gravit pas à pas.", quoteFont="playfair", recipe=3),
     t("kimono", "Kimono", "Belles d'Edo et soies à motifs", "JAPAN",
-      "nouveau japon kimono estampe utamaro geisha motif rouge indigo ukiyo-e", "marcellus",
+      "nouveauté japon kimono estampe utamaro geisha motif rouge indigo ukiyo-e", "marcellus",
       "L'élégance est un silence.", quoteFont="playfair", recipe=0),
 
     # ------------------------------------------------------------ Gaming
@@ -152,10 +153,10 @@ THEMES = [
       "GG WP.", quoteFont="orbitron", recipe=4, tile="ROUNDED"),
 
     t("pixel-foret", "Forêt pixel", "Sous-bois en parallaxe, façon jeu de plateforme", "GAMING",
-      "nouveau pixel art jeu rétro gaming forêt nature vert plateforme 16-bit", "silkscreen",
+      "nouveauté pixel art jeu rétro gaming forêt nature vert plateforme 16-bit", "silkscreen",
       "Niveau 1-1.", quoteFont="silkscreen", recipe=2, pixel=True, corner=0.12, tile="ROUNDED"),
     t("tarot", "Tarot", "Arcanes dorés et cartes anciennes", "GAMING",
-      "nouveau tarot cartes jeu mystique or arcane divination vintage sorcière", "marcellus",
+      "nouveauté tarot cartes jeu mystique or arcane divination vintage sorcière", "marcellus",
       "Tire une carte.", quoteFont="playfair", ornament="auto_awesome", recipe=4, corner=0.2, tile="ROUNDED"),
 
     # ------------------------------------------------------------ Cosmos
@@ -170,7 +171,7 @@ THEMES = [
       "Lève les yeux.", quoteFont="playfair", recipe=3),
 
     t("lune", "Lune", "Cratères, croissants et lever de Terre", "COSMOS",
-      "nouveau lune espace nasa noir gris argent cratère nuit cosmos apollo", "bungee",
+      "nouveauté lune espace nasa noir gris argent cratère nuit cosmos apollo", "bungee",
       "Décroche-la.", quoteFont="figtree", ornament="bedtime", recipe=0, dark=True),
 
     # ------------------------------------------------------------ Art

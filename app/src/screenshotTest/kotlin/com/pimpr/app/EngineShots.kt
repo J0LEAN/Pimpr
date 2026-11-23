@@ -52,7 +52,7 @@ private fun screens(ctx: Context, themes: List<Theme>, lock: Boolean): Bitmap {
 
 /** Verrouillage et accueil côte à côte, six thèmes à images par planche. */
 private fun pairs(ctx: Context, page: Int): Bitmap {
-    val themes = ImageThemes.themes.drop(page * 6).take(6)
+    val themes = (if (page < 0) ImageThemes.themes.filter { "nouveauté" in it.tags }.drop((-page - 1) * 6) else ImageThemes.themes.drop(page * 6)).take(6)
     val cw = 324; val ch = 702; val gap = 12
     val sheet = Bitmap.createBitmap(6 * (cw + gap) + gap, 2 * (ch + gap) + gap, Bitmap.Config.ARGB_8888)
     val c = Canvas(sheet)
@@ -155,3 +155,12 @@ fun PhotoPackSheet() = Sheet { ctx ->
     }
     sheet
 }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun NewThemes1() = Sheet { pairs(it, -1) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun NewThemes2() = Sheet { pairs(it, -2) }
+
+@PreviewTest @Preview(widthDp = 1014, heightDp = 720) @Composable
+fun NewThemes3() = Sheet { pairs(it, -3) }

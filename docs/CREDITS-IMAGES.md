@@ -42,6 +42,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Cherry blossoms on the Washington Monument grounds, NPS / Victoria Stauffenberg, n.d., U.S. National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:Cherry_blossoms_on_the_Washington_Monument_grounds_%28d0764e20-4842-412b-87ed-268abf95ab33%29.jpg>
 - Cherry blossoms on the Washington Monument grounds, NPS / Victoria Stauffenberg, n.d., U.S. National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:Cherry_blossoms_on_the_Washington_Monument_grounds_%28d9a586be-c9c2-40e7-9d5e-544a97ae7235%29.jpg>
 
+## Rubans
+
+- Textile (printed cotton with rose bouquets and pink ribbons), Unknown (England), late 19th century, Cooper Hewitt, Smithsonian Design Museum (Smithsonian Open Access), CC0 — <https://collection.cooperhewitt.org/view/objects/asitem/id/102373>
+- Peonies, Berthe Morisot, c. 1869, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.89682.html>
+- Woman at Her Toilette, Berthe Morisot, 1875–80, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/11723>
+- Pink Roses, American 19th Century, fourth quarter 19th century, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.42505.html>
+- Madame du Barry, Élisabeth Louise Vigée Le Brun, 1782, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.172073.html>
+
 ## Herbier
 
 - Crown Imperial Fritillary, Henri Joseph Redouté, 1827, Cleveland Museum of Art, CC0 — <https://clevelandart.org/art/1939.287>
@@ -65,6 +73,22 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Illustrations of New Species of Exotic Butterflies, vol. 1, planche (page scan n79), rognée, William Chapman Hewitson (1806-1878), 1856, Smithsonian Libraries / Biodiversity Heritage Library (via Internet Archive), Public domain — <https://archive.org/details/illustrationsofn01hewi/page/n79/mode/1up>
 - Illustrations of New Species of Exotic Butterflies, vol. 1, planche (page scan n33), rognée, William Chapman Hewitson (1806-1878), 1856, Smithsonian Libraries / Biodiversity Heritage Library (via Internet Archive), Public domain — <https://archive.org/details/illustrationsofn01hewi/page/n33/mode/1up>
 - Illustrations of New Species of Exotic Butterflies, vol. 1, planche (page scan n67), rognée, William Chapman Hewitson (1806-1878), 1856, Smithsonian Libraries / Biodiversity Heritage Library (via Internet Archive), Public domain — <https://archive.org/details/illustrationsofn01hewi/page/n67/mode/1up>
+
+## Champignons
+
+- Atlas des champignons comestibles et vénéneux — Planche 3 : Amanita muscaria (amanite tue-mouches), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n94/mode/1up>
+- Atlas des champignons comestibles et vénéneux — Planche 2 : Amanita caesarea (amanite des Césars), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n92/mode/1up>
+- Atlas des champignons comestibles et vénéneux — Planche 29 : Russula rubra (détail), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n146/mode/1up>
+- Atlas des champignons comestibles et vénéneux — Planche 27 : Russula xerampelina var. alutacea (détail), Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n142/mode/1up>
+- Atlas des champignons comestibles et vénéneux — Planche 6 : Amanita vaginata, Lepiota procera, Léon Dufour (1861–1942), 1891, New York Botanical Garden, LuEsther T. Mertz Library / Biodiversity Heritage Library (via Internet Archive; NOT_IN_COPYRIGHT), Public domain — <https://archive.org/details/atlasdeschampign00dufo/page/n100/mode/1up>
+
+## Jungle
+
+- The Equatorial Jungle, Henri Rousseau, 1909, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.46688.html>
+- Tropical Forest with Monkeys, Henri Rousseau, 1910, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.61253.html>
+- Fight Between a Tiger and a Buffalo, Henri Rousseau, 1908, Cleveland Museum of Art, CC0 — <https://clevelandart.org/art/1949.186>
+- Cattleya Orchid and Three Hummingbirds, Martin Johnson Heade, 1871, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.61244.html>
+- Hummingbird and Passionflowers, Martin Johnson Heade, ca. 1875–85, The Metropolitan Museum of Art (fichier via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Hummingbird_and_Passionflowers_MET_DT2080.jpg), CC0 — <https://www.metmuseum.org/art/collection/search/11052>
 
 ## Sommets
 
@@ -96,6 +120,22 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Aurora above a cabin at Coal Creek Camp, Yukon-Charley Rivers National Preserve, DevDharm Khalsa / National Park Service, 2016, National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:2016_Yukon_Quest_in_Yukon-Charley_-_Slaven%27s_Roadhouse_%2826806138860%29.jpg>
 - Aurora borealis, Upper Geyser Basin, Yellowstone National Park, Neal Herbert / National Park Service, 2017, National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:Aurora_borealis%2C_Upper_Geyser_Basin_%2834591364380%29.jpg>
 - Aurora over Yakutat, Tongass National Forest, Samantha Lobdell / USDA Forest Service, 2023, USDA Forest Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:20230226-FS-SL-Tongass-Aurora-0003_%2853317335320%29.jpg>
+
+## Grand large
+
+- Northeaster, Winslow Homer, 1895; reworked by 1901, The Metropolitan Museum of Art (fichier via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Northeaster_MET_DT1545.jpg), CC0 — <https://www.metmuseum.org/art/collection/search/11130>
+- Cannon Rock, Winslow Homer, 1895, The Metropolitan Museum of Art (fichier via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Cannon_Rock_MET_ap06.1281.jpg), CC0 — <https://www.metmuseum.org/art/collection/search/11113>
+- Maine Coast, Winslow Homer, 1896, The Metropolitan Museum of Art (fichier via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:Maine_Coast_MET_DT260497.jpg), CC0 — <https://www.metmuseum.org/art/collection/search/11126>
+- Seascape, Pierre-Auguste Renoir, 1879, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/81557>
+- A Rocky Coast, William Trost Richards, 1877, The Metropolitan Museum of Art (fichier via Wikimedia Commons: https://commons.wikimedia.org/wiki/File:A_Rocky_Coast_MET_CT_29509.jpg), CC0 — <https://www.metmuseum.org/art/collection/search/11907>
+
+## Neige
+
+- Sandvika, Norway, Claude Monet, 1895, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/86998>
+- First Snow at Veneux-Nadon, Alfred Sisley, 1878, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.62641.html>
+- Icebound, John Henry Twachtman, c. 1889, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/72801>
+- Rabbit Warren at Pontoise, Snow, Camille Pissarro, 1879, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/20530>
+- Winter Harmony, John Henry Twachtman, c. 1890/1900, National Gallery of Art, Washington, CC0 — <https://www.nga.gov/collection/art-object-page.50257.html>
 
 ## Renard
 
@@ -193,6 +233,22 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - 雨の新宿大ガード (Shinjuku Ōgādo in the rain), Kznrhsd, 2020, Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:%E9%9B%A8%E3%81%AE%E6%96%B0%E5%AE%BF%E5%A4%A7%E3%82%AC%E3%83%BC%E3%83%89.jpg>
 - Night lights in Loyola, California, Romain Guy, 2023, Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Night_lights_in_Loyola,_California.jpg>
 
+## Mont Fuji
+
+- A Mild Breeze on a Fine Day (Gaifu kaisei), from the series "Thirty-six Views of Mount Fuji" (detail), Katsushika Hokusai, c. 1830/33, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/87005>
+- Shower Below the Summit (Sanka hakuu), from the series "Thirty-six Views of Mount Fuji", Katsushika Hokusai, c. 1830/33, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/87008>
+- Tagonoura Bay near Ejiri on the Tokaido, from the series "Thirty-six Views of Mount Fuji", Katsushika Hokusai, 1830-33, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/24778>
+- Tama River in Musashi Province (Bushu Tamagawa), from the series "Thirty-six Views of Mount Fuji", Katsushika Hokusai, c. 1830/33, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/24790>
+- Inume Pass in Kai Province (Koshu Inume-toge), from the series "Thirty-six Views of Mount Fuji", Katsushika Hokusai, c. 1830/33, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/24794>
+
+## Kimono
+
+- Woman Holding a Tortoise-shell Hair-comb, Kitagawa Utamaro, c. 1795/96, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/24001>
+- The courtesan Kashiku of the Tsuruya with two child attendants, Kikukawa Eizan, c. 1824/29, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/158636>
+- The Courtesan Arihara of the Tsuruya, from an untitled series of courtesans, Kitagawa Utamaro, c. 1797, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/19236>
+- Beauty standing beside morning glories, Kikukawa Eizan, c. 1814/17, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/18114>
+- Mirror, from the series "Eight Views of Tea-stalls in Celebrated Places" (Meisho koshikake hakkei), Kitagawa Utamaro, c. 1795/96, Art Institute of Chicago, CC0 — <https://www.artic.edu/artworks/89362>
+
 ## Pixel crépuscule
 
 - Mountain at Dusk Background, ansimuz, 2015, OpenGameArt.org, CC0 — <https://opengameart.org/content/mountain-at-dusk-background>
@@ -225,6 +281,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Informatique gaming pc (RGB keyboard, headset and PC), Prolete, 2018, Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Informatique_gaming_pc.jpg>
 - Pea sant pc (water-cooled PC with cyan lighting), Pea santsbh, 2026, Wikimedia Commons, CC0 — <https://commons.wikimedia.org/wiki/File:Pea_sant_pc.jpg>
 
+## Forêt pixel
+
+- SunnyLand Tall Forest Environment, ansimuz, 2022, OpenGameArt.org, CC0 — <https://opengameart.org/content/sunnyland-tall-forest-environment>
+- SunnyLand Forest of Illusion, ansimuz, 2022, OpenGameArt.org, CC0 — <https://opengameart.org/content/sunnyland-forest-of-illusion>
+- Magical Road Pixel Art Environment, ansimuz, 2021, OpenGameArt.org, CC0 — <https://opengameart.org/content/magical-road-pixel-art-environment>
+- SunnyLand Expansion Pack: Trees, ansimuz, 2021, OpenGameArt.org, CC0 — <https://opengameart.org/content/sunnyland-expansion-pack-trees>
+- Country Side Platform Tiles, ansimuz, 2015, OpenGameArt.org, CC0 — <https://opengameart.org/content/country-side-platform-tiles>
+
 ## Nébuleuse
 
 - Pillars of Creation, Eagle Nebula (Hubble, near-infrared), NASA, ESA, Hubble Heritage Team (STScI/AURA), 2015, NASA, Public domain — <https://images.nasa.gov/details/GSFC_20171208_Archive_e000842>
@@ -248,6 +312,14 @@ Toutes les images embarquées sont dans le domaine public ou sous licence CC0. E
 - Milky Way over Lake McDonald, NPS / Jacob W. Frank, 2015, U.S. National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:Milky_Way_over_Lake_McDonald_(17178666872).jpg>
 - Milky Way over a Dune Ridge, Great Sand Dunes, NPS / Great Sand Dunes National Park and Preserve, 2024, U.S. National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:Milky_Way_over_a_Dune_Ridge_(53908885943).jpg>
 - Milky Way arching over Devils Tower, NPS Natural Resources, 2017, U.S. National Park Service (via Wikimedia Commons), Public domain — <https://commons.wikimedia.org/wiki/File:Milky_Way_arching_over_Devils_Tower.jpg>
+
+## Lune
+
+- Earthrise: Earth over the horizon of the Moon (Apollo 8, AS08-14-2383), NASA / Apollo 8 crew (William Anders), 1968, NASA, Public domain — <https://images.nasa.gov/details/as08-14-2383>
+- Full Moon (Lunar Reconnaissance Orbiter visualization), NASA Goddard Space Flight Center Scientific Visualization Studio, 2017, NASA, Public domain — <https://images.nasa.gov/details/GSFC_20171208_Archive_e000868>
+- Crescent Moon Ahead of Flyby (Artemis II), NASA / Artemis II crew, 2026, NASA, Public domain — <https://images.nasa.gov/details/art002e019570>
+- Capturing the Details of the Moon and the Beauty of Earth (Artemis II), NASA / Artemis II crew, 2026, NASA, Public domain — <https://images.nasa.gov/details/art002e021110>
+- Oblique view of lunar nearside, Mare Nubium (Apollo 16, AS16-120-19237), NASA / Apollo 16 crew, 1972, NASA, Public domain — <https://images.nasa.gov/details/as16-120-19237>
 
 ## Nymphéas
 

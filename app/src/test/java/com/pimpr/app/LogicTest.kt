@@ -178,4 +178,16 @@ class LogicTest {
             assertEquals(d, json.decodeFromString(WidgetDesign.serializer(), json.encodeToString(WidgetDesign.serializer(), d)))
         }
     }
+
+    @Test fun `le fond du jour change chaque jour et reste dans sa categorie`() {
+        val r = com.pimpr.app.widget.WallRotation
+        val all = r.pool(r.ALL)
+        assertEquals(Themes.all.size, all.size)
+        val days = (20000L until 20000L + all.size).map { r.pick(r.ALL, it) }
+        assertEquals("chaque fond passe une fois avant de reboucler", all.size, days.toSet().size)
+        val cat = com.pimpr.app.model.ThemeCategory.JAPAN
+        val japan = Themes.all.filter { it.category == cat }.map { it.lock }
+        assertTrue((20000L..20030L).all { r.pick(cat.name, it) in japan })
+        assertTrue(r.pick(cat.name, 20000L) != r.pick(cat.name, 20001L))
+    }
 }

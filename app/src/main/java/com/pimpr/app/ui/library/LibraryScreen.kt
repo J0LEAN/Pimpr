@@ -76,7 +76,7 @@ fun LibraryScreen(
     // Le thème à la une change chaque jour, parmi ceux marqués comme phares.
     val day = (com.pimpr.app.ui.components.sessionNow() / 86_400_000L).toInt()
     val featured = remember(themes, day) { themes.filter { it.featured }.ifEmpty { themes.take(1) }.let { it[day % it.size] } }
-    val fresh = remember(themes) { themes.filter { "nouveau" in it.tags } }
+    val fresh = remember(themes) { themes.filter { "nouveauté" in it.tags } }
     val searching = query.isNotBlank()
     val results = remember(query, themes) { if (searching) search(query) else emptyList() }
 

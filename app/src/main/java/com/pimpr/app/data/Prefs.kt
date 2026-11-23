@@ -67,6 +67,15 @@ class Prefs(context: Context) {
     fun pendingPin(): String? =
         sp.getString("pending", null)?.takeIf { System.currentTimeMillis() - sp.getLong("pendingAt", 0L) < 90_000L }
 
+    /** Fond d'écran du jour : null = désactivé, sinon « ALL » ou le nom d'une catégorie. */
+    private val rotationState = MutableStateFlow(sp.getString("wallRotation", null))
+    val wallRotation: StateFlow<String?> = rotationState
+    fun setWallRotation(key: String?) { sp.edit().putString("wallRotation", key).apply(); rotationState.value = key }
+
+    var lastWallDay: Long
+        get() = sp.getLong("lastWallDay", -1L)
+        set(value) = sp.edit().putLong("lastWallDay", value).apply()
+
     var lastTick: Long
         get() = sp.getLong("lastTick", 0L)
         set(value) = sp.edit().putLong("lastTick", value).apply()
