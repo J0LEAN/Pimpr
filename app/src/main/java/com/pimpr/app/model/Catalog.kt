@@ -69,4 +69,6 @@ data class IconPack(
     val gloss: Boolean = false,
     /** Fond sur lequel présenter le pack dans l'app. */
     val backdrop: WallpaperSpec,
+    /** Images dans lesquelles tailler les tuiles (vide = tuiles unies). */
+    val textures: List<String> = emptyList(),
 )

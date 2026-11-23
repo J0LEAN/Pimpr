@@ -107,7 +107,7 @@ class LogicTest {
         val fonts = Fonts.all.map { it.id }.toSet()
         val needed = mapOf(Scene.CLOUDS to 7, Scene.AURORA to 2, Scene.COSMOS to 7, Scene.MARBLE to 3, Scene.DUNES to 7, Scene.RETRO to 6, Scene.SHAPES to 2, Scene.FLOWERS to 5, Scene.CHECKER to 3, Scene.PLAIN to 1)
         assertEquals(Themes.all.size, Themes.all.map { it.id }.toSet().size)
-        assertEquals(1, Themes.all.count { it.featured })
+        assertTrue("au moins un thème à la une", Themes.all.any { it.featured })
         for (t in Themes.all) {
             assertTrue("pack de ${t.id}", t.iconPack in packs)
             assertTrue("police de ${t.id}", t.clockFont in fonts)

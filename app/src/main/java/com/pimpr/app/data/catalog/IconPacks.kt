@@ -126,7 +126,7 @@ object IconPacks {
     )
 
     /** Les packs assortis aux thèmes à images, puis les classiques. */
-    val all: List<IconPack> by lazy { ImageThemes.packs + classics }
+    val all: List<IconPack> by lazy { ImageThemes.packs + ImageThemes.photoPacks + classics }
 
     private val byId by lazy { all.associateBy { it.id } }
     fun get(id: String): IconPack = byId[id] ?: classics.first()

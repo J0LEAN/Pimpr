@@ -142,3 +142,16 @@ fun WidgetSheet() = Sheet { ctx ->
     }
     sheet
 }
+
+@PreviewTest @Preview(widthDp = 600, heightDp = 560) @Composable
+fun PhotoPackSheet() = Sheet { ctx ->
+    val packs = ImageThemes.photoPacks.filterIndexed { i, _ -> i % 4 == 0 }
+    val size = 96; val cols = 12; val rowH = 112
+    val sheet = Bitmap.createBitmap(cols * 100, packs.size * rowH, Bitmap.Config.ARGB_8888)
+    val c = Canvas(sheet)
+    packs.forEachIndexed { r, pack ->
+        c.drawBitmap(WallpaperPainter.render(pack.backdrop, sheet.width, rowH), 0f, (r * rowH).toFloat(), null)
+        for (i in 0 until cols) IconRenderer.draw(ctx, c, pack, IconSubject(glyph = IconPacks.showcase[i], index = i), i * 100f + 2f, r * rowH + 8f, size.toFloat())
+    }
+    sheet
+}

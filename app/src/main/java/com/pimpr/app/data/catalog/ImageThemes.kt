@@ -87,9 +87,12 @@ object ImageThemes {
         return (0xFF shl 24) or ch(16) or ch(8) or ch(0)
     }
 
+    /** Thèmes qui passent tour à tour « à la une » de la bibliothèque. */
+    private val spotlight = setOf("sakura", "papillons", "vague", "pixel-crepuscule", "nebuleuse", "nympheas", "chatons", "montagne", "rubans", "fuji", "edo-nuit", "herbier")
+
     fun res(id: String, part: String) = "th_${id.replace('-', '_')}_$part"
 
-    private fun build(r: ImageThemeRow): Pair<Theme, IconPack> {
+    private fun build(r: ImageThemeRow): Triple<Theme, IconPack, IconPack> {
         val variant = if (r.pixel) WallpaperPainter.PIXEL else 0
         val fallback = listOf(rgb(r.card), rgb(r.card2))
         val home = WallpaperSpec(Scene.PLAIN, fallback, variant = variant, image = res(r.id, "home"))
@@ -176,19 +179,26 @@ object ImageThemes {
             },
             backdrop = home,
         )
+        val photoPack = pack.copy(
+            id = "p-${r.id}", name = "${r.name} illustré", tagline = "Tuiles taillées dans les images du thème",
+            swatches = r.tiles.map { t -> Swatch(listOf(rgb(t), rgb(t)), listOf(rgb(0xFFFFFF))) },
+            textures = (1..4).map { img(it) },
+        )
         val theme = Theme(
             id = r.id, name = r.name, tagline = r.tagline, category = r.category,
             home = home, lock = lock, iconPack = pack.id,
             widgets = all.mapIndexed { i, d -> d.copy(id = "tpl-${r.id}-$i") },
-            lightText = r.dark, clockFont = r.font, featured = r.featured,
+            lightText = r.dark, clockFont = r.font, featured = r.featured || r.id in spotlight,
             tags = r.tags.split(' ').filter { it.isNotBlank() },
             lockLightText = r.lockLight, ink = on2.takeIf { lum(it) < 0.4f } ?: rgb(0x2A2A2C),
             credit = r.credit,
         )
-        return theme to pack
+        return Triple(theme, pack, photoPack)
     }
 
     private val built by lazy { ImageThemeRows.map(::build) }
     val themes: List<Theme> by lazy { built.map { it.first } }
     val packs: List<IconPack> by lazy { built.map { it.second } }
+    /** Variante « illustrée » de chaque pack : les tuiles montrent un détail des images du thème. */
+    val photoPacks: List<IconPack> by lazy { built.map { it.third } }
 }

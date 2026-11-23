@@ -73,7 +73,10 @@ fun LibraryScreen(
 ) {
     var filter by rememberSaveable { mutableStateOf(ALL) }
     if (filter == FAVORITES && favorites.isEmpty()) filter = ALL
-    val featured = themes.firstOrNull { it.featured } ?: themes.first()
+    // Le thème à la une change chaque jour, parmi ceux marqués comme phares.
+    val day = (com.pimpr.app.ui.components.sessionNow() / 86_400_000L).toInt()
+    val featured = remember(themes, day) { themes.filter { it.featured }.ifEmpty { themes.take(1) }.let { it[day % it.size] } }
+    val fresh = remember(themes) { themes.filter { "nouveau" in it.tags } }
     val searching = query.isNotBlank()
     val results = remember(query, themes) { if (searching) search(query) else emptyList() }
 
@@ -121,6 +124,18 @@ fun LibraryScreen(
             }
             if (filter == ALL) {
                 item { FeaturedTheme(featured, { onOpenTheme(featured) }, Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp)) }
+                if (fresh.isNotEmpty()) item(key = "fresh") {
+                    Column(Modifier.padding(top = 26.dp)) {
+                        SectionTitle("Nouveautés")
+                        LazyRow(
+                            contentPadding = PaddingValues(horizontal = 20.dp),
+                            horizontalArrangement = Arrangement.spacedBy(14.dp),
+                            modifier = Modifier.padding(top = 10.dp),
+                        ) {
+                            items(fresh, key = { "new-" + it.id }) { theme -> ThemeCard(theme, { onOpenTheme(theme) }, Modifier.width(132.dp)) }
+                        }
+                    }
+                }
                 ThemeCategory.entries.forEach { category ->
                     val list = themes.filter { it.category == category }
                     if (list.isNotEmpty()) {
