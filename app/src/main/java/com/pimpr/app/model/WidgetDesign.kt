@@ -21,7 +21,7 @@ enum class WidgetSize(val cols: Int, val rows: Int) {
 }
 
 @Serializable
-enum class ShapeKind { ROUNDED, SQUIRCLE, PILL, ARCH, LEAF, FLOWER }
+enum class ShapeKind { ROUNDED, SQUIRCLE, PILL, ARCH, LEAF, FLOWER, HEART, CLOUD, HEXAGON, TICKET }
 
 @Serializable
 enum class BackgroundKind { NONE, SOLID, GRADIENT, IMAGE }

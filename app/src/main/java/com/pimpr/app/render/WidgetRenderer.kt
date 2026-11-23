@@ -148,6 +148,10 @@ object WidgetRenderer {
             ShapeKind.ARCH -> padTop += min(b.width() / 2f, b.height() * 0.8f) * 0.3f
             ShapeKind.SQUIRCLE -> { padX += m * 0.03f; padTop += m * 0.03f; padBottom += m * 0.03f }
             ShapeKind.LEAF -> { padX += m * 0.05f; padTop += m * 0.04f; padBottom += m * 0.04f }
+            ShapeKind.HEART -> { padX += min(b.width(), b.height() * 1.25f) * 0.17f + (b.width() - min(b.width(), b.height() * 1.25f)) / 2f; padTop += b.height() * 0.13f; padBottom += b.height() * 0.3f }
+            ShapeKind.CLOUD -> { padX += m * 0.08f; padTop += b.height() * 0.3f; padBottom += m * 0.03f }
+            ShapeKind.HEXAGON -> padX += min(b.width() * 0.2f, b.height() * 0.27f) * 0.7f
+            ShapeKind.TICKET -> padX += m * 0.1f
             ShapeKind.ROUNDED -> {
                 val extra = m * 0.07f * d.corner * d.corner
                 padX += extra; padTop += extra * 0.5f; padBottom += extra * 0.5f

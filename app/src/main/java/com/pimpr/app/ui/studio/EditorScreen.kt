@@ -574,6 +574,7 @@ private fun CaptionStyle(caption: Caption, onChange: (Caption) -> Unit) {
 private val ShapeNames = listOf(
     ShapeKind.ROUNDED to "Arrondi", ShapeKind.SQUIRCLE to "Squircle", ShapeKind.PILL to "Pilule",
     ShapeKind.ARCH to "Arche", ShapeKind.LEAF to "Feuille", ShapeKind.FLOWER to "Fleur",
+    ShapeKind.HEART to "Cœur", ShapeKind.CLOUD to "Nuage", ShapeKind.HEXAGON to "Hexagone", ShapeKind.TICKET to "Ticket",
 )
 
 @Composable

@@ -29,6 +29,83 @@ object Shapes {
             corners(b, big, small, big, small)
         }
         ShapeKind.FLOWER -> scallop(b)
+        ShapeKind.HEART -> heart(b)
+        ShapeKind.CLOUD -> cloud(b)
+        ShapeKind.HEXAGON -> {
+            val ix = min(b.width() * 0.2f, b.height() * 0.27f)
+            roundedPolygon(
+                listOf(
+                    b.left + ix to b.top, b.right - ix to b.top, b.right to b.centerY(),
+                    b.right - ix to b.bottom, b.left + ix to b.bottom, b.left to b.centerY(),
+                ),
+                min(b.width(), b.height()) * 0.09f,
+            )
+        }
+        ShapeKind.TICKET -> {
+            val m = min(b.width(), b.height())
+            val notch = m * 0.11f
+            val body = roundRect(b, m * 0.16f)
+            val holes = Path().apply {
+                addCircle(b.left, b.centerY(), notch, Path.Direction.CW)
+                addCircle(b.right, b.centerY(), notch, Path.Direction.CW)
+            }
+            Path().apply { op(body, holes, Path.Op.DIFFERENCE) }
+        }
+    }
+
+    /** Un cœur qui remplit le cadre, sans s'étirer au-delà de 5:4. */
+    fun heart(b: RectF): Path {
+        val w = min(b.width(), b.height() * 1.25f)
+        val h = b.height()
+        val x0 = b.centerX() - w / 2f
+        fun x(v: Float) = x0 + v * w
+        fun y(v: Float) = b.top + v * h
+        return Path().apply {
+            moveTo(x(0.5f), y(0.97f))
+            cubicTo(x(0.1f), y(0.7f), x(0f), y(0.46f), x(0f), y(0.3f))
+            cubicTo(x(0f), y(0.1f), x(0.16f), y(0f), x(0.28f), y(0f))
+            cubicTo(x(0.4f), y(0f), x(0.47f), y(0.08f), x(0.5f), y(0.17f))
+            cubicTo(x(0.53f), y(0.08f), x(0.6f), y(0f), x(0.72f), y(0f))
+            cubicTo(x(0.84f), y(0f), x(1f), y(0.1f), x(1f), y(0.3f))
+            cubicTo(x(1f), y(0.46f), x(0.9f), y(0.7f), x(0.5f), y(0.97f))
+            close()
+        }
+    }
+
+    /** Un nuage : une base bien ronde et trois bosses. */
+    fun cloud(b: RectF): Path {
+        val w = b.width()
+        val h = b.height()
+        val base = roundRect(RectF(b.left, b.top + h * 0.34f, b.right, b.bottom), min(w, h * 0.66f) / 2f)
+        val k = min(h, w * 0.7f)
+        val bumps = Path().apply {
+            addCircle(b.left + w * 0.3f, b.top + h * 0.34f + k * 0.08f, k * 0.27f, Path.Direction.CW)
+            addCircle(b.left + w * 0.54f, b.top + k * 0.36f, k * 0.36f, Path.Direction.CW)
+            addCircle(b.left + w * 0.76f, b.top + h * 0.34f + k * 0.12f, k * 0.24f, Path.Direction.CW)
+        }
+        return Path().apply { op(base, bumps, Path.Op.UNION) }
+    }
+
+    /** Polygone aux sommets adoucis : chaque angle est remplacé par une petite courbe. */
+    fun roundedPolygon(points: List<Pair<Float, Float>>, radius: Float): Path {
+        val path = Path()
+        val n = points.size
+        for (i in 0 until n) {
+            val (px, py) = points[(i + n - 1) % n]
+            val (cx, cy) = points[i]
+            val (nx, ny) = points[(i + 1) % n]
+            fun toward(tx: Float, ty: Float): Pair<Float, Float> {
+                val d = kotlin.math.hypot(tx - cx, ty - cy)
+                val t = (radius / d).coerceAtMost(0.5f)
+                return cx + (tx - cx) * t to cy + (ty - cy) * t
+            }
+            val (ax, ay) = toward(px, py)
+            val (bx, by) = toward(nx, ny)
+            if (i == 0) path.moveTo(ax, ay) else path.lineTo(ax, ay)
+            path.quadTo(cx, cy, bx, by)
+        }
+        path.close()
+        return path
     }
 
     fun roundRect(b: RectF, r: Float): Path = Path().apply { addRoundRect(b, r, r, Path.Direction.CW) }

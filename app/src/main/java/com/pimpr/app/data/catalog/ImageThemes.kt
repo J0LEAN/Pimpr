@@ -139,7 +139,7 @@ object ImageThemes {
         val battery = w("Batterie", WidgetSize.SMALL, card, BatteryContent(listOf(BatteryStyle.RING, BatteryStyle.FACE, BatteryStyle.BAR)[r.recipe % 3], r.font, on, accent1))
         val batteryWide = w("Énergie", WidgetSize.WIDE, card2, BatteryContent(BatteryStyle.RING, r.font, on2, accent2))
         val countdown = w("Compte à rebours", WidgetSize.SMALL, card2, CountdownContent(style = listOf(CountdownStyle.TICKET, CountdownStyle.RING, CountdownStyle.BIG)[r.recipe % 3], font = r.font, color = on2, accent = accent2))
-        val countdownWide = w("Grand jour", WidgetSize.WIDE, card, CountdownContent(style = CountdownStyle.BIG, font = r.font, color = on, accent = accent1))
+        val countdownWide = w("Grand jour", WidgetSize.WIDE, card, CountdownContent(style = CountdownStyle.BIG, font = r.font, color = on, accent = accent1), shape = ShapeKind.TICKET)
         val note = w("Pense-bête", WidgetSize.SMALL, card, NoteContent(font = r.quoteFont.takeIf { it != "playfair" } ?: "caveat", color = on, accent = accent1))
         val panel = w("Tableau de bord", WidgetSize.WIDE, card, PanelContent(r.font, on, accent1))
         val panelLarge = w("Grand tableau", WidgetSize.LARGE, card2, PanelContent(r.font, on2, accent2))
@@ -147,6 +147,10 @@ object ImageThemes {
         val moon = w("Lune", WidgetSize.SMALL, card2, MoonContent(r.font, on2, if (lum(rgb(r.card2)) > 0.5f) on2 else rgb(0xF4EBD0)))
         val music = w("Musique", WidgetSize.WIDE, card, MusicContent(font = r.font, color = on, accent = accent1))
         val daily = w("Phrase du jour", WidgetSize.WIDE, card2, QuoteContent(r.quote, r.quoteFont, on2, ornament = "auto_awesome", accent = accent2, daily = true), padding = 0.55f)
+
+        val photoHeart = photo("Photo cœur", WidgetSize.SMALL, 2).copy(shape = ShapeKind.HEART)
+        val cloud = w("Mot nuage", WidgetSize.WIDE, card2, QuoteContent(r.quote, r.quoteFont, on2), shape = ShapeKind.CLOUD, padding = 0.5f)
+        val hexClock = w("Hexagone", WidgetSize.SMALL, card, ClockContent(style = ClockStyle.STACKED, font = r.font, color = on, accent = accent1, date = DateStyle.NONE), shape = ShapeKind.HEXAGON)
 
         val lead = when (r.recipe % 5) {
             0 -> listOf(photoA, quoteWide, calMonth)
@@ -158,7 +162,7 @@ object ImageThemes {
         val all = lead + listOf(
             clockPhoto, photoA, quoteWide, weatherSmall, calMonth, photoB, clockAnalog, quoteSmall,
             weatherWide, calDay, photoC, clockStack, clockStrip, slides,
-            wall, battery, countdown, flip, note, panel, heart, countdownWide, batteryWide, film, mosaic, panelLarge, music, moon, daily,
+            wall, battery, countdown, flip, note, panel, heart, countdownWide, batteryWide, film, mosaic, panelLarge, music, moon, daily, photoHeart, cloud, hexClock,
         ).filter { it !in lead }
 
         val candidates = listOf(on, on2, rgb(0xFFFFFF))

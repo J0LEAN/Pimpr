@@ -120,9 +120,8 @@ fun IconPackSheet() = Sheet { ctx ->
 fun WidgetSheet() = Sheet { ctx ->
     val scale = 1.3f
     val picked = listOf(0, 7, 21).map { ImageThemes.themes[it] }
-    val extra = listOf(drawn[0], drawn[13], drawn[17], drawn[22])
-    val owners = picked.flatMap { t -> t.widgets.takeLast(3).map { t } } + extra.flatMap { t -> t.widgets.takeLast(8).map { t } }
-    val designs = picked.flatMap { it.widgets.takeLast(3) } + extra.flatMap { it.widgets.takeLast(8) }
+    val owners = picked.flatMap { t -> t.widgets.takeLast(6).map { t } + t.widgets.filter { it.name.startsWith("Grand jour") }.map { t } }
+    val designs = picked.flatMap { t -> t.widgets.takeLast(6) + t.widgets.filter { it.name.startsWith("Grand jour") } }
     val colW = 460; val rowH = 232
     val cols = 3
     val rows = (designs.size + cols - 1) / cols
