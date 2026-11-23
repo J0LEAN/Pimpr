@@ -55,6 +55,8 @@ import com.pimpr.app.model.BatteryContent
 import com.pimpr.app.model.CalendarContent
 import com.pimpr.app.model.CountdownContent
 import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.MoonContent
+import com.pimpr.app.model.MusicContent
 import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.ClockContent
 import com.pimpr.app.model.PhotoContent
@@ -145,6 +147,14 @@ fun defaultDesign(type: WidgetType): WidgetDesign = when (type) {
     WidgetType.PANEL -> WidgetDesign(
         newId(), "Mon tableau de bord", WidgetSize.WIDE,
         background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))), content = PanelContent(),
+    )
+    WidgetType.MOON -> WidgetDesign(
+        newId(), "Ma lune", WidgetSize.SMALL, ShapeKind.SQUIRCLE,
+        background = Background(BackgroundKind.GRADIENT, listOf(rgb(0x1B2340), rgb(0x0C1022)), 160f), content = MoonContent(),
+    )
+    WidgetType.MUSIC -> WidgetDesign(
+        newId(), "Ma musique", WidgetSize.WIDE,
+        background = Background(BackgroundKind.SOLID, listOf(rgb(0x2C2C2E))), content = MusicContent(), tap = TapAction(TapKind.NONE),
     )
     WidgetType.CALENDAR -> WidgetDesign(
         newId(), "Mon calendrier", WidgetSize.SMALL, ShapeKind.SQUIRCLE,

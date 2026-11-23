@@ -9,6 +9,8 @@ import com.pimpr.app.model.CalendarContent
 import com.pimpr.app.model.CountdownContent
 import com.pimpr.app.model.CountdownStyle
 import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.MoonContent
+import com.pimpr.app.model.MusicContent
 import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.PhotoLayout
 import com.pimpr.app.model.CalendarStyle
@@ -142,6 +144,10 @@ object ImageThemes {
         val panel = w("Tableau de bord", WidgetSize.WIDE, card, PanelContent(r.font, on, accent1))
         val panelLarge = w("Grand tableau", WidgetSize.LARGE, card2, PanelContent(r.font, on2, accent2))
 
+        val moon = w("Lune", WidgetSize.SMALL, card2, MoonContent(r.font, on2, if (lum(rgb(r.card2)) > 0.5f) on2 else rgb(0xF4EBD0)))
+        val music = w("Musique", WidgetSize.WIDE, card, MusicContent(font = r.font, color = on, accent = accent1))
+        val daily = w("Phrase du jour", WidgetSize.WIDE, card2, QuoteContent(r.quote, r.quoteFont, on2, ornament = "auto_awesome", accent = accent2, daily = true), padding = 0.55f)
+
         val lead = when (r.recipe % 5) {
             0 -> listOf(photoA, quoteWide, calMonth)
             1 -> listOf(clockPhoto, photoA, quoteSmall)
@@ -152,7 +158,7 @@ object ImageThemes {
         val all = lead + listOf(
             clockPhoto, photoA, quoteWide, weatherSmall, calMonth, photoB, clockAnalog, quoteSmall,
             weatherWide, calDay, photoC, clockStack, clockStrip, slides,
-            wall, battery, countdown, flip, note, panel, heart, countdownWide, batteryWide, film, mosaic, panelLarge,
+            wall, battery, countdown, flip, note, panel, heart, countdownWide, batteryWide, film, mosaic, panelLarge, music, moon, daily,
         ).filter { it !in lead }
 
         val candidates = listOf(on, on2, rgb(0xFFFFFF))

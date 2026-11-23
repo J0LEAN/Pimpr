@@ -69,6 +69,7 @@
 
         <receiver android:name=".widget.TickReceiver" android:exported="false" />
         <receiver android:name=".widget.PinReceiver" android:exported="false" />
+        <receiver android:name=".widget.MediaKeyReceiver" android:exported="false" />
         <receiver android:name=".widget.SystemEventsReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

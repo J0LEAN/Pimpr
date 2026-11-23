@@ -78,6 +78,8 @@ val WidgetTypes = listOf(
     TypeInfo(WidgetType.COUNTDOWN, "Compte à rebours", "hourglass_top", "Les jours avant le grand jour", Color(0xFFE2D6CF)),
     TypeInfo(WidgetType.BATTERY, "Batterie", "battery_full", "Anneau, jauge ou frimousse", Color(0xFFD3DDD2)),
     TypeInfo(WidgetType.NOTE, "Pense-bête", "checklist", "Liste à cocher ou note", Color(0xFFE6E0C8)),
+    TypeInfo(WidgetType.MUSIC, "Musique", "music_note", "Précédent, pause, suivant", Color(0xFFE3D3DB)),
+    TypeInfo(WidgetType.MOON, "Lune", "bedtime", "La phase de ce soir", Color(0xFFD0D4E2)),
     TypeInfo(WidgetType.PANEL, "Tableau de bord", "dashboard", "Heure, batterie, stockage", Color(0xFFD2D6E0)),
 )
 

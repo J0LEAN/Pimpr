@@ -56,6 +56,28 @@ class IconWidget : AppWidgetProvider() {
     }
 }
 
+/** Un bouton du widget musique : on transmet la touche multimédia au lecteur en cours, puis on redessine. */
+class MediaKeyReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        val key = intent.getIntExtra(EXTRA_KEY, 0)
+        val id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        if (key == 0) return
+        runCatching {
+            val audio = context.getSystemService(android.media.AudioManager::class.java)
+            val t = android.os.SystemClock.uptimeMillis()
+            audio.dispatchMediaKeyEvent(android.view.KeyEvent(t, t, android.view.KeyEvent.ACTION_DOWN, key, 0))
+            audio.dispatchMediaKeyEvent(android.view.KeyEvent(t, t, android.view.KeyEvent.ACTION_UP, key, 0))
+        }
+        if (id != AppWidgetManager.INVALID_APPWIDGET_ID) async {
+            // Le lecteur met un instant à changer d'état : on attend avant de redessiner le bouton lecture/pause.
+            kotlinx.coroutines.delay(700)
+            WidgetUpdater.update(context, id)
+        }
+    }
+
+    companion object { const val EXTRA_KEY = "key" }
+}
+
 /** Réveil périodique : redessine les widgets qui dépendent de l'heure. */
 class TickReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) = async { Schedules.tick(context) }

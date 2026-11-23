@@ -21,6 +21,8 @@ import com.pimpr.app.model.CountdownContent
 import com.pimpr.app.model.CountdownStyle
 import com.pimpr.app.model.Framing
 import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.MoonContent
+import com.pimpr.app.model.MusicContent
 import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.PhotoFilter
 import com.pimpr.app.model.PhotoLayout
@@ -352,6 +354,102 @@ object ExtraWidgets {
                 c.drawRect(x, cy - size * 0.03f, x + w, cy + size * 0.05f, p)
             }
             y += lineH
+        }
+    }
+
+    // ---------------------------------------------------------------- Lune
+
+    private const val SYNODIC = 29.530588853
+    /** Nouvelle lune du 6 janvier 2000 à 18 h 14 UTC, prise comme origine. */
+    private const val NEW_MOON_2000 = 947182440000L
+
+    /** Âge de la lunaison entre 0 (nouvelle lune) et 1, 0,5 étant la pleine lune. */
+    fun moonPhase(now: Long): Double {
+        val days = (now - NEW_MOON_2000) / 86_400_000.0
+        return ((days % SYNODIC) + SYNODIC) % SYNODIC / SYNODIC
+    }
+
+    fun moonName(f: Double): String = when {
+        f < 0.03 || f >= 0.97 -> "Nouvelle lune"
+        f < 0.22 -> "Premier croissant"
+        f < 0.28 -> "Premier quartier"
+        f < 0.47 -> "Gibbeuse croissante"
+        f < 0.53 -> "Pleine lune"
+        f < 0.72 -> "Gibbeuse décroissante"
+        f < 0.78 -> "Dernier quartier"
+        else -> "Dernier croissant"
+    }
+
+    fun moon(ctx: Context, c: Canvas, k: MoonContent, r: RectF, u: Float, env: RenderEnv) {
+        val p = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
+        val f = moonPhase(env.now)
+        val lit = ((1.0 - kotlin.math.cos(2.0 * Math.PI * f)) / 2.0 * 100).roundToInt()
+        val text = Fonts.companion(ctx, k.font)
+        val s2 = W.small(r, u)
+        val wide = r.width() > r.height() * 1.6f
+        val textH = if (wide) 0f else s2 * 3.1f
+        val d = min(r.height() - textH, if (wide) r.width() * 0.42f else r.width()) * k.scale.coerceAtMost(1f)
+        val cx = if (wide) r.left + d / 2f else r.centerX()
+        val cy = if (wide) r.centerY() else r.top + (r.height() - textH - d) / 2f + d / 2f
+        val rad = d / 2f
+        p.color = Colors.withAlpha(k.color, 0.14f)
+        c.drawCircle(cx, cy, rad, p)
+        // Partie éclairée : un demi-disque, auquel on ajoute ou retire une ellipse selon la phase.
+        val waxing = f < 0.5
+        val g = if (waxing) f else 1.0 - f
+        val rx = (rad * kotlin.math.abs(kotlin.math.cos(2.0 * Math.PI * g))).toFloat()
+        val half = Path().apply { addArc(RectF(cx - rad, cy - rad, cx + rad, cy + rad), -90f, 180f); close() }
+        val ellipse = Path().apply { addOval(RectF(cx - rx, cy - rad, cx + rx, cy + rad), Path.Direction.CW) }
+        val shape = Path()
+        shape.op(half, ellipse, if (g < 0.25) Path.Op.DIFFERENCE else Path.Op.UNION)
+        val save = c.save()
+        if (!waxing) c.scale(-1f, 1f, cx, cy)
+        c.clipPath(shape)
+        p.color = k.accent
+        c.drawCircle(cx, cy, rad, p)
+        // Quelques mers, pour qu'elle ne soit pas un simple disque.
+        p.color = 0x24000000
+        listOf(Triple(-0.3f, -0.32f, 0.2f), Triple(0.28f, -0.1f, 0.26f), Triple(-0.12f, 0.36f, 0.16f), Triple(0.42f, 0.42f, 0.1f), Triple(-0.52f, 0.1f, 0.1f))
+            .forEach { (x, y, s) -> c.drawCircle(cx + x * rad, cy + y * rad, s * rad, p) }
+        c.restoreToCount(save)
+        val name = moonName(f)
+        val detail = "éclairée à $lit %"
+        if (wide) {
+            val x = r.left + d + r.width() * 0.07f
+            W.label(c, p, name, x, cy - s2 * 0.15f, s2 * 1.4f, k.color, text, Paint.Align.LEFT, r.right - x)
+            W.label(c, p, detail, x, cy + s2 * 1.5f, s2, Colors.withAlpha(k.color, 0.75f), text, Paint.Align.LEFT, r.right - x)
+        } else {
+            W.label(c, p, name, r.centerX(), r.bottom - s2 * 1.55f, s2 * 0.98f, k.color, text, Paint.Align.CENTER, r.width())
+            W.label(c, p, detail, r.centerX(), r.bottom - s2 * 0.2f, s2 * 0.9f, Colors.withAlpha(k.color, 0.75f), text, Paint.Align.CENTER, r.width())
+        }
+    }
+
+    // ---------------------------------------------------------------- Musique
+
+    fun music(ctx: Context, c: Canvas, k: MusicContent, r: RectF, u: Float, env: RenderEnv) {
+        val p = Paint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
+        val text = Fonts.typeface(ctx, k.font)
+        val playing = !env.demo && runCatching { ctx.getSystemService(android.media.AudioManager::class.java).isMusicActive }.getOrDefault(false)
+        val s2 = W.small(r, u)
+        val title = k.title.trim()
+        val headH = if (title.isNotEmpty() && r.height() > 64f * u) s2 * 2.2f else 0f
+        if (headH > 0f) {
+            W.glyph(c, p, "music_note", true, r.left, r.top, s2 * 1.5f, k.accent)
+            W.label(c, p, title, r.left + s2 * 1.9f, r.top + s2 * 1.2f, s2 * 1.15f, k.color, text, Paint.Align.LEFT, r.width() - s2 * 2f)
+        }
+        // Les boutons sont centrés chacun dans un tiers de la largeur totale : c'est aussi le découpage des zones tactiles.
+        val area = RectF(r.left, r.top + headH, r.right, r.bottom)
+        val third = area.width() / 3f
+        val big = min(third * 0.8f, area.height()) * k.scale.coerceAtMost(1f)
+        listOf("skip_previous", if (playing) "pause" else "play_arrow", "skip_next").forEachIndexed { i, icon ->
+            val cx = area.left + third * (i + 0.5f)
+            val main = i == 1
+            val d = if (main) big else big * 0.72f
+            p.color = if (main) k.accent else Colors.withAlpha(k.color, 0.14f)
+            c.drawCircle(cx, area.centerY(), d / 2f, p)
+            val g = d * 0.56f
+            val on = if (main) (if (Colors.luminance(k.accent) > 0.6f) 0xFF1B1B1D.toInt() else Color.WHITE) else k.color
+            W.glyph(c, p, icon, true, cx - g / 2f, area.centerY() - g / 2f, g, on)
         }
     }
 

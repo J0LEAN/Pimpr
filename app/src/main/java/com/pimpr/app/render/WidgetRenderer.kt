@@ -23,6 +23,8 @@ import com.pimpr.app.model.BackgroundKind
 import com.pimpr.app.model.BatteryContent
 import com.pimpr.app.model.CountdownContent
 import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.MoonContent
+import com.pimpr.app.model.MusicContent
 import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.PhotoLayout
 import com.pimpr.app.model.CalendarContent
@@ -110,7 +112,9 @@ object WidgetRenderer {
             is ClockContent -> clock(context, c, content, contentRect(d, b, border), u, env)
             is WeatherContent -> weather(context, c, content, contentRect(d, b, border), u, env)
             is CalendarContent -> calendar(context, c, content, contentRect(d, b, border), u, env)
-            is QuoteContent -> quote(context, c, content, contentRect(d, b, border), u)
+            is QuoteContent -> quote(context, c, content, contentRect(d, b, border), u, env)
+            is MoonContent -> ExtraWidgets.moon(context, c, content, contentRect(d, b, border), u, env)
+            is MusicContent -> ExtraWidgets.music(context, c, content, contentRect(d, b, border), u, env)
             is BatteryContent -> ExtraWidgets.battery(context, c, content, contentRect(d, b, border), u, env)
             is CountdownContent -> ExtraWidgets.countdown(context, c, content, contentRect(d, b, border), u, env)
             is NoteContent -> ExtraWidgets.note(context, c, content, contentRect(d, b, border), u)
@@ -649,8 +653,8 @@ object WidgetRenderer {
 
     // ---------------------------------------------------------------- Texte
 
-    private fun quote(ctx: Context, c: Canvas, k: QuoteContent, r: RectF, u: Float) {
-        val text = k.text.trim()
+    private fun quote(ctx: Context, c: Canvas, k: QuoteContent, r: RectF, u: Float, env: RenderEnv) {
+        val text = (if (k.daily) DailyQuotes.forDay(Instant.ofEpochMilli(env.now).atZone(ZoneId.systemDefault()).toLocalDate().toEpochDay()) else k.text).trim()
         if (text.isEmpty() || r.width() < 8f || r.height() < 8f) return
         val tp = android.text.TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.SUBPIXEL_TEXT_FLAG)
         tp.typeface = Fonts.typeface(ctx, k.font)

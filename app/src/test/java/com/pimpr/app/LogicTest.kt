@@ -122,6 +122,7 @@ class LogicTest {
                     is PhotoContent -> c.caption.font; is VideoContent -> c.caption.font; is QuoteContent -> c.font
                     is com.pimpr.app.model.BatteryContent -> c.font; is com.pimpr.app.model.CountdownContent -> c.font
                     is com.pimpr.app.model.NoteContent -> c.font; is com.pimpr.app.model.PanelContent -> c.font
+                    is com.pimpr.app.model.MoonContent -> c.font; is com.pimpr.app.model.MusicContent -> c.font
                 }
                 assertTrue("police de ${w.name}", font in fonts)
                 val images = (w.content as? PhotoContent)?.images.orEmpty() + listOfNotNull(w.background.image)

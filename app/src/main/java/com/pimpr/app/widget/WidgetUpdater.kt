@@ -14,6 +14,8 @@ import com.pimpr.app.MainActivity
 import com.pimpr.app.R
 import com.pimpr.app.Services
 import com.pimpr.app.data.catalog.IconPacks
+import android.view.KeyEvent
+import com.pimpr.app.model.MusicContent
 import com.pimpr.app.model.TapKind
 import com.pimpr.app.model.VideoContent
 import com.pimpr.app.model.WidgetDesign
@@ -92,7 +94,19 @@ object WidgetUpdater {
 
     fun build(context: Context, services: Services, design: WidgetDesign, appWidgetId: Int, wDp: Int, hDp: Int): RemoteViews {
         val views = buildViews(context, design, wDp, hDp) { frame -> env(services, frame) }
-        tapIntent(context, design, appWidgetId)?.let { views.setOnClickPendingIntent(R.id.widget_root, it) }
+        if (design.content is MusicContent) {
+            // Trois zones tactiles, une par bouton dessiné : elles envoient les touches multimédia au lecteur en cours.
+            listOf(
+                R.id.media_previous to KeyEvent.KEYCODE_MEDIA_PREVIOUS, R.id.media_play to KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, R.id.media_next to KeyEvent.KEYCODE_MEDIA_NEXT,
+            ).forEachIndexed { i, (view, key) ->
+                val intent = Intent(context, MediaKeyReceiver::class.java).setAction("com.pimpr.app.action.MEDIA_$key")
+                    .putExtra(MediaKeyReceiver.EXTRA_KEY, key).putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+                    .setData(android.net.Uri.parse("pimpr://media/$appWidgetId/$key"))
+                views.setOnClickPendingIntent(view, PendingIntent.getBroadcast(context, appWidgetId * 4 + i, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
+            }
+        } else {
+            tapIntent(context, design, appWidgetId)?.let { views.setOnClickPendingIntent(R.id.widget_root, it) }
+        }
         return views
     }
 
@@ -126,7 +140,7 @@ object WidgetUpdater {
         val w = (wDp * density * scale).toInt().coerceAtLeast(1)
         val h = (hDp * density * scale).toInt().coerceAtLeast(1)
         val bitmap: Bitmap = WidgetRenderer.render(context, design, w, h, density * scale, envFor(0))
-        val views = RemoteViews(context.packageName, R.layout.widget_image)
+        val views = RemoteViews(context.packageName, if (content is MusicContent) R.layout.widget_media else R.layout.widget_image)
         views.setImageViewBitmap(R.id.widget_image, bitmap)
         views.setContentDescription(R.id.widget_image, design.name)
         return views

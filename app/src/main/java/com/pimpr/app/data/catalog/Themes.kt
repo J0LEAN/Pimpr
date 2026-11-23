@@ -3,7 +3,16 @@ package com.pimpr.app.data.catalog
 import com.pimpr.app.model.Align
 import com.pimpr.app.model.Background
 import com.pimpr.app.model.BackgroundKind
+import com.pimpr.app.model.BatteryContent
+import com.pimpr.app.model.BatteryStyle
 import com.pimpr.app.model.CalendarContent
+import com.pimpr.app.model.CountdownContent
+import com.pimpr.app.model.CountdownStyle
+import com.pimpr.app.model.MoonContent
+import com.pimpr.app.model.MusicContent
+import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.PanelContent
+import com.pimpr.app.model.TapAction
 import com.pimpr.app.model.CalendarStyle
 import com.pimpr.app.model.Caption
 import com.pimpr.app.model.ClockContent
@@ -59,13 +68,46 @@ object Themes {
 
     private fun photo(caption: String = "", font: String = "caveat") = PhotoContent(caption = Caption(text = caption, font = font))
 
+    /** Police, couleur et accent d'un widget à texte, pour en décliner d'autres dans le même style. */
+    private fun look(d: WidgetDesign): Triple<String, Int, Int>? = when (val k = d.content) {
+        is ClockContent -> Triple(k.font, k.color, k.accent)
+        is WeatherContent -> Triple(k.font, k.color, k.accent)
+        is CalendarContent -> Triple(k.font, k.color, k.accent)
+        else -> null
+    }
+
+    /** Les widgets « utiles » déclinés du style des widgets propres au thème. */
+    private fun extras(widgets: List<WidgetDesign>): List<WidgetDesign> {
+        val styled = widgets.filter { look(it) != null && it.background.kind != BackgroundKind.NONE }
+        if (styled.isEmpty()) return emptyList()
+        fun make(n: Int, name: String, size: WidgetSize, content: (String, Int, Int) -> WidgetContent): WidgetDesign {
+            val d = styled[n % styled.size]
+            val (font, color, accent) = look(d)!!
+            val plain = d.shape == ShapeKind.ROUNDED || d.shape == ShapeKind.SQUIRCLE
+            return d.copy(
+                name = name, size = size, shape = if (plain) d.shape else ShapeKind.ROUNDED,
+                padding = 0.4f, tap = TapAction(), content = content(font, color, accent),
+            )
+        }
+        return listOf(
+            make(0, "Compte à rebours", WidgetSize.SMALL) { f, c, a -> CountdownContent(style = CountdownStyle.TICKET, font = f, color = c, accent = a) },
+            make(1, "Batterie", WidgetSize.SMALL) { f, c, a -> BatteryContent(BatteryStyle.RING, f, c, a) },
+            make(0, "Tableau de bord", WidgetSize.WIDE) { f, c, a -> PanelContent(f, c, a) },
+            make(1, "Volets", WidgetSize.WIDE) { f, c, a -> ClockContent(style = ClockStyle.FLIP, font = f, color = c, accent = a) },
+            make(2, "Pense-bête", WidgetSize.SMALL) { _, c, a -> NoteContent(color = c, accent = a) },
+            make(0, "Musique", WidgetSize.WIDE) { f, c, a -> MusicContent(font = f, color = c, accent = a) },
+            make(1, "Lune", WidgetSize.SMALL) { f, c, a -> MoonContent(f, c, a) },
+            make(2, "Grand jour", WidgetSize.WIDE) { f, c, a -> CountdownContent(style = CountdownStyle.RING, font = f, color = c, accent = a) },
+        )
+    }
+
     private fun theme(
         id: String, name: String, tagline: String, category: ThemeCategory,
         home: WallpaperSpec, lock: WallpaperSpec, pack: String, lightText: Boolean, clockFont: String,
         widgets: List<WidgetDesign>, featured: Boolean = false,
     ) = Theme(
         id, name, tagline, category, home, lock, pack,
-        widgets.mapIndexed { i, d -> d.copy(id = "tpl-$id-$i") },
+        (widgets + extras(widgets)).mapIndexed { i, d -> d.copy(id = "tpl-$id-$i") },
         lightText, clockFont, featured,
     )
 

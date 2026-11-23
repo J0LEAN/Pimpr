@@ -173,6 +173,8 @@ data class QuoteContent(
     /** Petit pictogramme posé au-dessus du texte (vide = aucun). */
     val ornament: String = "",
     val accent: Int = rgb(0xFFFFFF),
+    /** Une phrase différente chaque jour, tirée de la liste de l'appli, à la place du texte. */
+    val daily: Boolean = false,
 ) : WidgetContent
 
 /** Niveau de batterie du téléphone. */
@@ -225,6 +227,28 @@ data class PanelContent(
     val scale: Float = 1f,
 ) : WidgetContent
 
+/** La phase de la Lune ce soir. */
+@Serializable
+@SerialName("moon")
+data class MoonContent(
+    val font: String = "figtree",
+    val color: Int = rgb(0xFFFFFF),
+    /** Couleur de la partie éclairée. */
+    val accent: Int = rgb(0xF4EBD0),
+    val scale: Float = 1f,
+) : WidgetContent
+
+/** Télécommande : précédent, lecture ou pause, suivant, pour l'appli de musique en cours. */
+@Serializable
+@SerialName("music")
+data class MusicContent(
+    val title: String = "Ma musique",
+    val font: String = "figtree",
+    val color: Int = rgb(0xFFFFFF),
+    val accent: Int = rgb(0xFF8FB1),
+    val scale: Float = 1f,
+) : WidgetContent
+
 @Serializable
 data class WidgetDesign(
     val id: String,
@@ -246,7 +270,7 @@ data class WidgetDesign(
     val updatedAt: Long = 0L,
 )
 
-enum class WidgetType { CLOCK, WEATHER, PHOTO, VIDEO, CALENDAR, QUOTE, BATTERY, COUNTDOWN, NOTE, PANEL }
+enum class WidgetType { CLOCK, WEATHER, PHOTO, VIDEO, CALENDAR, QUOTE, BATTERY, COUNTDOWN, NOTE, PANEL, MOON, MUSIC }
 
 val WidgetContent.type: WidgetType
     get() = when (this) {
@@ -260,4 +284,6 @@ val WidgetContent.type: WidgetType
         is CountdownContent -> WidgetType.COUNTDOWN
         is NoteContent -> WidgetType.NOTE
         is PanelContent -> WidgetType.PANEL
+        is MoonContent -> WidgetType.MOON
+        is MusicContent -> WidgetType.MUSIC
     }

@@ -68,6 +68,8 @@ import com.pimpr.app.model.BatteryStyle
 import com.pimpr.app.model.CountdownContent
 import com.pimpr.app.model.CountdownStyle
 import com.pimpr.app.model.NoteContent
+import com.pimpr.app.model.MoonContent
+import com.pimpr.app.model.MusicContent
 import com.pimpr.app.model.PanelContent
 import com.pimpr.app.model.PhotoLayout
 import com.pimpr.app.model.DateStyle
@@ -316,7 +318,8 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
             CaptionField(c.caption) { set(c.copy(caption = it)) }
         }
         is QuoteContent -> {
-            Group("Texte") {
+            SwitchRow("Une phrase différente chaque jour", c.daily, { set(c.copy(daily = it)) }, hint = "Pimpr pioche dans sa propre liste")
+            if (!c.daily) Group("Texte") {
                 OutlinedTextField(
                     c.text, { set(c.copy(text = it.take(160))) },
                     Modifier.fillMaxWidth().padding(horizontal = 20.dp), minLines = 2, maxLines = 4,
@@ -380,12 +383,23 @@ private fun ColumnScope.ContentPanel(design: WidgetDesign, onChange: (WidgetDesi
                 }
             }
         }
+        is MoonContent -> Hint("La Lune telle qu'elle est ce soir, avec le nom de sa phase. Elle se met à jour chaque jour.")
+        is MusicContent -> {
+            Group("Titre") {
+                OutlinedTextField(
+                    c.title, { set(c.copy(title = it.take(24))) }, Modifier.fillMaxWidth().padding(horizontal = 20.dp), singleLine = true,
+                    placeholder = { Text("Ma musique, ma playlist…") }, shape = RoundedCornerShape(18.dp),
+                )
+            }
+            Hint("Les trois boutons commandent l'appli de musique en cours de lecture. Android ne laisse pas un widget afficher le titre joué sans accès à tes notifications : Pimpr ne le demande pas.")
+        }
         is PanelContent -> Hint("Heure, date, batterie, stockage occupé, avancée de la journée et de l'année. Les jauges suivent ton téléphone.")
         is CalendarContent -> {
             Group("Affichage") { ChoiceRow(listOf(CalendarStyle.DAY to "Le jour", CalendarStyle.MONTH to "Le mois"), c.style, { set(c.copy(style = it)) }) }
             SwitchRow("La semaine commence le lundi", c.mondayFirst, { set(c.copy(mondayFirst = it)) })
         }
     }
+    if (design.content is MusicContent) return
     Group("Quand on touche le widget") {
         ChoiceRow(listOf(TapKind.EDITOR to "Ouvrir Pimpr", TapKind.APP to "Ouvrir une appli", TapKind.NONE to "Ne rien faire"), design.tap.kind, {
             if (it == TapKind.APP && design.tap.pkg == null) actions.onPickApp() else onChange(design.copy(tap = design.tap.copy(kind = it)))
@@ -502,6 +516,18 @@ private fun ColumnScope.StylePanel(design: WidgetDesign, onChange: (WidgetDesign
             ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
             ColorRow("Titre et cases cochées", c.accent, { set(c.copy(accent = it)) })
             LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1.5f)
+        }
+        is MoonContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) }, sample = "Abc")
+            ColorRow("Couleur du texte", c.color, { set(c.copy(color = it)) })
+            ColorRow("Couleur de la Lune", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1f)
+        }
+        is MusicContent -> {
+            FontRow(c.font, { set(c.copy(font = it)) }, sample = "Abc")
+            ColorRow("Couleur des boutons", c.color, { set(c.copy(color = it)) })
+            ColorRow("Bouton lecture", c.accent, { set(c.copy(accent = it)) })
+            LabeledSlider("Taille", c.scale, { set(c.copy(scale = it)) }, range = 0.6f..1f)
         }
         is PanelContent -> {
             FontRow(c.font, { set(c.copy(font = it)) })
