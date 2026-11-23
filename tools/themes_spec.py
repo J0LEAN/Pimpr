@@ -45,7 +45,7 @@ THEMES = [
       "L'air est plus clair là-haut.", quoteFont="figtree", recipe=1),
     t("dunes", "Dunes", "Le désert à l'heure dorée", "LANDSCAPE",
       "désert dunes sable orange coucher soleil chaud canyon", "unbounded",
-      "Rien ne presse.", quoteFont="playfair", recipe=2),
+      "Rien ne presse.", quoteFont="playfair", recipe=2, hero="w3", widgets=["w1", "w2", "w4", "w3"]),
     t("lagon", "Lagon", "Eau turquoise et sable clair", "LANDSCAPE",
       "mer plage turquoise océan vagues été vacances bleu palmiers", "comfortaa",
       "Sel sur la peau, sable aux pieds.", quoteFont="caveat", recipe=3),
